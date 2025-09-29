@@ -1,3 +1,4 @@
+from .client import BATCH_SEND_ENDPOINT_RESPONSE
 from .client import SEND_ENDPOINT_RESPONSE
 from .client import MailtrapClient
 from .exceptions import APIError
@@ -15,6 +16,10 @@ from .models.inboxes import UpdateInboxParams
 from .models.mail import Address
 from .models.mail import Attachment
 from .models.mail import BaseMail
+from .models.mail import BatchEmailRequest
+from .models.mail import BatchMail
+from .models.mail import BatchMailFromTemplate
+from .models.mail import BatchSendEmailParams
 from .models.mail import Disposition
 from .models.mail import Mail
 from .models.mail import MailFromTemplate

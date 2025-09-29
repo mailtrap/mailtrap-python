@@ -17,9 +17,14 @@ from mailtrap.config import SENDING_HOST
 from mailtrap.exceptions import ClientConfigurationError
 from mailtrap.http import HttpClient
 from mailtrap.models.mail import BaseMail
-from mailtrap.models.mail.base import SendingMailResponse
+from mailtrap.models.mail import BatchSendResponse
+from mailtrap.models.mail import SendingMailResponse
+from mailtrap.models.mail.batch_mail import BatchSendEmailParams
 
 SEND_ENDPOINT_RESPONSE = dict[str, Union[bool, list[str]]]
+BATCH_SEND_ENDPOINT_RESPONSE = dict[
+    str, Union[bool, list[str], list[dict[str, Union[bool, list[str]]]]]
+]
 
 
 class MailtrapClient:
@@ -91,6 +96,13 @@ class MailtrapClient:
         return cast(
             SEND_ENDPOINT_RESPONSE,
             TypeAdapter(SendingMailResponse).dump_python(sending_response),
+        )
+
+    def batch_send(self, mail: BatchSendEmailParams) -> BATCH_SEND_ENDPOINT_RESPONSE:
+        batch_sending_response = self.sending_api.batch_send(mail)
+        return cast(
+            BATCH_SEND_ENDPOINT_RESPONSE,
+            TypeAdapter(BatchSendResponse).dump_python(batch_sending_response),
         )
 
     @property
