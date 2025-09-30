@@ -6,6 +6,7 @@ from typing import cast
 from pydantic import TypeAdapter
 
 from mailtrap.api.contacts import ContactsBaseApi
+from mailtrap.api.general import GeneralApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.suppressions import SuppressionsBaseApi
 from mailtrap.api.templates import EmailTemplatesApi
@@ -52,6 +53,12 @@ class MailtrapClient:
         self.inbox_id = inbox_id
 
         self._validate_itself()
+
+    @property
+    def general_api(self) -> GeneralApi:
+        return GeneralApi(
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
 
     @property
     def testing_api(self) -> TestingApi:

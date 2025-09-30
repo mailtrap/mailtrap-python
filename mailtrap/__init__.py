@@ -5,6 +5,7 @@ from .exceptions import APIError
 from .exceptions import AuthorizationError
 from .exceptions import ClientConfigurationError
 from .exceptions import MailtrapError
+from .models.accounts import AccountAccessFilterParams
 from .models.contacts import ContactListParams
 from .models.contacts import CreateContactFieldParams
 from .models.contacts import CreateContactParams
@@ -24,6 +25,7 @@ from .models.mail import Disposition
 from .models.mail import Mail
 from .models.mail import MailFromTemplate
 from .models.messages import UpdateEmailMessageParams
+from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
 from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams
