@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -6,9 +8,9 @@ from mailtrap.models.permissions import Permissions
 
 @dataclass
 class AccountAccessFilterParams(RequestParams):
-    domain_ids: list[str]
-    inbox_ids: list[str]
-    project_ids: list[str]
+    domain_ids: Optional[list[str]] = None
+    inbox_ids: Optional[list[str]] = None
+    project_ids: Optional[list[str]] = None
 
 
 @dataclass
