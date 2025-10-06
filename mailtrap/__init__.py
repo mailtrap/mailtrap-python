@@ -6,7 +6,9 @@ from .exceptions import AuthorizationError
 from .exceptions import ClientConfigurationError
 from .exceptions import MailtrapError
 from .models.accounts import AccountAccessFilterParams
+from .models.contacts import ContactExportFilter
 from .models.contacts import ContactListParams
+from .models.contacts import CreateContactExportParams
 from .models.contacts import CreateContactFieldParams
 from .models.contacts import CreateContactParams
 from .models.contacts import ImportContactParams

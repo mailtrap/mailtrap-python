@@ -1,6 +1,8 @@
 import pytest
 
+from mailtrap.models.contacts import ContactExportFilter
 from mailtrap.models.contacts import ContactListParams
+from mailtrap.models.contacts import CreateContactExportParams
 from mailtrap.models.contacts import CreateContactFieldParams
 from mailtrap.models.contacts import CreateContactParams
 from mailtrap.models.contacts import ImportContactParams
@@ -147,3 +149,52 @@ class TestImportContactParams:
             "list_ids_included": [1],
             "list_ids_excluded": [2],
         }
+
+
+class TestContactExportFilter:
+    def test_contact_export_filter_api_data_should_return_correct_dict(self) -> None:
+        """Test that ContactExportFilter api_data returns correct dictionary."""
+        filter_obj = ContactExportFilter(name="list_id", operator="in", value=[1, 2, 3])
+
+        api_data = filter_obj.api_data
+
+        assert api_data == {"name": "list_id", "operator": "in", "value": [1, 2, 3]}
+
+
+class TestCreateContactExportParams:
+    def test_create_contact_export_params_api_data_should_return_correct_dict(
+        self,
+    ) -> None:
+        """Test that CreateContactExportParams api_data returns correct dictionary."""
+        params = CreateContactExportParams(
+            filters=[ContactExportFilter(name="list_id", operator="in", value=[1, 2, 3])]
+        )
+
+        api_data = params.api_data
+
+        assert api_data == {
+            "filters": [{"name": "list_id", "operator": "in", "value": [1, 2, 3]}]
+        }
+
+    def test_create_contact_export_params_with_multiple_filters_should_work(self) -> None:
+        """Test that multiple filters work correctly."""
+        params = CreateContactExportParams(
+            filters=[
+                ContactExportFilter(name="list_id", operator="in", value=[1, 2, 3]),
+                ContactExportFilter(name="field_id", operator="equal", value=[4, 5, 6]),
+            ]
+        )
+
+        api_data = params.api_data
+
+        assert len(api_data["filters"]) == 2
+        assert api_data["filters"][0]["name"] == "list_id"
+        assert api_data["filters"][1]["name"] == "field_id"
+
+    def test_create_contact_export_params_with_empty_filters_should_work(self) -> None:
+        """Test that empty filters list works correctly."""
+        params = CreateContactExportParams(filters=[])
+
+        api_data = params.api_data
+
+        assert api_data == {"filters": []}

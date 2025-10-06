@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 from typing import Union
@@ -121,3 +122,24 @@ class ImportContactParams(RequestParams):
     )
     list_ids_included: Optional[list[int]] = None
     list_ids_excluded: Optional[list[int]] = None
+
+
+@dataclass
+class ContactExportFilter(RequestParams):
+    name: str
+    operator: str
+    value: list[int]
+
+
+@dataclass
+class CreateContactExportParams(RequestParams):
+    filters: list[ContactExportFilter]
+
+
+@dataclass
+class ContactExportDetail:
+    id: int
+    status: str
+    created_at: datetime
+    updated_at: datetime
+    url: Optional[str] = None
