@@ -227,7 +227,7 @@ class TestContactEventParams:
         }
 
     def test_contact_event_params_with_empty_params_should_work(self) -> None:
-        """Test that empty filters list works correctly."""
+        """Test that ContactEventParams works correctly when params are omitted."""
         params = ContactEventParams(name="UserLogin")
         api_data = params.api_data
         assert api_data == {"name": "UserLogin"}

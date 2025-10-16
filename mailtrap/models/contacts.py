@@ -157,4 +157,4 @@ class ContactEvent:
     contact_id: str
     contact_email: str
     name: str
-    params: dict[str, Any]
+    params: Optional[dict[str, Any]] = None
