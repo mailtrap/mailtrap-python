@@ -1,3 +1,4 @@
+from mailtrap.api.resources.contact_events import ContactEventsApi
 from mailtrap.api.resources.contact_exports import ContactExportsApi
 from mailtrap.api.resources.contact_fields import ContactFieldsApi
 from mailtrap.api.resources.contact_imports import ContactImportsApi
@@ -10,6 +11,10 @@ class ContactsBaseApi:
     def __init__(self, client: HttpClient, account_id: str) -> None:
         self._account_id = account_id
         self._client = client
+
+    @property
+    def contact_events(self) -> ContactEventsApi:
+        return ContactEventsApi(account_id=self._account_id, client=self._client)
 
     @property
     def contact_exports(self) -> ContactExportsApi:

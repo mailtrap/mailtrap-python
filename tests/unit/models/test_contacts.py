@@ -1,5 +1,6 @@
 import pytest
 
+from mailtrap.models.contacts import ContactEventParams
 from mailtrap.models.contacts import ContactExportFilter
 from mailtrap.models.contacts import ContactListParams
 from mailtrap.models.contacts import CreateContactExportParams
@@ -198,3 +199,35 @@ class TestCreateContactExportParams:
         api_data = params.api_data
 
         assert api_data == {"filters": []}
+
+
+class TestContactEventParams:
+    def test_contact_event_params_api_data_should_return_correct_dict(
+        self,
+    ) -> None:
+        params = ContactEventParams(
+            name="UserLogin",
+            params={
+                "user_id": 101,
+                "user_name": "John Smith",
+                "is_active": True,
+                "last_seen": None,
+            },
+        )
+
+        api_data = params.api_data
+        assert api_data == {
+            "name": "UserLogin",
+            "params": {
+                "user_id": 101,
+                "user_name": "John Smith",
+                "is_active": True,
+                "last_seen": None,
+            },
+        }
+
+    def test_contact_event_params_with_empty_params_should_work(self) -> None:
+        """Test that ContactEventParams works correctly when params are omitted."""
+        params = ContactEventParams(name="UserLogin")
+        api_data = params.api_data
+        assert api_data == {"name": "UserLogin"}

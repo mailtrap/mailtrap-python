@@ -1,5 +1,6 @@
 from datetime import datetime
 from enum import Enum
+from typing import Any
 from typing import Optional
 from typing import Union
 
@@ -143,3 +144,17 @@ class ContactExportDetail:
     created_at: datetime
     updated_at: datetime
     url: Optional[str] = None
+
+
+@dataclass
+class ContactEventParams(RequestParams):
+    name: str
+    params: Optional[dict[str, Any]] = None
+
+
+@dataclass
+class ContactEvent:
+    contact_id: str
+    contact_email: str
+    name: str
+    params: Optional[dict[str, Any]] = None
