@@ -9,7 +9,6 @@ from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.contacts import Contact
-from mailtrap.models.contacts import ContactStatus
 from mailtrap.models.contacts import CreateContactParams
 from mailtrap.models.contacts import UpdateContactParams
 from tests import conftest
@@ -122,7 +121,7 @@ class TestContactstApi:
         assert isinstance(contact, Contact)
         assert contact.id == CONTACT_ID
         assert contact.email == "john.smith@example.com"
-        assert contact.status == ContactStatus.SUBSCRIBED
+        assert contact.status == "subscribed"
         assert contact.fields["first_name"] == "John"
         assert contact.fields["last_name"] == "Smith"
         assert contact.list_ids == [1, 2, 3]
@@ -210,7 +209,7 @@ class TestContactstApi:
         assert isinstance(contact, Contact)
         assert contact.id == CONTACT_ID
         assert contact.email == "john.smith@example.com"
-        assert contact.status == ContactStatus.SUBSCRIBED
+        assert contact.status == "subscribed"
         assert contact.fields["first_name"] == "John"
         assert contact.fields["last_name"] == "Smith"
         assert contact.list_ids == [1, 2, 3]
@@ -297,7 +296,7 @@ class TestContactstApi:
         assert isinstance(contact, Contact)
         assert contact.id == CONTACT_ID
         assert contact.email == "john.updated@example.com"
-        assert contact.status == ContactStatus.SUBSCRIBED
+        assert contact.status == "subscribed"
         assert contact.fields["first_name"] == "John Updated"
         assert contact.fields["last_name"] == "Smith Updated"
 

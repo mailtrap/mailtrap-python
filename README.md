@@ -70,7 +70,7 @@ IS_SANDBOX = os.environ.get("MAILTRAP_USE_SANDBOX", "true").lower() == "true"
 INBOX_ID = os.environ.get("MAILTRAP_INBOX_ID")
 
 client = mt.MailtrapClient(
-  token=API_KEY, 
+  token=API_KEY,
   sandbox=IS_SANDBOX,
   inbox_id=INBOX_ID,  # None is ignored for production
 )

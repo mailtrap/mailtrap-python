@@ -8,7 +8,6 @@ from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
 from mailtrap.models.contacts import ContactImport
-from mailtrap.models.contacts import ContactImportStatus
 from mailtrap.models.contacts import ImportContactParams
 from tests import conftest
 
@@ -135,7 +134,7 @@ class TestContactImportsApi:
 
         assert isinstance(contact_import, ContactImport)
         assert contact_import.id == IMPORT_ID
-        assert contact_import.status == ContactImportStatus.STARTED
+        assert contact_import.status == "started"
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -190,7 +189,7 @@ class TestContactImportsApi:
 
         assert isinstance(contact_import, ContactImport)
         assert contact_import.id == IMPORT_ID
-        assert contact_import.status == ContactImportStatus.STARTED
+        assert contact_import.status == "started"
 
     @responses.activate
     def test_get_contact_import_should_return_finished_import(
@@ -208,7 +207,7 @@ class TestContactImportsApi:
 
         assert isinstance(contact_import, ContactImport)
         assert contact_import.id == IMPORT_ID
-        assert contact_import.status == ContactImportStatus.FINISHED
+        assert contact_import.status == "finished"
         assert contact_import.created_contacts_count == 1
         assert contact_import.updated_contacts_count == 3
         assert contact_import.contacts_over_limit_count == 3

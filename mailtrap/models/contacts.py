@@ -1,5 +1,4 @@
 from datetime import datetime
-from enum import Enum
 from typing import Any
 from typing import Optional
 from typing import Union
@@ -45,11 +44,6 @@ class ContactList:
     name: str
 
 
-class ContactStatus(str, Enum):
-    SUBSCRIBED = "subscribed"
-    UNSUBSCRIBED = "unsubscribed"
-
-
 @dataclass
 class CreateContactParams(RequestParams):
     email: str
@@ -89,7 +83,7 @@ class Contact:
     email: str
     fields: dict[str, Union[str, int, float, bool]]  # field_merge_tag: value
     list_ids: list[int]
-    status: ContactStatus
+    status: str
     created_at: int
     updated_at: int
 
@@ -99,17 +93,10 @@ class ContactResponse:
     data: Contact
 
 
-class ContactImportStatus(str, Enum):
-    CREATED = "created"
-    STARTED = "started"
-    FINISHED = "finished"
-    FAILED = "failed"
-
-
 @dataclass
 class ContactImport:
     id: int
-    status: ContactImportStatus
+    status: str
     created_contacts_count: Optional[int] = None
     updated_contacts_count: Optional[int] = None
     contacts_over_limit_count: Optional[int] = None
