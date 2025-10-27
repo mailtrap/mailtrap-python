@@ -23,6 +23,8 @@ def get_client(type_: SendingType) -> mt.MailtrapClient:
             sandbox=True,
             inbox_id="<YOUR_INBOX_ID>",
         )
+    else:
+        raise ValueError(f"Invalid sending type: {type_}")
 
 
 # Image should be in the same level in directory like this python file.

@@ -54,7 +54,7 @@ Remove the inbox_id field or set it to None. Then, remove the sandbox field or s
 You can change the arguments in the code or via another way. Here is an example using environment variables.
 
 Set next environment variables:
-```
+```bash
 MAILTRAP_API_KEY=your_api_token # https://mailtrap.io/api-tokens
 MAILTRAP_USE_SANDBOX=true       # true/false toggle
 MAILTRAP_INBOX_ID=123456        # Only needed for sandbox
@@ -186,7 +186,7 @@ Refer to the [examples](examples) folder for the source code of this and other a
 ### Batch Sending API
 - [Batch sending minimal](examples/sending/batch_minimal_sending.py)
 - [Batch sending advanced](examples/sending/batch_advanced_sending.py)
-- [Bathc sending using template](examples/sending/batch_sending_with_template.py)
+- [Batch sending using template](examples/sending/batch_sending_with_template.py)
 
 ### Sandbox (Email Testing) API
 - [Attachments](examples/testing/attachments.py)
@@ -261,7 +261,7 @@ Bug reports and pull requests are welcome on [GitHub](https://github.com/mailtra
 #### Clone the repo
 
 ```bash
-https://github.com/mailtrap/mailtrap-python.git
+git clone https://github.com/mailtrap/mailtrap-python.git
 cd mailtrap-python
 ```
 
