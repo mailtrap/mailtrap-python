@@ -179,7 +179,14 @@ client.send(mail)
 Refer to the [examples](examples) folder for the source code of this and other advanced examples.
 
 ### Sending API
-- [Sending](examples/sending.py)
+- [Sending minimal](examples/sending/minimal_sending.py)
+- [Sending advanced](examples/sending/advanced_sending.py)
+- [Sending using template](examples/sending/sending_with_template.py)
+
+### Batch Sending API
+- [Batch sending minimal](examples/sending/batch_minimal_sending.py)
+- [Batch sending advanced](examples/sending/batch_advanced_sending.py)
+- [Bathc sending using template](examples/sending/batch_sending_with_template.py)
 
 ### Sandbox (Email Testing) API
 - [Attachments](examples/testing/attachments.py)
