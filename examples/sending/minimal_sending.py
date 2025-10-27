@@ -1,4 +1,5 @@
 import mailtrap as mt
+from mailtrap.models.mail.mail import SendingMailResponse
 
 API_TOKEN = "<YOUR_API_TOKEN>"
 
@@ -18,8 +19,6 @@ def get_client(type_: SendingType) -> mt.MailtrapClient:
         return mt.MailtrapClient(
             token=API_TOKEN, sandbox=True, inbox_id="<YOUR_INBOX_ID>"
         )
-    else:
-        raise ValueError(f"Invalid sending type: {type_}")
 
 
 mail = mt.Mail(
@@ -34,6 +33,14 @@ def send(client: mt.MailtrapClient, mail: mt.BaseMail) -> mt.SEND_ENDPOINT_RESPO
     return client.send(mail)
 
 
+def send_via_sending_api(
+    client: mt.MailtrapClient, mail: mt.BaseMail
+) -> SendingMailResponse:
+    """Another way to send email via Sending API"""
+    return client.sending_api.send(mail)
+
+
 if __name__ == "__main__":
     client = get_client(SendingType.DEFAULT)
     print(send(client, mail))
+    print(send_via_sending_api(client, mail))

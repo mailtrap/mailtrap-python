@@ -23,8 +23,6 @@ def get_client(type_: SendingType) -> mt.MailtrapClient:
             sandbox=True,
             inbox_id="<YOUR_INBOX_ID>",
         )
-    else:
-        raise ValueError(f"Invalid sending type: {type_}")
 
 
 # Image should be in the same level in directory like this python file.
@@ -82,7 +80,10 @@ batch_mail = mt.BatchSendEmailParams(
     ),
     requests=[
         mt.BatchEmailRequest(
-            to=[mt.Address(email="<RECEIVER_EMAIL>")],
+            to=[mt.Address(email="<RECEIVER_EMAIL_1>")],
+        ),
+        mt.BatchEmailRequest(
+            to=[mt.Address(email="<RECEIVER_EMAIL_2>")],
         ),
     ],
 )

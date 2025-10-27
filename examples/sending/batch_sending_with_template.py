@@ -18,8 +18,6 @@ def get_client(type_: SendingType) -> mt.MailtrapClient:
         return mt.MailtrapClient(
             token=API_TOKEN, sandbox=True, inbox_id="<YOUR_INBOX_ID>"
         )
-    else:
-        raise ValueError(f"Invalid sending type: {type_}")
 
 
 batch_mail = mt.BatchSendEmailParams(
@@ -37,10 +35,10 @@ batch_mail = mt.BatchSendEmailParams(
     ),
     requests=[
         mt.BatchEmailRequest(
-            to=[mt.Address(email="<RECEIVER_EMAIL>")],
-            subject="You are awesome!",
-            text="Congrats for sending test email with Mailtrap!",
-            category="Integration Test",
+            to=[mt.Address(email="<RECEIVER_EMAIL_1>")],
+        ),
+        mt.BatchEmailRequest(
+            to=[mt.Address(email="<RECEIVER_EMAIL_2>")],
         ),
     ],
 )

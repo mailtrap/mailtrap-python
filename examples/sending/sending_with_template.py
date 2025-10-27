@@ -18,8 +18,6 @@ def get_client(type_: SendingType) -> mt.MailtrapClient:
         return mt.MailtrapClient(
             token=API_TOKEN, sandbox=True, inbox_id="<YOUR_INBOX_ID>"
         )
-    else:
-        raise ValueError(f"Invalid sending type: {type_}")
 
 
 mail = mt.MailFromTemplate(

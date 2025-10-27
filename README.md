@@ -174,6 +174,46 @@ mail = mt.MailFromTemplate(
 client.send(mail)
 ```
 
+### Sending email directly via SendingApi
+
+This approach is newer. It can be useful when you expect  the response to be model-based rather than dictionary-based, as in MailtrapClient.send().
+
+```python
+import os
+import mailtrap as mt
+
+client = mt.MailtrapClient(token=os.environ["MAILTRAP_API_KEY"])
+sending_api = client.sending_api
+
+# create mail object
+mail = mt.Mail(
+    sender=mt.Address(email="sender@example.com", name="John Smith"),
+    to=[mt.Address(email="recipient@example.com")],
+    subject="You are awesome!",
+    text="Congrats for sending test email with Mailtrap!",
+)
+
+sending_api.send(mail)
+```
+#### Mailtrap sending responses difference
+
+#### 1. `client.send()`
+**Response:**
+```python
+{
+  "success": True,
+  "message_ids": ["5162954175"]
+}
+```
+
+#### 2. `client.sending_api.send()`
+**Response:**
+```python
+SendingMailResponse(success=True, message_ids=["5162955057"])
+```
+
+The same situation applies to both `client.batch_send()` and `client.sending_api.batch_send()`.
+
 ### All usage examples
 
 Refer to the [examples](examples) folder for the source code of this and other advanced examples.
