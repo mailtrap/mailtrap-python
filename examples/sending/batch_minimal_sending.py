@@ -47,7 +47,7 @@ def batch_send(
 
 
 def batch_send_via_sending_api(
-    client: mt.MailtrapClient, mail: mt.BaseMail
+    client: mt.MailtrapClient, mail: mt.BatchSendEmailParams
 ) -> BatchSendResponse:
     """Another way to batch_send email via Sending API"""
     return client.sending_api.batch_send(mail)
