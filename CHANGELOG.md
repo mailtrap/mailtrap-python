@@ -1,3 +1,9 @@
+## [2.3.0] - 2025-10-24
+* Fix issue #24: Add batch_send method to SendingApi, add models by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/47
+* Fix issue #42: Add GeneralApi, related models, examples, tests. by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/48
+* Fix issue #41: Add ContactExportsApi, related models, tests and examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/49
+* Fix issue #45: Add ContactEventsApi, related models, tests and examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/51
+
 ## [2.2.0] - 2025-09-18
 - Potential fix for code scanning alert no. 1: Workflow does not contain permissions by @mklocek in https://github.com/railsware/mailtrap-python/pull/15
 - Fix issue #29. Add support of Emails Sandbox (Testing) API: Projects by @Ihor-Bilous in https://github.com/railsware/mailtrap-python/pull/31
