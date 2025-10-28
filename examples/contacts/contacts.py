@@ -60,6 +60,7 @@ if __name__ == "__main__":
         },
     )
     print(created_contact)
+
     updated_contact = update_contact(
         created_contact.id,
         fields={
@@ -68,5 +69,9 @@ if __name__ == "__main__":
         },
     )
     print(updated_contact)
+
+    contact = get_contact(updated_contact.id)
+    print(contact)
+
     deleted_contact = delete_contact(updated_contact.id)
     print(deleted_contact)

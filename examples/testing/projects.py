@@ -29,5 +29,19 @@ def delete_project(project_id: int):
 
 
 if __name__ == "__main__":
+    created = create_project(name="example-created-project")
+    print(created)
+
     projects = list_projects()
     print(projects)
+
+    project_id = projects[0].id
+
+    project = get_project(project_id=project_id)
+    print(project)
+
+    updated = update_project(project_id=created.id, new_name=f"{project.name}-updated")
+    print(updated)
+
+    deleted = delete_project(project_id=created.id)
+    print(deleted)

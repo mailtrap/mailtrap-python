@@ -80,3 +80,41 @@ def get_mail_headers(inbox_id: int, message_id: str) -> str:
 if __name__ == "__main__":
     messages = list_messages(inbox_id=INBOX_ID)
     print(messages)
+    if messages:
+        msg_id = messages[0].id
+        message = get_message(inbox_id=INBOX_ID, message_id=msg_id)
+        print(message)
+
+        updated = update_message(inbox_id=INBOX_ID, message_id=msg_id, is_read=True)
+        print(updated)
+
+        forwarded = forward_message(
+            inbox_id=INBOX_ID,
+            message_id=msg_id,
+            email="example@example.com",
+        )
+        print(forwarded)
+
+        spam = get_spam_report(inbox_id=INBOX_ID, message_id=msg_id)
+        print(spam)
+
+        html_analysis = get_html_analysis(inbox_id=INBOX_ID, message_id=msg_id)
+        print(html_analysis)
+
+        text = get_text_message(inbox_id=INBOX_ID, message_id=msg_id)
+        print(text)
+
+        raw = get_raw_message(inbox_id=INBOX_ID, message_id=msg_id)
+        print(raw)
+
+        html_src = get_html_source(inbox_id=INBOX_ID, message_id=msg_id)
+        print(html_src)
+
+        html_msg = get_html_message(inbox_id=INBOX_ID, message_id=msg_id)
+        print(html_msg)
+
+        eml = get_message_as_eml(inbox_id=INBOX_ID, message_id=msg_id)
+        print(eml)
+
+        headers = get_mail_headers(inbox_id=INBOX_ID, message_id=msg_id)
+        print(headers)

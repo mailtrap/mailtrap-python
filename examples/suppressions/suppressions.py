@@ -19,4 +19,8 @@ def delete_suppression(suppression_id: str) -> Suppression:
 
 
 if __name__ == "__main__":
-    print(list_suppressions())
+    suppressions = list_suppressions()
+    print(suppressions)
+    if suppressions:
+        deleted_suppression = delete_suppression(suppressions[0].id)
+        print(deleted_suppression)

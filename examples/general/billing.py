@@ -13,4 +13,5 @@ def get_current_billing_usage(account_id: int) -> BillingCycleUsage:
 
 
 if __name__ == "__main__":
-    print(get_current_billing_usage(ACCOUNT_ID))
+    usage = get_current_billing_usage(ACCOUNT_ID)
+    print(usage)

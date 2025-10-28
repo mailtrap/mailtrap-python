@@ -59,4 +59,28 @@ def delete_template(template_id: str) -> DeletedObject:
 
 
 if __name__ == "__main__":
-    print(list_templates())
+    created = create_template(
+        name="Example Template",
+        subject="Hello",
+        category="transactional",
+        body_text="Hello world",
+    )
+    print(created)
+
+    templates = list_templates()
+    print(templates)
+
+    template_id = templates[0].id
+    template = get_template(template_id=template_id)
+    print(template)
+
+    updated = update_template(
+        template_id=template_id,
+        name=f"{template.name}-updated",
+        subject=f"{template.subject}-updated",
+        body_text=f"{template.body_text}\nUpdated content.",
+    )
+    print(updated)
+
+    deleted = delete_template(template_id=template_id)
+    print(deleted)
