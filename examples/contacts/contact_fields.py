@@ -54,14 +54,13 @@ if __name__ == "__main__":
     fields = list_contact_fields()
     print(fields)
 
-    field_id = fields[0].id
-    field = get_contact_field(contact_field_id=field_id)
+    field = get_contact_field(contact_field_id=created.id)
     print(field)
 
     updated = update_contact_field(
-        contact_field_id=field_id, name=f"{field.name}-updated"
+        contact_field_id=created.id, name=f"{field.name}-updated"
     )
     print(updated)
 
-    deleted = delete_contact_field(contact_field_id=field_id)
+    deleted = delete_contact_field(contact_field_id=created.id)
     print(deleted)

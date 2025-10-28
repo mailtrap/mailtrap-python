@@ -59,13 +59,13 @@ def delete_inbox(inbox_id: int):
 
 
 if __name__ == "__main__":
-    created = create_inbox(project_id=1, inbox_name="example-created-inbox")
-    print(created)
-
     inboxes = list_inboxes()
     print(inboxes)
 
-    inbox_id = inboxes[0].id
+    created = create_inbox(project_id=1, inbox_name="example-created-inbox")
+    print(created)
+
+    inbox_id = created.id
     inbox = get_inbox_by_id(inbox_id=inbox_id)
     print(inbox)
 

@@ -38,15 +38,14 @@ if __name__ == "__main__":
     lists = list_contact_lists()
     print(lists)
 
-    list_id = lists[0].id
-    contact_list = get_contact_list(contact_list_id=list_id)
+    contact_list = get_contact_list(contact_list_id=created.id)
     print(contact_list)
 
     updated = update_contact_list(
-        contact_list_id=list_id,
+        contact_list_id=created.id,
         name=f"{contact_list.name}-updated",
     )
     print(updated)
 
-    deleted = delete_contact_list(contact_list_id=list_id)
+    deleted = delete_contact_list(contact_list_id=created.id)
     print(deleted)

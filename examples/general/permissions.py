@@ -30,12 +30,16 @@ if __name__ == "__main__":
     print(resources)
     if resources:
         account_access_id = resources[0].id
-        payload = [
-            mt.PermissionResourceParams(resource_name=resources[0].name, permissions=[])
+        permissions = [
+            mt.PermissionResourceParams(
+                resource_id=resources[0].id,
+                resource_type=resources[0].type,
+                access_level="viewer",
+            )
         ]
         updated = bulk_permissions_update(
             ACCOUNT_ID,
             account_access_id,
-            payload,
+            permissions,
         )
         print(updated)
