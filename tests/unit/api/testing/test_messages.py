@@ -543,7 +543,7 @@ class TestMessagesApi:
 
         result = client.get_html_analysis(INBOX_ID, MESSAGE_ID)
 
-        assert result.status.value == "success"
+        assert result.status == "success"
         assert len(result.errors) == 1
         assert result.errors[0].error_line == 15
 

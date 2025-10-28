@@ -1,4 +1,4 @@
-[![test](https://github.com/railsware/mailtrap-python/actions/workflows/main.yml/badge.svg)](https://github.com/railsware/mailtrap-python/actions/workflows/main.yml)
+[![test](https://github.com/mailtrap/mailtrap-python/actions/workflows/main.yml/badge.svg)](https://github.com/mailtrap/mailtrap-python/actions/workflows/main.yml)
 [![PyPI](https://shields.io/pypi/v/mailtrap)](https://pypi.org/project/mailtrap/)
 [![downloads](https://shields.io/pypi/dm/mailtrap)](https://pypi.org/project/mailtrap/)
 
@@ -27,33 +27,85 @@ pip install mailtrap
 
 ## Usage
 
-### Minimal
+### Minimal usage (Transactional sending)
 
 ```python
 import mailtrap as mt
 
-# create mail object
+API_TOKEN = "<YOUR_API_TOKEN>"  # your API key here https://mailtrap.io/api-tokens
+
+client = mt.MailtrapClient(token=API_TOKEN)
+
+# Create mail object
 mail = mt.Mail(
-    sender=mt.Address(email="mailtrap@example.com", name="Mailtrap Test"),
-    to=[mt.Address(email="your@email.com")],
+    sender=mt.Address(email="sender@example.com", name="John Smith"),
+    to=[mt.Address(email="recipient@example.com")],
     subject="You are awesome!",
     text="Congrats for sending test email with Mailtrap!",
 )
 
-# create client and send
-client = mt.MailtrapClient(token="your-api-key")
 client.send(mail)
 ```
 
-### Full
+### Sandbox vs Production (easy switching)
+
+Mailtrap lets you test safely in the Email Sandbox and then switch to Production (Sending).
+Remove the inbox_id field or set it to None. Then, remove the sandbox field or set it to False.
+You can change the arguments in the code or via another way. Here is an example using environment variables.
+
+Set next environment variables:
+```bash
+MAILTRAP_API_KEY=your_api_token # https://mailtrap.io/api-tokens
+MAILTRAP_USE_SANDBOX=true       # true/false toggle
+MAILTRAP_INBOX_ID=123456        # Only needed for sandbox
+```
+
+Bootstrap logic:
+```python
+import os
+import mailtrap as mt
+
+API_KEY = os.environ["MAILTRAP_API_KEY"]
+IS_SANDBOX = os.environ.get("MAILTRAP_USE_SANDBOX", "true").lower() == "true"
+INBOX_ID = os.environ.get("MAILTRAP_INBOX_ID")
+
+client = mt.MailtrapClient(
+  token=API_KEY,
+  sandbox=IS_SANDBOX,
+  inbox_id=INBOX_ID,  # None is ignored for production
+)
+
+# Create mail object
+mail = mt.Mail(
+    sender=mt.Address(email="sender@example.com", name="John Smith"),
+    to=[mt.Address(email="recipient@example.com")],
+    subject="You are awesome!",
+    text="Congrats for sending test email with Mailtrap!",
+)
+
+client.send(mail)
+```
+
+Bulk stream example (optional) differs only by setting `bulk=True`:
+`bulk_client = mt.MailtrapClient(token=API_KEY, bulk=True)`
+
+Recommendations:
+- Use separate API tokens for Production and Sandbox.
+- Keep initialisation in a single factory object/service so that switching is centralised.
+
+### Full-featured usage example
 
 ```python
 import base64
+import os
 from pathlib import Path
 
 import mailtrap as mt
 
+client = mt.MailtrapClient(token=os.environ["MAILTRAP_API_KEY"])
+
 welcome_image = Path(__file__).parent.joinpath("welcome.png").read_bytes()
+
 
 mail = mt.Mail(
     sender=mt.Address(email="mailtrap@example.com", name="Mailtrap Test"),
@@ -100,14 +152,16 @@ mail = mt.Mail(
     custom_variables={"year": 2023},
 )
 
-client = mt.MailtrapClient(token="your-api-key")
 client.send(mail)
 ```
 
-### Using email template
+### Minimal usage of email template
 
 ```python
+import os
 import mailtrap as mt
+
+client = mt.MailtrapClient(token=os.environ["MAILTRAP_API_KEY"])
 
 # create mail object
 mail = mt.MailFromTemplate(
@@ -117,21 +171,137 @@ mail = mt.MailFromTemplate(
     template_variables={"user_name": "John Doe"},
 )
 
-# create client and send
-client = mt.MailtrapClient(token="your-api-key")
 client.send(mail)
 ```
 
+### Sending email directly via SendingApi
+
+This approach is newer. It can be useful when you expect  the response to be model-based rather than dictionary-based, as in MailtrapClient.send().
+
+```python
+import os
+import mailtrap as mt
+
+client = mt.MailtrapClient(token=os.environ["MAILTRAP_API_KEY"])
+sending_api = client.sending_api
+
+# create mail object
+mail = mt.Mail(
+    sender=mt.Address(email="sender@example.com", name="John Smith"),
+    to=[mt.Address(email="recipient@example.com")],
+    subject="You are awesome!",
+    text="Congrats for sending test email with Mailtrap!",
+)
+
+sending_api.send(mail)
+```
+#### Mailtrap sending responses difference
+
+#### 1. `client.send()`
+**Response:**
+```python
+{
+  "success": True,
+  "message_ids": ["5162954175"]
+}
+```
+
+#### 2. `client.sending_api.send()`
+**Response:**
+```python
+SendingMailResponse(success=True, message_ids=["5162955057"])
+```
+
+The same situation applies to both `client.batch_send()` and `client.sending_api.batch_send()`.
+
+### All usage examples
+
+Refer to the [examples](examples) folder for the source code of this and other advanced examples.
+
+### Sending API
+- [Sending minimal](examples/sending/minimal_sending.py)
+- [Sending advanced](examples/sending/advanced_sending.py)
+- [Sending using template](examples/sending/sending_with_template.py)
+
+### Batch Sending API
+- [Batch sending minimal](examples/sending/batch_minimal_sending.py)
+- [Batch sending advanced](examples/sending/batch_advanced_sending.py)
+- [Batch sending using template](examples/sending/batch_sending_with_template.py)
+
+### Sandbox (Email Testing) API
+- [Attachments](examples/testing/attachments.py)
+- [Inboxes](examples/testing/inboxes.py)
+- [Messages](examples/testing/messages.py)
+- [Projects](examples/testing/projects.py)
+
+### Contacts API
+- [Contacts](examples/contacts/contacts.py)
+- [Contact Events](examples/contacts/contact_events.py)
+- [Contact Exports](examples/contacts/contact_exports.py)
+- [Contact Fields](examples/contacts/contact_fields.py)
+- [Contact Imports](examples/contacts/contact_imports.py)
+- [Contact Lists](examples/contacts/contact_lists.py)
+
+### Email Templates API
+- [Email Templates](examples/email_templates/templates.py)
+
+### Suppressions API
+- [Suppressions](examples/suppressions/suppressions.py)
+
+### General API
+- [Account Accesses](examples/general/account_accesses.py)
+- [Accounts](examples/general/accounts.py)
+- [Billing](examples/general/billing.py)
+- [Permissions](examples/general/permissions.py)
+
+## Supported functionality
+
+This Python package offers integration with the [official API](https://api-docs.mailtrap.io/) for [Mailtrap](https://mailtrap.io).
+
+Quickly integrate Mailtrap with your Python app.
+
+Currently, with this SDK you can:
+- Email API/SMTP
+  - Send an email (Transactional and Bulk streams)
+  - Send an email with a template (Transactional and Bulk streams)
+  - Send a batch of emails (Transactional and Bulk streams)
+  - Send a batch of emails with a template (Transactional and Bulk streams)
+- Email Sandbox (Testing)
+  - Send an email
+  - Send an email with a template
+  - Send a batch of emails
+  - Send a batch of emails with a template
+  - Messages management
+  - Inboxes management
+  - Projects management
+  - Attachments management
+- Contacts
+  - Contacts management
+  - Contact Lists management
+  - Contact Fields management
+  - Contact Events management
+  - Contact Exports management
+  - Contact Imports management
+- Suppressions
+  - Suppressions management (find and delete)
+- Templates
+  - Templates management
+- General
+  - Account access management
+  - Permissions management
+  - List accounts you have access to
+  - Get current billing information
+
 ## Contributing
 
-Bug reports and pull requests are welcome on [GitHub](https://github.com/railsware/mailtrap-python). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on [GitHub](https://github.com/mailtrap/mailtrap-python). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](CODE_OF_CONDUCT.md).
 
 ### Development Environment
 
 #### Clone the repo
 
 ```bash
-https://github.com/railsware/mailtrap-python.git
+git clone https://github.com/mailtrap/mailtrap-python.git
 cd mailtrap-python
 ```
 

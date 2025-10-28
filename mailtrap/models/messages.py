@@ -1,5 +1,4 @@
 from datetime import datetime
-from enum import Enum
 from typing import Any
 from typing import Optional
 from typing import Union
@@ -8,12 +7,6 @@ from pydantic import Field
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
-
-
-class BlacklistsResult(str, Enum):
-    SUCCESS = "success"
-    PENDING = "pending"
-    ERROR = "error"
 
 
 @dataclass
@@ -25,7 +18,7 @@ class BlacklistsReport:
 
 @dataclass
 class Blacklists:
-    result: BlacklistsResult
+    result: str
     domain: str
     ip: str
     report: list[BlacklistsReport]
@@ -117,14 +110,9 @@ class ErrorItem:
     email_clients: EmailClients
 
 
-class AnalysisReportStatus(str, Enum):
-    SUCCESS = "success"
-    ERROR = "error"
-
-
 @dataclass
 class AnalysisReport:
-    status: AnalysisReportStatus
+    status: str
 
 
 @dataclass

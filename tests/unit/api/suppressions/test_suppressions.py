@@ -8,9 +8,7 @@ from mailtrap.api.resources.suppressions import SuppressionsApi
 from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
-from mailtrap.models.suppressions import SendingStream
 from mailtrap.models.suppressions import Suppression
-from mailtrap.models.suppressions import SuppressionType
 from tests import conftest
 
 ACCOUNT_ID = "321"
@@ -168,6 +166,6 @@ class TestSuppressionsApi:
 
         assert isinstance(deleted_suppression, Suppression)
         assert deleted_suppression.id == SUPPRESSION_ID
-        assert deleted_suppression.type == SuppressionType.UNSUBSCRIPTION
+        assert deleted_suppression.type == "unsubscription"
         assert deleted_suppression.email == "recipient@example.com"
-        assert deleted_suppression.sending_stream == SendingStream.TRANSACTIONAL
+        assert deleted_suppression.sending_stream == "transactional"
