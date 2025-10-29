@@ -12,4 +12,5 @@ def get_accounts() -> list[Account]:
 
 
 if __name__ == "__main__":
-    print(get_accounts())
+    accounts = get_accounts()
+    print(accounts)

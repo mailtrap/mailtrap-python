@@ -25,3 +25,8 @@ def get_attachment(inbox_id: int, message_id: int, attachment_id: int) -> Attach
 if __name__ == "__main__":
     attachments = list_attachments(inbox_id=INBOX_ID, message_id=MESSAGE_ID)
     print(attachments)
+    if attachments:
+        attachment = get_attachment(
+            inbox_id=INBOX_ID, message_id=MESSAGE_ID, attachment_id=attachments[0].id
+        )
+        print(attachment)

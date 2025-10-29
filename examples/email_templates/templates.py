@@ -32,12 +32,12 @@ def create_template(
     return templates_api.create(params)
 
 
-def get_template(template_id: str) -> EmailTemplate:
+def get_template(template_id: int) -> EmailTemplate:
     return templates_api.get_by_id(template_id)
 
 
 def update_template(
-    template_id: str,
+    template_id: int,
     name: Optional[str] = None,
     subject: Optional[str] = None,
     category: Optional[str] = None,
@@ -54,9 +54,32 @@ def update_template(
     return templates_api.update(template_id, params)
 
 
-def delete_template(template_id: str) -> DeletedObject:
+def delete_template(template_id: int) -> DeletedObject:
     return templates_api.delete(template_id)
 
 
 if __name__ == "__main__":
-    print(list_templates())
+    created = create_template(
+        name="Example Template",
+        subject="Hello",
+        category="transactional",
+        body_text="Hello world",
+    )
+    print(created)
+
+    templates = list_templates()
+    print(templates)
+
+    template = get_template(template_id=created.id)
+    print(template)
+
+    updated = update_template(
+        template_id=created.id,
+        name=f"{template.name}-updated",
+        subject=f"{template.subject}-updated",
+        body_text=f"{template.body_text}\nUpdated content.",
+    )
+    print(updated)
+
+    deleted = delete_template(template_id=created.id)
+    print(deleted)

@@ -32,4 +32,20 @@ def delete_contact_list(contact_list_id: int) -> DeletedObject:
 
 
 if __name__ == "__main__":
-    print(list_contact_lists())
+    created = create_contact_list(name="example-list")
+    print(created)
+
+    lists = list_contact_lists()
+    print(lists)
+
+    contact_list = get_contact_list(contact_list_id=created.id)
+    print(contact_list)
+
+    updated = update_contact_list(
+        contact_list_id=created.id,
+        name=f"{contact_list.name}-updated",
+    )
+    print(updated)
+
+    deleted = delete_contact_list(contact_list_id=created.id)
+    print(deleted)

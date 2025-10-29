@@ -46,4 +46,21 @@ def delete_contact_field(contact_field_id: int) -> DeletedObject:
 
 
 if __name__ == "__main__":
-    print(list_contact_fields())
+    created = create_contact_field(
+        name="example_field", data_type="string", merge_tag="EXAMPLE"
+    )
+    print(created)
+
+    fields = list_contact_fields()
+    print(fields)
+
+    field = get_contact_field(contact_field_id=created.id)
+    print(field)
+
+    updated = update_contact_field(
+        contact_field_id=created.id, name=f"{field.name}-updated"
+    )
+    print(updated)
+
+    deleted = delete_contact_field(contact_field_id=created.id)
+    print(deleted)

@@ -20,4 +20,11 @@ def delete_account_access(account_id: int, account_access_id: int) -> DeletedObj
 
 
 if __name__ == "__main__":
-    print(get_account_accesses(ACCOUNT_ID))
+    accesses = get_account_accesses(ACCOUNT_ID)
+    print(accesses)
+    if accesses:
+        access_id = accesses[0].id
+        deleted = delete_account_access(
+            account_id=ACCOUNT_ID, account_access_id=access_id
+        )
+        print(deleted)

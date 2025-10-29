@@ -26,4 +26,20 @@ def bulk_permissions_update(
 
 
 if __name__ == "__main__":
-    print(get_permission_resources(ACCOUNT_ID))
+    resources = get_permission_resources(ACCOUNT_ID)
+    print(resources)
+    if resources:
+        account_access_id = resources[0].id
+        permissions = [
+            mt.PermissionResourceParams(
+                resource_id=resources[0].id,
+                resource_type=resources[0].type,
+                access_level="viewer",
+            )
+        ]
+        updated = bulk_permissions_update(
+            ACCOUNT_ID,
+            account_access_id,
+            permissions,
+        )
+        print(updated)
