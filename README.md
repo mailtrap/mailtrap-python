@@ -214,83 +214,41 @@ SendingMailResponse(success=True, message_ids=["5162955057"])
 
 The same situation applies to both `client.batch_send()` and `client.sending_api.batch_send()`.
 
-### All usage examples
+## Supported functionality & Examples
 
-Refer to the [examples](examples) folder for the source code of this and other advanced examples.
+### Email API:
+- Send an email (Transactional and Bulk streams) – [`sending/minimal_sending.py`](examples/sending/minimal_sending.py)
+- Send an email with a template (Transactional and Bulk streams) – [`sending/sending_with_template.py`](examples/sending/sending_with_template.py)
+- Send a batch of emails (Transactional and Bulk streams) – [`sending/batch_minimal_sending.py`](examples/sending/batch_minimal_sending.py)
+- Send a batch of emails with a template (Transactional and Bulk streams) – [`sending/batch_sending_with_template.py`](examples/sending/batch_sending_with_template.py)
+- Advanced sending – [`sending/advanced_sending.py`](examples/sending/advanced_sending.py)
+- Advanced batch sending – [`sending/batch_advanced_sending.py`](examples/sending/batch_advanced_sending.py)
 
-### Sending API
-- [Sending minimal](examples/sending/minimal_sending.py)
-- [Sending advanced](examples/sending/advanced_sending.py)
-- [Sending using template](examples/sending/sending_with_template.py)
+### Email Sandbox (Testing) API:
+- Attachments management – [`testing/attachments.py`](examples/testing/attachments.py)
+- Inboxes management – [`testing/inboxes.py`](examples/testing/inboxes.py)
+- Messages management – [`testing/messages.py`](examples/testing/messages.py)
+- Projects management – [`testing/projects.py`](examples/testing/projects.py)
 
-### Batch Sending API
-- [Batch sending minimal](examples/sending/batch_minimal_sending.py)
-- [Batch sending advanced](examples/sending/batch_advanced_sending.py)
-- [Batch sending using template](examples/sending/batch_sending_with_template.py)
+### Contacts API:
+- Contacts management – [`contacts/contacts.py`](examples/contacts/contacts.py)
+- Contact Lists management – [`contacts/contact_lists.py`](examples/contacts/contact_lists.py)
+- Contact Fields management – [`contacts/contact_fields.py`](examples/contacts/contact_fields.py)
+- Contact Events – [`contacts/contact_events.py`](examples/contacts/contact_events.py)
+- Contact Exports – [`contacts/contact_exports.py`](examples/contacts/contact_exports.py)
+- Contact Imports – [`contacts/contact_imports.py`](examples/contacts/contact_imports.py)
 
-### Sandbox (Email Testing) API
-- [Attachments](examples/testing/attachments.py)
-- [Inboxes](examples/testing/inboxes.py)
-- [Messages](examples/testing/messages.py)
-- [Projects](examples/testing/projects.py)
+### Email Templates API:
+- Templates management – [`email_templates/templates.py`](examples/email_templates/templates.py)
 
-### Contacts API
-- [Contacts](examples/contacts/contacts.py)
-- [Contact Events](examples/contacts/contact_events.py)
-- [Contact Exports](examples/contacts/contact_exports.py)
-- [Contact Fields](examples/contacts/contact_fields.py)
-- [Contact Imports](examples/contacts/contact_imports.py)
-- [Contact Lists](examples/contacts/contact_lists.py)
+### Suppressions API:
+- Suppressions (find & delete) – [`suppressions/suppressions.py`](examples/suppressions/suppressions.py)
 
-### Email Templates API
-- [Email Templates](examples/email_templates/templates.py)
-
-### Suppressions API
-- [Suppressions](examples/suppressions/suppressions.py)
-
-### General API
-- [Account Accesses](examples/general/account_accesses.py)
-- [Accounts](examples/general/accounts.py)
-- [Billing](examples/general/billing.py)
-- [Permissions](examples/general/permissions.py)
-
-## Supported functionality
-
-This Python package offers integration with the [official API](https://api-docs.mailtrap.io/) for [Mailtrap](https://mailtrap.io).
-
-Quickly integrate Mailtrap with your Python app.
-
-Currently, with this SDK you can:
-- Email API/SMTP
-  - Send an email (Transactional and Bulk streams)
-  - Send an email with a template (Transactional and Bulk streams)
-  - Send a batch of emails (Transactional and Bulk streams)
-  - Send a batch of emails with a template (Transactional and Bulk streams)
-- Email Sandbox (Testing)
-  - Send an email
-  - Send an email with a template
-  - Send a batch of emails
-  - Send a batch of emails with a template
-  - Messages management
-  - Inboxes management
-  - Projects management
-  - Attachments management
-- Contacts
-  - Contacts management
-  - Contact Lists management
-  - Contact Fields management
-  - Contact Events management
-  - Contact Exports management
-  - Contact Imports management
-- Suppressions
-  - Suppressions management (find and delete)
-- Templates
-  - Templates management
-- General
-  - Account access management
-  - Permissions management
-  - List accounts you have access to
-  - Get current billing information
+### General API:
+- Account Accesses management – [`general/account_accesses.py`](examples/general/account_accesses.py)
+- Accounts info – [`general/accounts.py`](examples/general/accounts.py)
+- Billing info – [`general/billing.py`](examples/general/billing.py)
+- Permissions listing – [`general/permissions.py`](examples/general/permissions.py)
 
 ## Contributing
 
