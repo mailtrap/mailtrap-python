@@ -30,5 +30,7 @@ from .models.mail import MailFromTemplate
 from .models.messages import UpdateEmailMessageParams
 from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
+from .models.sending_domains import CreateSendingDomainParams
+from .models.sending_domains import SendSetupInstructionsParams
 from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams

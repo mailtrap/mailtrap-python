@@ -241,6 +241,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ### Email Templates API:
 - Templates management – [`email_templates/templates.py`](examples/email_templates/templates.py)
 
+### Sending Domains API:
+- Sending Domains – [`sending_domains/sending_domains.py`](examples/sending_domains/sending_domains.py)
+
 ### Suppressions API:
 - Suppressions (find & delete) – [`suppressions/suppressions.py`](examples/suppressions/suppressions.py)
 
