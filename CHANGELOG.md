@@ -1,3 +1,9 @@
+## [2.4.0] - 2025-12-04
+* Fix issue #52: Update README.md using new guideline by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/55
+* Fix issue #53: Add full usage in all examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/56
+* Merge functionality and examples in Readme by @yanchuk in https://github.com/mailtrap/mailtrap-python/pull/57
+* Fix issue #54: Add SendingDomainsApi, related models, tests, examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/58
+
 ## [2.3.0] - 2025-10-24
 * Fix issue #24: Add batch_send method to SendingApi, add models by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/47
 * Fix issue #42: Add GeneralApi, related models, examples, tests. by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/48
