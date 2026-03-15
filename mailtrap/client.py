@@ -38,7 +38,7 @@ class MailtrapClient:
     SANDBOX_HOST = SANDBOX_HOST
     DEFAULT_USER_AGENT = (
         f"mailtrap-python/{importlib.metadata.version('mailtrap')} "
-        "(https://github.com/railsware/mailtrap-python)"
+        "(https://github.com/mailtrap/mailtrap-python)"
     )
 
     def __init__(
