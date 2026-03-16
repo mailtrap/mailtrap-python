@@ -1,0 +1,29 @@
+mailtrap/client.py
+  99db4f8b81160cd8 76,84,92,100,108,174,176
+examples/email_logs/email_logs.py
+  99db4f8b81160cd8 10-13,31-33,61
+tests/unit/models/test_email_log_models.py
+  99db4f8b81160cd8 5-16,70-193,207
+mailtrap/models/email_logs.py
+  99db4f8b81160cd8 62,77-123,158-159,213,217,221,225,278,282,286-287,289-291
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "655c6f5a685eeac20511a59f622b0333fe0a989e",
+  "prompts": {
+    "99db4f8b81160cd8": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c38c844-441d-4c0f-9d5a-54e6beb08df4",
+        "model": "default"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 249,
+      "total_deletions": 78,
+      "accepted_lines": 213,
+      "overriden_lines": 0
+    }
+  }
+}
