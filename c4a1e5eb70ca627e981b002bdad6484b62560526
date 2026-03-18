@@ -1,0 +1,23 @@
+CHANGELOG.md
+  679630e82efc12bc 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "c4a1e5eb70ca627e981b002bdad6484b62560526",
+  "prompts": {
+    "679630e82efc12bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f306d859-3456-4286-928e-8dd4e0105ee7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
