@@ -1,3 +1,4 @@
+import importlib.metadata
 import warnings
 from typing import Optional
 from typing import Union
@@ -34,6 +35,10 @@ class MailtrapClient:
     DEFAULT_PORT = 443
     BULK_HOST = BULK_HOST
     SANDBOX_HOST = SANDBOX_HOST
+    DEFAULT_USER_AGENT = (
+        f"mailtrap-python/{importlib.metadata.version('mailtrap')} "
+        "(https://github.com/railsware/mailtrap-python)"
+    )
 
     def __init__(
         self,
@@ -44,6 +49,7 @@ class MailtrapClient:
         sandbox: bool = False,
         account_id: Optional[str] = None,
         inbox_id: Optional[str] = None,
+        user_agent: Optional[str] = None,
     ) -> None:
         self.token = token
         self.api_host = api_host
@@ -52,6 +58,9 @@ class MailtrapClient:
         self.sandbox = sandbox
         self.account_id = account_id
         self.inbox_id = inbox_id
+        self._user_agent = (
+            user_agent if user_agent is not None else self.DEFAULT_USER_AGENT
+        )
 
         self._validate_itself()
 
@@ -147,9 +156,7 @@ class MailtrapClient:
         return {
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json",
-            "User-Agent": (
-                "mailtrap-python (https://github.com/railsware/mailtrap-python)"
-            ),
+            "User-Agent": self._user_agent,
         }
 
     @property

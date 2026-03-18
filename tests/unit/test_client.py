@@ -86,7 +86,11 @@ class TestMailtrapClient:
         assert client.headers == {
             "Authorization": "Bearer fake_token",
             "Content-Type": "application/json",
-            "User-Agent": (
-                "mailtrap-python (https://github.com/railsware/mailtrap-python)"
-            ),
+            "User-Agent": mt.MailtrapClient.DEFAULT_USER_AGENT,
         }
+
+    def test_headers_should_use_custom_user_agent_when_provided(self) -> None:
+        custom_ua = "MyApp/1.0 (custom)"
+        client = self.get_client(user_agent=custom_ua)
+
+        assert client.headers["User-Agent"] == custom_ua
