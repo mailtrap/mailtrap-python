@@ -21,6 +21,17 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+        include:
+          - python: "3.9"
+            tox-env: "py39"
+          - python: "3.10"
+            tox-env: "py310"
+          - python: "3.11"
+            tox-env: "py311"
+          - python: "3.12"
+            tox-env: "py312"
+          - python: "3.13"
+            tox-env: "py313"
     steps:
       - uses: actions/checkout@v4
       - name: Setup python
@@ -30,7 +41,7 @@ jobs:
       - name: Install tox
         run: pip install tox
       - name: Run tests
-        run: tox -e py${{ matrix.python }}
+        run: tox -e ${{ matrix.tox-env }}
       - name: Run linters
         run: tox -e pre-commit
       - name: Run type checking

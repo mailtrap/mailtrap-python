@@ -24,4 +24,3 @@ class GeneralApi:
     @property
     def permissions(self) -> PermissionsApi:
         return PermissionsApi(client=self._client)
-
