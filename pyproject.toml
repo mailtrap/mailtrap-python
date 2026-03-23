@@ -23,7 +23,7 @@ dynamic = ["dependencies"]
 Homepage = "https://mailtrap.io/"
 Documentation = "https://github.com/railsware/mailtrap-python"
 Repository = "https://github.com/railsware/mailtrap-python.git"
-"API documentation" = "https://api-docs.mailtrap.io/"
+"API documentation" = "https://docs.mailtrap.io/developers"
 
 [build-system]
 requires = ["setuptools"]

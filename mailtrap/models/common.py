@@ -18,6 +18,16 @@ class RequestParams:
             TypeAdapter(type(self)).dump_python(self, by_alias=True, exclude_none=True),
         )
 
+    @property
+    def api_query_params(self: T) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in self.api_data.items():
+            if isinstance(value, list):
+                result[f"{key}[]"] = value
+            else:
+                result[key] = value
+        return result
+
 
 @dataclass
 class DeletedObject:

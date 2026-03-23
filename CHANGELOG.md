@@ -1,16 +1,24 @@
+## [Unreleased]
+
+- Add StatsApi with get, by_domain, by_category, by_email_service_provider, by_date endpoints
+- Add api_query_params to RequestParams for automatic [] serialization of list query params
+
 ## [2.4.0] - 2025-12-04
-* Fix issue #52: Update README.md using new guideline by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/55
-* Fix issue #53: Add full usage in all examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/56
-* Merge functionality and examples in Readme by @yanchuk in https://github.com/mailtrap/mailtrap-python/pull/57
-* Fix issue #54: Add SendingDomainsApi, related models, tests, examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/58
+
+- Fix issue #52: Update README.md using new guideline by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/55
+- Fix issue #53: Add full usage in all examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/56
+- Merge functionality and examples in Readme by @yanchuk in https://github.com/mailtrap/mailtrap-python/pull/57
+- Fix issue #54: Add SendingDomainsApi, related models, tests, examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/58
 
 ## [2.3.0] - 2025-10-24
-* Fix issue #24: Add batch_send method to SendingApi, add models by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/47
-* Fix issue #42: Add GeneralApi, related models, examples, tests. by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/48
-* Fix issue #41: Add ContactExportsApi, related models, tests and examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/49
-* Fix issue #45: Add ContactEventsApi, related models, tests and examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/51
+
+- Fix issue #24: Add batch_send method to SendingApi, add models by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/47
+- Fix issue #42: Add GeneralApi, related models, examples, tests. by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/48
+- Fix issue #41: Add ContactExportsApi, related models, tests and examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/49
+- Fix issue #45: Add ContactEventsApi, related models, tests and examples by @Ihor-Bilous in https://github.com/mailtrap/mailtrap-python/pull/51
 
 ## [2.2.0] - 2025-09-18
+
 - Potential fix for code scanning alert no. 1: Workflow does not contain permissions by @mklocek in https://github.com/railsware/mailtrap-python/pull/15
 - Fix issue #29. Add support of Emails Sandbox (Testing) API: Projects by @Ihor-Bilous in https://github.com/railsware/mailtrap-python/pull/31
 - Issue 25 by @Ihor-Bilous in https://github.com/railsware/mailtrap-python/pull/33
@@ -25,6 +33,7 @@
 - Fix issue #28: Add AttachmentsApi, related models, tests, examples by @Ihor-Bilous in https://github.com/railsware/mailtrap-python/pull/44
 
 ## [2.1.0] - 2025-05-12
+
 - Add sandbox mode support in MailtrapClient
   - It requires inbox_id parameter to be set
 - Add bulk mode support in MailtrapClient
@@ -32,6 +41,7 @@
 - Add support for python 3.12 - 3.13
 
 ## [2.0.1] - 2023-05-18
+
 - Add User-Agent header to all requests
 
 ## [2.0.0] - 2023-03-11

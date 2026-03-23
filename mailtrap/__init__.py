@@ -32,5 +32,6 @@ from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
 from .models.sending_domains import CreateSendingDomainParams
 from .models.sending_domains import SendSetupInstructionsParams
+from .models.stats import StatsFilterParams
 from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams

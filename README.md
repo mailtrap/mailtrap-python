@@ -247,6 +247,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ### Suppressions API:
 - Suppressions (find & delete) – [`suppressions/suppressions.py`](examples/suppressions/suppressions.py)
 
+### Stats API:
+- Sending stats – [`stats/stats.py`](examples/stats/stats.py)
+
 ### General API:
 - Account Accesses management – [`general/account_accesses.py`](examples/general/account_accesses.py)
 - Accounts info – [`general/accounts.py`](examples/general/accounts.py)
