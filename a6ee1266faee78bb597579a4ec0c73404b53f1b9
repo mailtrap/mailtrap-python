@@ -1,0 +1,23 @@
+.github/workflows/main.yml
+  c41ce2e47b7f8820 33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "a6ee1266faee78bb597579a4ec0c73404b53f1b9",
+  "prompts": {
+    "c41ce2e47b7f8820": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "49ef4111-6ef6-4ea9-9faf-ec61d0df6f00",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 22,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}
