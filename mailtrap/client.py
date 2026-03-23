@@ -8,6 +8,7 @@ from pydantic import TypeAdapter
 
 from mailtrap.api.contacts import ContactsBaseApi
 from mailtrap.api.general import GeneralApi
+from mailtrap.api.resources.stats import StatsApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.sending_domains import SendingDomainsBaseApi
 from mailtrap.api.suppressions import SuppressionsBaseApi
@@ -115,6 +116,12 @@ class MailtrapClient:
     def sending_api(self) -> SendingApi:
         http_client = HttpClient(host=self._sending_api_host, headers=self.headers)
         return SendingApi(client=http_client, inbox_id=self.inbox_id)
+
+    @property
+    def stats_api(self) -> StatsApi:
+        return StatsApi(
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
 
     def send(self, mail: BaseMail) -> SEND_ENDPOINT_RESPONSE:
         sending_response = self.sending_api.send(mail)
