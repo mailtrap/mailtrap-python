@@ -1,0 +1,23 @@
+CHANGELOG.md
+  9c25d9a51fccf066 3,5-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "1135fed98b650ba874220032f021b65af599ac6a",
+  "prompts": {
+    "9c25d9a51fccf066": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "730bb1ca-e8f1-4380-9801-9bca30782f48",
+        "model": "default"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 2,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
