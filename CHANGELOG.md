@@ -1,8 +1,10 @@
-## [Unreleased]
+## [2.5.0] - 2026-03-23
 
+- Add optional `user_agent` parameter to `MailtrapClient` to set a custom User-Agent on all requests
 - Add StatsApi with get, by_domain, by_category, by_email_service_provider, by_date endpoints
-- Add api_query_params to RequestParams for automatic [] serialization of list query params
-- List email logs (with filters & pagination) and get message by ID
+- Add `api_query_params` to `RequestParams` for automatic `[]` serialization of list query params
+- Email Logs API: list logs (with filters & pagination) and get message by ID
+- Fix PyPI project links, API documentation URLs, and default User-Agent repository URL
 
 ## [2.4.0] - 2025-12-04
 
