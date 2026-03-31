@@ -2,6 +2,7 @@
 
 - Add StatsApi with get, by_domain, by_category, by_email_service_provider, by_date endpoints
 - Add api_query_params to RequestParams for automatic [] serialization of list query params
+- List email logs (with filters & pagination) and get message by ID
 
 ## [2.4.0] - 2025-12-04
 

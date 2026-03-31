@@ -21,8 +21,8 @@ dynamic = ["dependencies"]
 
 [project.urls]
 Homepage = "https://mailtrap.io/"
-Documentation = "https://github.com/railsware/mailtrap-python"
-Repository = "https://github.com/railsware/mailtrap-python.git"
+Documentation = "https://github.com/mailtrap/mailtrap-python"
+Repository = "https://github.com/mailtrap/mailtrap-python.git"
 "API documentation" = "https://docs.mailtrap.io/developers"
 
 [build-system]

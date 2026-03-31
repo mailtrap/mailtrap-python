@@ -5,7 +5,7 @@
 
 # Official Mailtrap Python client
 
-This Python package offers integration with the [official API](https://api-docs.mailtrap.io/) for [Mailtrap](https://mailtrap.io).
+This Python package offers integration with the [official API](https://docs.mailtrap.io/developers) for [Mailtrap](https://mailtrap.io).
 
 Add email sending functionality to your Python application quickly with Mailtrap.
 
@@ -249,6 +249,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 ### Stats API:
 - Sending stats – [`stats/stats.py`](examples/stats/stats.py)
+
+### Email Logs API:
+- List email logs (with filters & pagination) and get message by ID – [`email_logs/email_logs.py`](examples/email_logs/email_logs.py)
 
 ### General API:
 - Account Accesses management – [`general/account_accesses.py`](examples/general/account_accesses.py)
