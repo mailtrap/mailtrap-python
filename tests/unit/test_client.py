@@ -47,6 +47,15 @@ class TestMailtrapClient:
 
         assert "`account_id` is required for Testing API" in str(exc_info.value)
 
+    def test_organizations_api_requires_organization_id(self) -> None:
+        client = self.get_client()
+        with pytest.raises(mt.ClientConfigurationError) as exc_info:
+            _ = client.organizations_api
+
+        assert "`organization_id` is required for Organizations API" in str(
+            exc_info.value
+        )
+
     @pytest.mark.parametrize(
         "arguments, expected_url",
         [

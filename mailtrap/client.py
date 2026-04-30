@@ -9,6 +9,7 @@ from pydantic import TypeAdapter
 from mailtrap.api.contacts import ContactsBaseApi
 from mailtrap.api.email_logs import EmailLogsBaseApi
 from mailtrap.api.general import GeneralApi
+from mailtrap.api.organizations import OrganizationsBaseApi
 from mailtrap.api.resources.stats import StatsApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.sending_domains import SendingDomainsBaseApi
@@ -51,6 +52,7 @@ class MailtrapClient:
         sandbox: bool = False,
         account_id: Optional[str] = None,
         inbox_id: Optional[str] = None,
+        organization_id: Optional[str] = None,
         user_agent: Optional[str] = None,
     ) -> None:
         self.token = token
@@ -60,6 +62,7 @@ class MailtrapClient:
         self.sandbox = sandbox
         self.account_id = account_id
         self.inbox_id = inbox_id
+        self.organization_id = organization_id
         self._user_agent = (
             user_agent if user_agent is not None else self.DEFAULT_USER_AGENT
         )
@@ -118,6 +121,14 @@ class MailtrapClient:
         self._validate_account_id("Email Logs API")
         return EmailLogsBaseApi(
             account_id=cast(str, self.account_id),
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
+    def organizations_api(self) -> OrganizationsBaseApi:
+        self._validate_organization_id("Organizations API")
+        return OrganizationsBaseApi(
+            organization_id=cast(str, self.organization_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
 
@@ -188,6 +199,12 @@ class MailtrapClient:
     def _validate_account_id(self, api_name: str = "Testing API") -> None:
         if not self.account_id:
             raise ClientConfigurationError(f"`account_id` is required for {api_name}")
+
+    def _validate_organization_id(self, api_name: str) -> None:
+        if not self.organization_id:
+            raise ClientConfigurationError(
+                f"`organization_id` is required for {api_name}"
+            )
 
     def _validate_itself(self) -> None:
         if self.sandbox and not self.inbox_id:

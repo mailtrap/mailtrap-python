@@ -33,6 +33,7 @@ from .models.mail import Disposition
 from .models.mail import Mail
 from .models.mail import MailFromTemplate
 from .models.messages import UpdateEmailMessageParams
+from .models.organizations import CreateSubAccountParams
 from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
 from .models.sending_domains import CreateSendingDomainParams
