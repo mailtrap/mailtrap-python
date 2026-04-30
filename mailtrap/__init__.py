@@ -6,6 +6,8 @@ from .exceptions import AuthorizationError
 from .exceptions import ClientConfigurationError
 from .exceptions import MailtrapError
 from .models.accounts import AccountAccessFilterParams
+from .models.api_tokens import ApiTokenResource
+from .models.api_tokens import CreateApiTokenParams
 from .models.contacts import ContactEventParams
 from .models.contacts import ContactExportFilter
 from .models.contacts import ContactListParams

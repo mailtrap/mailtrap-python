@@ -1,7 +1,10 @@
 from typing import Optional
 from typing import Union
 
+from pydantic import Field
 from pydantic.dataclasses import dataclass
+
+from mailtrap.models.common import RequestParams
 
 
 @dataclass
@@ -19,3 +22,14 @@ class ApiToken:
     created_by: str
     expires_at: Optional[str]
     resources: list[ApiTokenResource]
+
+
+@dataclass
+class ApiTokenWithToken(ApiToken):
+    token: str = ""
+
+
+@dataclass
+class CreateApiTokenParams(RequestParams):
+    name: str
+    resources: list[ApiTokenResource] = Field(default_factory=list)

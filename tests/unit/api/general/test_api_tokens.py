@@ -8,6 +8,10 @@ from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
 from mailtrap.models.api_tokens import ApiToken
+from mailtrap.models.api_tokens import ApiTokenResource
+from mailtrap.models.api_tokens import ApiTokenWithToken
+from mailtrap.models.api_tokens import CreateApiTokenParams
+from mailtrap.models.common import DeletedObject
 from tests import conftest
 
 ACCOUNT_ID = 26730
@@ -107,3 +111,224 @@ class TestApiTokensApi:
 
         assert isinstance(api_tokens, list)
         assert len(api_tokens) == 0
+
+    @pytest.mark.parametrize(
+        "status_code,response_json,expected_error_message",
+        [
+            (
+                conftest.UNAUTHORIZED_STATUS_CODE,
+                conftest.UNAUTHORIZED_RESPONSE,
+                conftest.UNAUTHORIZED_ERROR_MESSAGE,
+            ),
+            (
+                conftest.NOT_FOUND_STATUS_CODE,
+                conftest.NOT_FOUND_RESPONSE,
+                conftest.NOT_FOUND_ERROR_MESSAGE,
+            ),
+        ],
+    )
+    @responses.activate
+    def test_get_by_id_should_raise_api_errors(
+        self,
+        client: ApiTokensApi,
+        status_code: int,
+        response_json: dict,
+        expected_error_message: str,
+    ) -> None:
+        responses.get(
+            f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}",
+            status=status_code,
+            json=response_json,
+        )
+
+        with pytest.raises(APIError) as exc_info:
+            client.get_by_id(ACCOUNT_ID, API_TOKEN_ID)
+
+        assert expected_error_message in str(exc_info.value)
+
+    @responses.activate
+    def test_get_by_id_should_return_api_token(
+        self, client: ApiTokensApi, sample_api_token_dict: dict
+    ) -> None:
+        responses.get(
+            f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}",
+            json=sample_api_token_dict,
+            status=200,
+        )
+
+        api_token = client.get_by_id(ACCOUNT_ID, API_TOKEN_ID)
+
+        assert isinstance(api_token, ApiToken)
+        assert api_token.id == API_TOKEN_ID
+        assert api_token.name == "My API Token"
+        assert api_token.last_4_digits == "x7k9"
+
+    @pytest.mark.parametrize(
+        "status_code,response_json,expected_error_message",
+        [
+            (
+                conftest.UNAUTHORIZED_STATUS_CODE,
+                conftest.UNAUTHORIZED_RESPONSE,
+                conftest.UNAUTHORIZED_ERROR_MESSAGE,
+            ),
+            (
+                conftest.FORBIDDEN_STATUS_CODE,
+                conftest.FORBIDDEN_RESPONSE,
+                conftest.FORBIDDEN_ERROR_MESSAGE,
+            ),
+        ],
+    )
+    @responses.activate
+    def test_create_should_raise_api_errors(
+        self,
+        client: ApiTokensApi,
+        status_code: int,
+        response_json: dict,
+        expected_error_message: str,
+    ) -> None:
+        responses.post(
+            BASE_API_TOKENS_URL,
+            status=status_code,
+            json=response_json,
+        )
+
+        with pytest.raises(APIError) as exc_info:
+            client.create(
+                ACCOUNT_ID, CreateApiTokenParams(name="My API Token")
+            )
+
+        assert expected_error_message in str(exc_info.value)
+
+    @responses.activate
+    def test_create_should_return_api_token_with_full_token_value(
+        self, client: ApiTokensApi, sample_api_token_dict: dict
+    ) -> None:
+        responses.post(
+            BASE_API_TOKENS_URL,
+            json={**sample_api_token_dict, "token": "a1b2c3d4e5f6"},
+            status=200,
+        )
+
+        params = CreateApiTokenParams(
+            name="My API Token",
+            resources=[
+                ApiTokenResource(
+                    resource_type="account", resource_id=3229, access_level=100
+                )
+            ],
+        )
+
+        token = client.create(ACCOUNT_ID, params)
+
+        assert isinstance(token, ApiTokenWithToken)
+        assert token.id == API_TOKEN_ID
+        assert token.token == "a1b2c3d4e5f6"
+
+        assert len(responses.calls) == 1
+        assert responses.calls[0].request.body == (
+            b'{"name": "My API Token", "resources": '
+            b'[{"resource_type": "account", "resource_id": 3229, "access_level": 100}]}'
+        )
+
+    @pytest.mark.parametrize(
+        "status_code,response_json,expected_error_message",
+        [
+            (
+                conftest.UNAUTHORIZED_STATUS_CODE,
+                conftest.UNAUTHORIZED_RESPONSE,
+                conftest.UNAUTHORIZED_ERROR_MESSAGE,
+            ),
+            (
+                conftest.FORBIDDEN_STATUS_CODE,
+                conftest.FORBIDDEN_RESPONSE,
+                conftest.FORBIDDEN_ERROR_MESSAGE,
+            ),
+            (
+                conftest.NOT_FOUND_STATUS_CODE,
+                conftest.NOT_FOUND_RESPONSE,
+                conftest.NOT_FOUND_ERROR_MESSAGE,
+            ),
+        ],
+    )
+    @responses.activate
+    def test_delete_should_raise_api_errors(
+        self,
+        client: ApiTokensApi,
+        status_code: int,
+        response_json: dict,
+        expected_error_message: str,
+    ) -> None:
+        responses.delete(
+            f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}",
+            status=status_code,
+            json=response_json,
+        )
+
+        with pytest.raises(APIError) as exc_info:
+            client.delete(ACCOUNT_ID, API_TOKEN_ID)
+
+        assert expected_error_message in str(exc_info.value)
+
+    @responses.activate
+    def test_delete_should_return_deleted_object(
+        self, client: ApiTokensApi
+    ) -> None:
+        responses.delete(
+            f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}",
+            status=204,
+        )
+
+        result = client.delete(ACCOUNT_ID, API_TOKEN_ID)
+
+        assert isinstance(result, DeletedObject)
+        assert result.id == API_TOKEN_ID
+
+    @pytest.mark.parametrize(
+        "status_code,response_json,expected_error_message",
+        [
+            (
+                conftest.UNAUTHORIZED_STATUS_CODE,
+                conftest.UNAUTHORIZED_RESPONSE,
+                conftest.UNAUTHORIZED_ERROR_MESSAGE,
+            ),
+            (
+                conftest.NOT_FOUND_STATUS_CODE,
+                conftest.NOT_FOUND_RESPONSE,
+                conftest.NOT_FOUND_ERROR_MESSAGE,
+            ),
+        ],
+    )
+    @responses.activate
+    def test_reset_should_raise_api_errors(
+        self,
+        client: ApiTokensApi,
+        status_code: int,
+        response_json: dict,
+        expected_error_message: str,
+    ) -> None:
+        responses.post(
+            f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}/reset",
+            status=status_code,
+            json=response_json,
+        )
+
+        with pytest.raises(APIError) as exc_info:
+            client.reset(ACCOUNT_ID, API_TOKEN_ID)
+
+        assert expected_error_message in str(exc_info.value)
+
+    @responses.activate
+    def test_reset_should_return_api_token_with_full_token_value(
+        self, client: ApiTokensApi, sample_api_token_dict: dict
+    ) -> None:
+        responses.post(
+            f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}/reset",
+            json={**sample_api_token_dict, "token": "new-token-value"},
+            status=200,
+        )
+
+        token = client.reset(ACCOUNT_ID, API_TOKEN_ID)
+
+        assert isinstance(token, ApiTokenWithToken)
+        assert token.id == API_TOKEN_ID
+        assert token.token == "new-token-value"
