@@ -1,0 +1,39 @@
+tests/unit/test_client.py
+  6c1ebf8f63e820d9 50-58
+mailtrap/client.py
+  6c1ebf8f63e820d9 12,55,65,127-134,203-208
+mailtrap/__init__.py
+  6c1ebf8f63e820d9 36
+tests/unit/api/organizations/test_sub_accounts.py
+  6c1ebf8f63e820d9 1-158
+mailtrap/api/resources/sub_accounts.py
+  6c1ebf8f63e820d9 1-31
+README.md
+  6c1ebf8f63e820d9 259,263-264
+examples/organizations/sub_accounts.py
+  6c1ebf8f63e820d9 1-24
+mailtrap/api/organizations.py
+  6c1ebf8f63e820d9 1-14
+mailtrap/models/organizations.py
+  6c1ebf8f63e820d9 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "afcc75e3ef8ac7cba4e8be4fc29caedb7e8e556c",
+  "prompts": {
+    "6c1ebf8f63e820d9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffffb203-a039-468e-b919-581b190009d9",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 272,
+      "overriden_lines": 0
+    }
+  }
+}
