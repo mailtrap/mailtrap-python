@@ -256,6 +256,7 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ### General API:
 - Account Accesses management – [`general/account_accesses.py`](examples/general/account_accesses.py)
 - Accounts info – [`general/accounts.py`](examples/general/accounts.py)
+- API Tokens listing – [`general/api_tokens.py`](examples/general/api_tokens.py)
 - Billing info – [`general/billing.py`](examples/general/billing.py)
 - Permissions listing – [`general/permissions.py`](examples/general/permissions.py)
 

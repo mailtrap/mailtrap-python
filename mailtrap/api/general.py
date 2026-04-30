@@ -1,5 +1,6 @@
 from mailtrap.api.resources.account_accesses import AccountAccessesApi
 from mailtrap.api.resources.accounts import AccountsApi
+from mailtrap.api.resources.api_tokens import ApiTokensApi
 from mailtrap.api.resources.billing import BillingApi
 from mailtrap.api.resources.permissions import PermissionsApi
 from mailtrap.http import HttpClient
@@ -16,6 +17,10 @@ class GeneralApi:
     @property
     def account_accesses(self) -> AccountAccessesApi:
         return AccountAccessesApi(client=self._client)
+
+    @property
+    def api_tokens(self) -> ApiTokensApi:
+        return ApiTokensApi(client=self._client)
 
     @property
     def billing(self) -> BillingApi:
