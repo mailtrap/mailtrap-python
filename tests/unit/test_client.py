@@ -56,6 +56,13 @@ class TestMailtrapClient:
             exc_info.value
         )
 
+    def test_webhooks_api_requires_account_id(self) -> None:
+        client = self.get_client()
+        with pytest.raises(mt.ClientConfigurationError) as exc_info:
+            _ = client.webhooks_api
+
+        assert "`account_id` is required for Webhooks API" in str(exc_info.value)
+
     @pytest.mark.parametrize(
         "arguments, expected_url",
         [

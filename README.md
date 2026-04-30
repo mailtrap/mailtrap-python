@@ -244,6 +244,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ### Sending Domains API:
 - Sending Domains – [`sending_domains/sending_domains.py`](examples/sending_domains/sending_domains.py)
 
+### Webhooks API:
+- Webhooks management – [`webhooks/webhooks.py`](examples/webhooks/webhooks.py)
+
 ### Suppressions API:
 - Suppressions (find & delete) – [`suppressions/suppressions.py`](examples/suppressions/suppressions.py)
 

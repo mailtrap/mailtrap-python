@@ -16,6 +16,7 @@ from mailtrap.api.sending_domains import SendingDomainsBaseApi
 from mailtrap.api.suppressions import SuppressionsBaseApi
 from mailtrap.api.templates import EmailTemplatesApi
 from mailtrap.api.testing import TestingApi
+from mailtrap.api.webhooks import WebhooksBaseApi
 from mailtrap.config import BULK_HOST
 from mailtrap.config import GENERAL_HOST
 from mailtrap.config import SANDBOX_HOST
@@ -129,6 +130,14 @@ class MailtrapClient:
         self._validate_organization_id("Organizations API")
         return OrganizationsBaseApi(
             organization_id=cast(str, self.organization_id),
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
+    def webhooks_api(self) -> WebhooksBaseApi:
+        self._validate_account_id("Webhooks API")
+        return WebhooksBaseApi(
+            account_id=cast(str, self.account_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
 

@@ -41,3 +41,5 @@ from .models.sending_domains import SendSetupInstructionsParams
 from .models.stats import StatsFilterParams
 from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams
+from .models.webhooks import CreateWebhookParams
+from .models.webhooks import UpdateWebhookParams
