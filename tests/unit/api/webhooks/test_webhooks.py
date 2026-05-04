@@ -228,9 +228,7 @@ class TestWebhooksApi:
     ) -> None:
         responses.post(
             BASE_WEBHOOKS_URL,
-            json={
-                "data": {**sample_webhook_dict, "signing_secret": "a1b2c3d4"}
-            },
+            json={"data": {**sample_webhook_dict, "signing_secret": "a1b2c3d4"}},
             status=200,
         )
 
@@ -270,10 +268,7 @@ class TestWebhooksApi:
         assert isinstance(webhook, Webhook)
         assert webhook.active is False
 
-        assert (
-            responses.calls[0].request.body
-            == b'{"webhook": {"active": false}}'
-        )
+        assert responses.calls[0].request.body == b'{"webhook": {"active": false}}'
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",

@@ -193,9 +193,7 @@ class TestApiTokensApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.create(
-                ACCOUNT_ID, CreateApiTokenParams(name="My API Token")
-            )
+            client.create(ACCOUNT_ID, CreateApiTokenParams(name="My API Token"))
 
         assert expected_error_message in str(exc_info.value)
 
@@ -270,9 +268,7 @@ class TestApiTokensApi:
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_delete_should_return_deleted_object(
-        self, client: ApiTokensApi
-    ) -> None:
+    def test_delete_should_return_deleted_object(self, client: ApiTokensApi) -> None:
         responses.delete(
             f"{BASE_API_TOKENS_URL}/{API_TOKEN_ID}",
             status=204,

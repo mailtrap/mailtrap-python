@@ -50,9 +50,7 @@ class ApiTokensApi:
         permissions. The full new token value is returned once — store it
         securely. Only tokens that have not already been reset can be reset.
         """
-        response = self._client.post(
-            f"{self._api_path(account_id, api_token_id)}/reset"
-        )
+        response = self._client.post(f"{self._api_path(account_id, api_token_id)}/reset")
         return ApiTokenWithToken(**response)
 
     @staticmethod

@@ -15,9 +15,7 @@ def list_api_tokens(account_id: int) -> list[ApiToken]:
 
 
 def get_api_token(account_id: int, api_token_id: int) -> ApiToken:
-    return api_tokens_api.get_by_id(
-        account_id=account_id, api_token_id=api_token_id
-    )
+    return api_tokens_api.get_by_id(account_id=account_id, api_token_id=api_token_id)
 
 
 def create_api_token(account_id: int) -> ApiTokenWithToken:
@@ -39,15 +37,11 @@ def create_api_token(account_id: int) -> ApiTokenWithToken:
 
 def reset_api_token(account_id: int, api_token_id: int) -> ApiTokenWithToken:
     # The reset response includes the new full token value once — store it securely.
-    return api_tokens_api.reset(
-        account_id=account_id, api_token_id=api_token_id
-    )
+    return api_tokens_api.reset(account_id=account_id, api_token_id=api_token_id)
 
 
 def delete_api_token(account_id: int, api_token_id: int) -> DeletedObject:
-    return api_tokens_api.delete(
-        account_id=account_id, api_token_id=api_token_id
-    )
+    return api_tokens_api.delete(account_id=account_id, api_token_id=api_token_id)
 
 
 if __name__ == "__main__":

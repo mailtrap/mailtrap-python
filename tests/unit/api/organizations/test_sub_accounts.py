@@ -124,9 +124,7 @@ class TestSubAccountsApi:
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        responses.post(
-            BASE_SUB_ACCOUNTS_URL, status=status_code, json=response_json
-        )
+        responses.post(BASE_SUB_ACCOUNTS_URL, status=status_code, json=response_json)
 
         with pytest.raises(APIError) as exc_info:
             client.create(CreateSubAccountParams(name="New Team Account"))
@@ -143,9 +141,7 @@ class TestSubAccountsApi:
             status=200,
         )
 
-        sub_account = client.create(
-            CreateSubAccountParams(name="New Team Account")
-        )
+        sub_account = client.create(CreateSubAccountParams(name="New Team Account"))
 
         assert isinstance(sub_account, SubAccount)
         assert sub_account.id == 12347

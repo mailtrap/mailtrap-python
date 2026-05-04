@@ -41,9 +41,7 @@ class WebhooksApi:
         )
         return WebhookCreateResponse(**response).data
 
-    def update(
-        self, webhook_id: int, webhook_params: UpdateWebhookParams
-    ) -> Webhook:
+    def update(self, webhook_id: int, webhook_params: UpdateWebhookParams) -> Webhook:
         """
         Update an existing webhook. Only the fields supplied in
         `webhook_params` are sent to the API.

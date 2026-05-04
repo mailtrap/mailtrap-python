@@ -9,6 +9,4 @@ class OrganizationsBaseApi:
 
     @property
     def sub_accounts(self) -> SubAccountsApi:
-        return SubAccountsApi(
-            organization_id=self._organization_id, client=self._client
-        )
+        return SubAccountsApi(organization_id=self._organization_id, client=self._client)
