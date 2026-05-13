@@ -6,6 +6,8 @@ from .exceptions import AuthorizationError
 from .exceptions import ClientConfigurationError
 from .exceptions import MailtrapError
 from .models.accounts import AccountAccessFilterParams
+from .models.api_tokens import ApiTokenResource
+from .models.api_tokens import CreateApiTokenParams
 from .models.contacts import ContactEventParams
 from .models.contacts import ContactExportFilter
 from .models.contacts import ContactListParams
@@ -31,6 +33,7 @@ from .models.mail import Disposition
 from .models.mail import Mail
 from .models.mail import MailFromTemplate
 from .models.messages import UpdateEmailMessageParams
+from .models.organizations import CreateSubAccountParams
 from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
 from .models.sending_domains import CreateSendingDomainParams
@@ -38,3 +41,5 @@ from .models.sending_domains import SendSetupInstructionsParams
 from .models.stats import StatsFilterParams
 from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams
+from .models.webhooks import CreateWebhookParams
+from .models.webhooks import UpdateWebhookParams
