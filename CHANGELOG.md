@@ -1,3 +1,6 @@
+## [2.6.0] - 2026-05-14
+* Add missing endpoints by @IgorDobryn in https://github.com/mailtrap/mailtrap-python/pull/65
+
 ## [2.5.0] - 2026-03-23
 
 - Add optional `user_agent` parameter to `MailtrapClient` to set a custom User-Agent on all requests
