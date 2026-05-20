@@ -1,0 +1,29 @@
+mailtrap/webhooks.py
+  s_0449bc88abf963::t_a51af3bcb65a41 1-70
+examples/webhooks/verify_signature.py
+  s_0449bc88abf963::t_66e9d11dc3d7e5 1-58
+mailtrap/__init__.py
+  s_0449bc88abf963::t_8b3e43dabefde0 46
+README.md
+  s_0449bc88abf963::t_7314dfabca1ba8 249-275
+tests/unit/test_webhook_signature.py
+  s_0449bc88abf963::t_b6b13d83f6a44b 1-77,79-85,87-125
+CHANGELOG.md
+  s_0449bc88abf963::t_b6a32726d505ca 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "35b278840d89d8d230208e7d9ad4239ca092ae71",
+  "prompts": {},
+  "sessions": {
+    "s_0449bc88abf963": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "209ab809-bbe5-4b88-a3d1-6277ee8cddf5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
