@@ -43,3 +43,4 @@ from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams
 from .models.webhooks import CreateWebhookParams
 from .models.webhooks import UpdateWebhookParams
+from .webhooks import verify_signature

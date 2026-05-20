@@ -246,6 +246,32 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 ### Webhooks API:
 - Webhooks management – [`webhooks/webhooks.py`](examples/webhooks/webhooks.py)
+- Verifying webhook signatures – [`webhooks/verify_signature.py`](examples/webhooks/verify_signature.py)
+
+#### Verifying webhook signatures
+
+Mailtrap signs every outbound webhook with HMAC-SHA256 and sends the
+lowercase hex digest in the `Mailtrap-Signature` header. Verify the signature
+against the raw request body using the `signing_secret` returned when you
+created the webhook:
+
+```python
+import mailtrap as mt
+
+# `raw_body` must be the unparsed request body bytes — do NOT re-serialize
+# the parsed JSON, as that may reorder keys and invalidate the signature.
+valid = mt.verify_signature(
+    raw_body,
+    request.headers.get("Mailtrap-Signature", ""),
+    os.environ["MAILTRAP_WEBHOOK_SIGNING_SECRET"],
+)
+
+if not valid:
+    abort(401)
+```
+
+The helper performs a constant-time comparison and returns `False` (rather
+than raising) for empty, missing, or malformed signatures.
 
 ### Suppressions API:
 - Suppressions (find & delete) – [`suppressions/suppressions.py`](examples/suppressions/suppressions.py)
