@@ -12,8 +12,5 @@ signature = hmac.new(
     hashlib.sha256,
 ).hexdigest()
 
-assert mt.verify_signature(payload, signature, signing_secret) is True
-
-# Bad input never raises — it returns False:
-assert mt.verify_signature(payload, "not-hex", signing_secret) is False
-assert mt.verify_signature(payload, "", signing_secret) is False
+if not mt.verify_signature(payload, signature, signing_secret):
+    raise SystemExit("Signature verification failed!")
