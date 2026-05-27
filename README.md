@@ -246,6 +246,7 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 ### Webhooks API:
 - Webhooks management – [`webhooks/webhooks.py`](examples/webhooks/webhooks.py)
+- Verifying webhook signatures – [`webhooks/verify_signature.py`](examples/webhooks/verify_signature.py)
 
 ### Suppressions API:
 - Suppressions (find & delete) – [`suppressions/suppressions.py`](examples/suppressions/suppressions.py)
