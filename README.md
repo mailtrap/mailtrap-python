@@ -244,6 +244,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ### Sending Domains API:
 - Sending Domains – [`sending_domains/sending_domains.py`](examples/sending_domains/sending_domains.py)
 
+### Email Campaigns API:
+- Email Campaigns (list, create, get, update, delete, stats) – [`email_campaigns/email_campaigns.py`](examples/email_campaigns/email_campaigns.py)
+
 ### Webhooks API:
 - Webhooks management – [`webhooks/webhooks.py`](examples/webhooks/webhooks.py)
 - Verifying webhook signatures – [`webhooks/verify_signature.py`](examples/webhooks/verify_signature.py)
