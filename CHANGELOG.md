@@ -1,3 +1,15 @@
+## [2.6.1] - 2026-07-08
+
+## What's Changed
+* Release v2.6.0 by @IgorDobryn in https://github.com/mailtrap/mailtrap-python/pull/66
+* MT-22022: Add webhook signature verification helper by @Rabsztok in https://github.com/mailtrap/mailtrap-python/pull/67
+* Add draft-release workflow placeholder by @IgorDobryn in https://github.com/mailtrap/mailtrap-python/pull/68
+
+## New Contributors
+* @Rabsztok made their first contribution in https://github.com/mailtrap/mailtrap-python/pull/67
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-python/compare/v2.6.0...v2.6.1
+
 ## [2.6.0] - 2026-05-14
 * Add missing endpoints by @IgorDobryn in https://github.com/mailtrap/mailtrap-python/pull/65
 
