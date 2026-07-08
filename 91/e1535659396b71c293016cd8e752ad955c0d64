@@ -1,0 +1,27 @@
+.github/workflows/draft-release.yml
+  s_1cffc50029f7ac::t_d5e14ba71d179b 38-39,41,44,46-47,50,52,54,56,58,66,68-69,73-79,83,85-86
+  s_1cffc50029f7ac::t_0ecb9aadb3754a 62
+  s_1cffc50029f7ac::t_44dfe50eeda2a7 35-37,40
+  s_1cffc50029f7ac::t_7070ea8e046a64 1-2,4,18-25,28,31-34,42-43,45,48-49,51,53,55,57,59-61,63-65,67,70-72,80-82,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "91e1535659396b71c293016cd8e752ad955c0d64",
+  "prompts": {},
+  "humans": {
+    "h_32e79f74e8df76": {
+      "author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  },
+  "sessions": {
+    "s_1cffc50029f7ac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf91e2f5-c829-4299-8621-09a6e2fd9989",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
