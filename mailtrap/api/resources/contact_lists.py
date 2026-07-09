@@ -4,6 +4,7 @@ from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.contacts import ContactList
 from mailtrap.models.contacts import ContactListParams
+from mailtrap.models.contacts import ContactListsFilterParams
 
 
 class ContactListsApi:
@@ -11,9 +12,15 @@ class ContactListsApi:
         self._account_id = account_id
         self._client = client
 
-    def get_list(self) -> list[ContactList]:
-        """Get all contact lists existing in your account."""
-        response = self._client.get(self._api_path())
+    def get_list(self, search: Optional[str] = None) -> list[ContactList]:
+        """
+        Get all contact lists existing in your account.
+
+        :param search: Optionally filter lists by name
+            (case-insensitive prefix match).
+        """
+        params = ContactListsFilterParams(search=search)
+        response = self._client.get(self._api_path(), params=params.api_query_params)
         return [ContactList(**field) for field in response]
 
     def get_by_id(self, list_id: int) -> ContactList:

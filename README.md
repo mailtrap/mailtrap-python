@@ -232,7 +232,7 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 ### Contacts API:
 - Contacts management – [`contacts/contacts.py`](examples/contacts/contacts.py)
-- Contact Lists management – [`contacts/contact_lists.py`](examples/contacts/contact_lists.py)
+- Contact Lists management (list with optional `search` name filter) – [`contacts/contact_lists.py`](examples/contacts/contact_lists.py)
 - Contact Fields management – [`contacts/contact_fields.py`](examples/contacts/contact_fields.py)
 - Contact Events – [`contacts/contact_events.py`](examples/contacts/contact_events.py)
 - Contact Exports – [`contacts/contact_exports.py`](examples/contacts/contact_exports.py)

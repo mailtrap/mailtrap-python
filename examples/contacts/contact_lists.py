@@ -23,6 +23,11 @@ def list_contact_lists() -> list[ContactList]:
     return contact_lists_api.get_list()
 
 
+def search_contact_lists(search: str) -> list[ContactList]:
+    # Filter lists by name (case-insensitive prefix match).
+    return contact_lists_api.get_list(search=search)
+
+
 def get_contact_list(contact_list_id: int) -> ContactList:
     return contact_lists_api.get_by_id(contact_list_id)
 
@@ -37,6 +42,9 @@ if __name__ == "__main__":
 
     lists = list_contact_lists()
     print(lists)
+
+    matching_lists = search_contact_lists(search="news")
+    print(matching_lists)
 
     contact_list = get_contact_list(contact_list_id=created.id)
     print(contact_list)
