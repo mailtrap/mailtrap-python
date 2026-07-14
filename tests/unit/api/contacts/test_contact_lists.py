@@ -106,6 +106,24 @@ class TestContactListsApi:
         )
         assert contact_lists[0].id == LIST_ID
 
+    @responses.activate
+    def test_get_contact_lists_with_search_should_filter_by_name(
+        self, contact_lists_api: ContactListsApi, sample_contact_list_dict: dict
+    ) -> None:
+        search = "news"
+        responses.get(
+            BASE_CONTACT_LISTS_URL,
+            json=[sample_contact_list_dict],
+            status=200,
+            match=[responses.matchers.query_param_matcher({"search": search})],
+        )
+
+        contact_lists = contact_lists_api.get_list(search=search)
+
+        assert isinstance(contact_lists, list)
+        assert contact_lists[0].id == LIST_ID
+        assert responses.calls[0].request.params["search"] == search
+
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
         [

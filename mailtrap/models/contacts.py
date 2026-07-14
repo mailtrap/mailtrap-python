@@ -39,6 +39,12 @@ class ContactListParams(RequestParams):
 
 
 @dataclass
+class ContactListsFilterParams(RequestParams):
+    # Filter contact lists by name (case-insensitive prefix match).
+    search: Optional[str] = None
+
+
+@dataclass
 class ContactList:
     id: int
     name: str
