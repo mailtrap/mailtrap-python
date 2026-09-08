@@ -7,6 +7,7 @@ from mailtrap.api.resources.sub_accounts import SubAccountsApi
 from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
+from mailtrap.models.common import DeletedObject
 from mailtrap.models.organizations import CreateSubAccountParams
 from mailtrap.models.organizations import SubAccount
 from tests import conftest
@@ -152,3 +153,59 @@ class TestSubAccountsApi:
             responses.calls[0].request.body
             == b'{"account": {"name": "New Team Account"}}'
         )
+
+    @pytest.mark.parametrize(
+        "status_code,response_json,expected_error_message",
+        [
+            (
+                conftest.UNAUTHORIZED_STATUS_CODE,
+                conftest.UNAUTHORIZED_RESPONSE,
+                conftest.UNAUTHORIZED_ERROR_MESSAGE,
+            ),
+            (
+                conftest.FORBIDDEN_STATUS_CODE,
+                conftest.FORBIDDEN_RESPONSE,
+                conftest.FORBIDDEN_ERROR_MESSAGE,
+            ),
+            (
+                conftest.NOT_FOUND_STATUS_CODE,
+                conftest.NOT_FOUND_RESPONSE,
+                conftest.NOT_FOUND_ERROR_MESSAGE,
+            ),
+            (
+                conftest.RATE_LIMIT_ERROR_STATUS_CODE,
+                conftest.RATE_LIMIT_ERROR_RESPONSE,
+                conftest.RATE_LIMIT_ERROR_MESSAGE,
+            ),
+        ],
+    )
+    @responses.activate
+    def test_delete_should_raise_api_errors(
+        self,
+        client: SubAccountsApi,
+        status_code: int,
+        response_json: dict,
+        expected_error_message: str,
+    ) -> None:
+        responses.delete(
+            f"{BASE_SUB_ACCOUNTS_URL}/{SUB_ACCOUNT_ID}",
+            status=status_code,
+            json=response_json,
+        )
+
+        with pytest.raises(APIError) as exc_info:
+            client.delete(SUB_ACCOUNT_ID)
+
+        assert expected_error_message in str(exc_info.value)
+
+    @responses.activate
+    def test_delete_should_return_deleted_object(self, client: SubAccountsApi) -> None:
+        responses.delete(
+            f"{BASE_SUB_ACCOUNTS_URL}/{SUB_ACCOUNT_ID}",
+            status=204,
+        )
+
+        result = client.delete(SUB_ACCOUNT_ID)
+
+        assert isinstance(result, DeletedObject)
+        assert result.id == SUB_ACCOUNT_ID
