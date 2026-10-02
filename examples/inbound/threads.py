@@ -17,6 +17,10 @@ def list_threads(inbox_id: int) -> InboundThreadsListResponse:
     return threads_api.get_list(inbox_id)
 
 
+def search_threads(inbox_id: int, search: str) -> InboundThreadsListResponse:
+    return threads_api.get_list(inbox_id, search=search)
+
+
 def get_thread(inbox_id: int, thread_id: str) -> InboundThread:
     return threads_api.get_by_id(inbox_id, thread_id)
 
@@ -28,6 +32,7 @@ def delete_thread(inbox_id: int, thread_id: str) -> DeletedObject:
 if __name__ == "__main__":
     page = list_threads(INBOX_ID)
     print(f"{len(page.data)} of {page.total_count} threads")
+    print(search_threads(INBOX_ID, "invoice"))
 
     if page.data:
         thread_id = page.data[0].id

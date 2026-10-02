@@ -39,10 +39,14 @@ from .models.email_logs import EmailLogMessage
 from .models.email_logs import EmailLogsListFilters
 from .models.email_logs import EmailLogsListResponse
 from .models.inbound import CreateInboundFolderParams
+from .models.inbound import CreateInboundForwardRuleParams
 from .models.inbound import CreateInboundInboxParams
 from .models.inbound import ForwardInboundMessageParams
+from .models.inbound import InboundForwardRuleConditionParams
+from .models.inbound import InboundForwardRuleDestination
 from .models.inbound import ReplyInboundMessageParams
 from .models.inbound import UpdateInboundFolderParams
+from .models.inbound import UpdateInboundForwardRuleParams
 from .models.inbound import UpdateInboundInboxParams
 from .models.inboxes import CreateInboxParams
 from .models.inboxes import UpdateInboxParams

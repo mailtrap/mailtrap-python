@@ -1,11 +1,15 @@
 import pytest
 
 from mailtrap.models.inbound import CreateInboundFolderParams
+from mailtrap.models.inbound import CreateInboundForwardRuleParams
 from mailtrap.models.inbound import CreateInboundInboxParams
 from mailtrap.models.inbound import ForwardInboundMessageParams
+from mailtrap.models.inbound import InboundForwardRuleConditionParams
+from mailtrap.models.inbound import InboundForwardRuleDestination
 from mailtrap.models.inbound import InboundMessage
 from mailtrap.models.inbound import InboundThread
 from mailtrap.models.inbound import ReplyInboundMessageParams
+from mailtrap.models.inbound import UpdateInboundForwardRuleParams
 from mailtrap.models.mail.address import Address
 
 
@@ -57,6 +61,7 @@ class TestInboundResponseModels:
         assert message.from_ == "customer@example.com"
         assert message.attachments[0].download_url == "https://x/a1"
         assert message.to == []
+        assert message.forwards == []
 
     def test_thread_parses_nested_messages(self) -> None:
         thread = InboundThread(
@@ -73,3 +78,52 @@ class TestInboundResponseModels:
         )
         assert thread.messages[0].visibility_status == "placeholder"
         assert thread.messages[0].from_ is None
+
+
+class TestInboundForwardRuleParams:
+    def test_create_serializes_conditions_and_destinations(self) -> None:
+        params = CreateInboundForwardRuleParams(
+            name="Urgent",
+            conditions=[
+                InboundForwardRuleConditionParams(
+                    match_type="header",
+                    operator="not_empty",
+                    header_key="X-Priority-Level",
+                )
+            ],
+            destinations=[InboundForwardRuleDestination(email="oncall@example.com")],
+        )
+        assert params.api_data == {
+            "name": "Urgent",
+            "conditions": [
+                {
+                    "match_type": "header",
+                    "operator": "not_empty",
+                    "header_key": "X-Priority-Level",
+                }
+            ],
+            "destinations": [{"email": "oncall@example.com"}],
+        }
+
+    def test_update_omits_unset_fields(self) -> None:
+        assert UpdateInboundForwardRuleParams(name="Renamed").api_data == {
+            "name": "Renamed"
+        }
+        assert UpdateInboundForwardRuleParams().api_data == {}
+
+    def test_update_keeps_empty_lists(self) -> None:
+        params = UpdateInboundForwardRuleParams(conditions=[], destinations=[])
+        assert params.api_data == {"conditions": [], "destinations": []}
+
+    @pytest.mark.parametrize(
+        "match_type,operator", [("domain", "equal"), ("sender", "matches")]
+    )
+    def test_condition_rejects_unknown_enum_values(
+        self, match_type: str, operator: str
+    ) -> None:
+        with pytest.raises(ValueError):
+            InboundForwardRuleConditionParams(
+                match_type=match_type,  # type: ignore[arg-type]
+                operator=operator,  # type: ignore[arg-type]
+                value="x",
+            )
