@@ -1,0 +1,16 @@
+mailtrap/__init__.py
+  h_68ae9308e52348 13
+tests/unit/models/test_common.py
+  h_68ae9308e52348 7,35-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "3912aa71856570e06892b32d05db540766596dc5",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

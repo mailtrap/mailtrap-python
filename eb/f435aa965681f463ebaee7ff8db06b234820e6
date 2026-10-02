@@ -1,0 +1,16 @@
+examples/general/api_tokens.py
+  h_68ae9308e52348 34-52,98-100,112-114
+mailtrap/models/api_tokens.py
+  h_68ae9308e52348 43,57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "ebf435aa965681f463ebaee7ff8db06b234820e6",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
