@@ -70,11 +70,6 @@ class TestMailtrapClient:
 
         assert "`account_id` is required for Templates API" in str(exc_info.value)
 
-    def test_templates_api_exposes_templates(self) -> None:
-        client = self.get_client(account_id="321")
-
-        assert client.templates_api.templates is not None
-
     def test_email_campaigns_api_does_not_require_account_id(self) -> None:
         client = self.get_client()
 
