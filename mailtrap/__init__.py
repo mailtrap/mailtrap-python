@@ -5,6 +5,11 @@ from .exceptions import APIError
 from .exceptions import AuthorizationError
 from .exceptions import ClientConfigurationError
 from .exceptions import MailtrapError
+from .models.account_templates import CreateTemplateParams
+from .models.account_templates import Template
+from .models.account_templates import TemplateListParams
+from .models.account_templates import TemplateListResponse
+from .models.account_templates import UpdateTemplateParams
 from .models.accounts import AccountAccessFilterParams
 from .models.api_tokens import ApiTokenResource
 from .models.api_tokens import CreateApiTokenParams
