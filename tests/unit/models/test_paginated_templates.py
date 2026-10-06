@@ -1,8 +1,8 @@
 import pytest
 
-from mailtrap.models.account_templates import CreateTemplateParams
-from mailtrap.models.account_templates import TemplateListParams
-from mailtrap.models.account_templates import UpdateTemplateParams
+from mailtrap.models.paginated_templates import CreateTemplateParams
+from mailtrap.models.paginated_templates import TemplateListParams
+from mailtrap.models.paginated_templates import UpdateTemplateParams
 
 
 class TestTemplateListParams:

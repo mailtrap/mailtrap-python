@@ -6,16 +6,16 @@ from urllib.parse import urlparse
 import pytest
 import responses
 
-from mailtrap.api.resources.account_templates import AccountTemplatesApi
+from mailtrap.api.resources.paginated_templates import PaginatedTemplatesApi
 from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
-from mailtrap.models.account_templates import CreateTemplateParams
-from mailtrap.models.account_templates import Template
-from mailtrap.models.account_templates import TemplateListParams
-from mailtrap.models.account_templates import TemplateListResponse
-from mailtrap.models.account_templates import UpdateTemplateParams
 from mailtrap.models.common import DeletedObject
+from mailtrap.models.paginated_templates import CreateTemplateParams
+from mailtrap.models.paginated_templates import Template
+from mailtrap.models.paginated_templates import TemplateListParams
+from mailtrap.models.paginated_templates import TemplateListResponse
+from mailtrap.models.paginated_templates import UpdateTemplateParams
 from tests import conftest
 
 ACCOUNT_ID = "321"
@@ -24,8 +24,8 @@ BASE_TEMPLATES_URL = f"https://{GENERAL_HOST}/api/accounts/{ACCOUNT_ID}/template
 
 
 @pytest.fixture
-def client() -> AccountTemplatesApi:
-    return AccountTemplatesApi(account_id=ACCOUNT_ID, client=HttpClient(GENERAL_HOST))
+def client() -> PaginatedTemplatesApi:
+    return PaginatedTemplatesApi(account_id=ACCOUNT_ID, client=HttpClient(GENERAL_HOST))
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def sample_template_dict() -> dict[str, Any]:
     }
 
 
-class TestAccountTemplatesApi:
+class TestPaginatedTemplatesApi:
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -68,7 +68,7 @@ class TestAccountTemplatesApi:
     @responses.activate
     def test_get_list_should_raise_api_errors(
         self,
-        client: AccountTemplatesApi,
+        client: PaginatedTemplatesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -82,7 +82,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_get_list_should_return_templates_and_pagination(
-        self, client: AccountTemplatesApi, sample_template_dict: dict
+        self, client: PaginatedTemplatesApi, sample_template_dict: dict
     ) -> None:
         responses.get(
             BASE_TEMPLATES_URL,
@@ -118,7 +118,9 @@ class TestAccountTemplatesApi:
         assert result.pagination.next_url == f"{BASE_TEMPLATES_URL}?per_page=50&token=2"
 
     @responses.activate
-    def test_get_list_should_return_empty_list(self, client: AccountTemplatesApi) -> None:
+    def test_get_list_should_return_empty_list(
+        self, client: PaginatedTemplatesApi
+    ) -> None:
         responses.get(
             BASE_TEMPLATES_URL, json={"data": [], "pagination": {"token": 1}}, status=200
         )
@@ -130,7 +132,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_get_list_should_send_per_page_and_token_query_params(
-        self, client: AccountTemplatesApi
+        self, client: PaginatedTemplatesApi
     ) -> None:
         responses.get(BASE_TEMPLATES_URL, json={"data": [], "pagination": {}}, status=200)
 
@@ -142,7 +144,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_get_list_should_send_no_query_params_by_default(
-        self, client: AccountTemplatesApi
+        self, client: PaginatedTemplatesApi
     ) -> None:
         responses.get(BASE_TEMPLATES_URL, json={"data": [], "pagination": {}}, status=200)
 
@@ -168,7 +170,7 @@ class TestAccountTemplatesApi:
     @responses.activate
     def test_get_by_id_should_raise_api_errors(
         self,
-        client: AccountTemplatesApi,
+        client: PaginatedTemplatesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -186,7 +188,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_get_by_id_should_unwrap_data_envelope(
-        self, client: AccountTemplatesApi, sample_template_dict: dict
+        self, client: PaginatedTemplatesApi, sample_template_dict: dict
     ) -> None:
         responses.get(
             f"{BASE_TEMPLATES_URL}/{TEMPLATE_ID}",
@@ -222,7 +224,7 @@ class TestAccountTemplatesApi:
     @responses.activate
     def test_create_should_raise_api_errors(
         self,
-        client: AccountTemplatesApi,
+        client: PaginatedTemplatesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -236,7 +238,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_create_should_send_flat_body_and_unwrap_response(
-        self, client: AccountTemplatesApi, sample_template_dict: dict
+        self, client: PaginatedTemplatesApi, sample_template_dict: dict
     ) -> None:
         responses.post(
             BASE_TEMPLATES_URL, json={"data": sample_template_dict}, status=201
@@ -283,7 +285,7 @@ class TestAccountTemplatesApi:
     @responses.activate
     def test_update_should_raise_api_errors(
         self,
-        client: AccountTemplatesApi,
+        client: PaginatedTemplatesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -301,7 +303,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_update_should_patch_flat_body_and_unwrap_response(
-        self, client: AccountTemplatesApi, sample_template_dict: dict
+        self, client: PaginatedTemplatesApi, sample_template_dict: dict
     ) -> None:
         responses.patch(
             f"{BASE_TEMPLATES_URL}/{TEMPLATE_ID}",
@@ -333,7 +335,7 @@ class TestAccountTemplatesApi:
     @responses.activate
     def test_delete_should_raise_api_errors(
         self,
-        client: AccountTemplatesApi,
+        client: PaginatedTemplatesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -351,7 +353,7 @@ class TestAccountTemplatesApi:
 
     @responses.activate
     def test_delete_should_return_deleted_object(
-        self, client: AccountTemplatesApi
+        self, client: PaginatedTemplatesApi
     ) -> None:
         responses.delete(f"{BASE_TEMPLATES_URL}/{TEMPLATE_ID}", status=204)
 

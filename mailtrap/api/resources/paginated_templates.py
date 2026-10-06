@@ -1,16 +1,16 @@
 from typing import Optional
 
 from mailtrap.http import HttpClient
-from mailtrap.models.account_templates import CreateTemplateParams
-from mailtrap.models.account_templates import Template
-from mailtrap.models.account_templates import TemplateListParams
-from mailtrap.models.account_templates import TemplateListResponse
-from mailtrap.models.account_templates import TemplateResponse
-from mailtrap.models.account_templates import UpdateTemplateParams
 from mailtrap.models.common import DeletedObject
+from mailtrap.models.paginated_templates import CreateTemplateParams
+from mailtrap.models.paginated_templates import Template
+from mailtrap.models.paginated_templates import TemplateListParams
+from mailtrap.models.paginated_templates import TemplateListResponse
+from mailtrap.models.paginated_templates import TemplateResponse
+from mailtrap.models.paginated_templates import UpdateTemplateParams
 
 
-class AccountTemplatesApi:
+class PaginatedTemplatesApi:
     """
     Templates API. The ``/api/templates`` endpoints are experimental: their
     request and response shapes may change before general availability.
@@ -24,8 +24,10 @@ class AccountTemplatesApi:
         self, params: Optional[TemplateListParams] = None
     ) -> TemplateListResponse:
         """
-        List email templates in the account. ``params`` paginates the result;
-        omit it for the first page with API defaults.
+        List email templates in the account, one page at a time. Unlike the
+        ``email_templates_api`` list, it does not return every template: pass
+        ``pagination.next_token`` with the same ``per_page`` to get the next
+        page. Omit ``params`` for the first page with API defaults.
         """
         query_params = params.api_query_params if params else None
         response = self._client.get(self._api_path(), params=query_params or None)

@@ -5,11 +5,6 @@ from .exceptions import APIError
 from .exceptions import AuthorizationError
 from .exceptions import ClientConfigurationError
 from .exceptions import MailtrapError
-from .models.account_templates import CreateTemplateParams
-from .models.account_templates import Template
-from .models.account_templates import TemplateListParams
-from .models.account_templates import TemplateListResponse
-from .models.account_templates import UpdateTemplateParams
 from .models.accounts import AccountAccessFilterParams
 from .models.api_tokens import ApiTokenResource
 from .models.api_tokens import CreateApiTokenParams
@@ -63,6 +58,11 @@ from .models.mail import Mail
 from .models.mail import MailFromTemplate
 from .models.messages import UpdateEmailMessageParams
 from .models.organizations import CreateSubAccountParams
+from .models.paginated_templates import CreateTemplateParams
+from .models.paginated_templates import Template
+from .models.paginated_templates import TemplateListParams
+from .models.paginated_templates import TemplateListResponse
+from .models.paginated_templates import UpdateTemplateParams
 from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
 from .models.sending_domains import CreateSendingDomainParams

@@ -2,9 +2,9 @@ import os
 from typing import Optional
 
 import mailtrap as mt
-from mailtrap.models.account_templates import Template
-from mailtrap.models.account_templates import TemplateListResponse
 from mailtrap.models.common import DeletedObject
+from mailtrap.models.paginated_templates import Template
+from mailtrap.models.paginated_templates import TemplateListResponse
 
 API_KEY = os.environ["MAILTRAP_API_KEY"]
 ACCOUNT_ID = os.environ["MAILTRAP_ACCOUNT_ID"]

@@ -6,7 +6,6 @@ from typing import cast
 
 from pydantic import TypeAdapter
 
-from mailtrap.api.account_templates import TemplatesBaseApi
 from mailtrap.api.company_info import CompanyInfoBaseApi
 from mailtrap.api.contacts import ContactsBaseApi
 from mailtrap.api.email_campaigns import EmailCampaignsBaseApi
@@ -14,6 +13,7 @@ from mailtrap.api.email_logs import EmailLogsBaseApi
 from mailtrap.api.general import GeneralApi
 from mailtrap.api.inbound import InboundBaseApi
 from mailtrap.api.organizations import OrganizationsBaseApi
+from mailtrap.api.paginated_templates import TemplatesBaseApi
 from mailtrap.api.resources.stats import StatsApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.sending_domains import SendingDomainsBaseApi

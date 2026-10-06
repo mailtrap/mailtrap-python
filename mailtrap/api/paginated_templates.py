@@ -1,4 +1,4 @@
-from mailtrap.api.resources.account_templates import AccountTemplatesApi
+from mailtrap.api.resources.paginated_templates import PaginatedTemplatesApi
 from mailtrap.http import HttpClient
 
 
@@ -8,5 +8,5 @@ class TemplatesBaseApi:
         self._client = client
 
     @property
-    def templates(self) -> AccountTemplatesApi:
-        return AccountTemplatesApi(account_id=self._account_id, client=self._client)
+    def templates(self) -> PaginatedTemplatesApi:
+        return PaginatedTemplatesApi(account_id=self._account_id, client=self._client)
