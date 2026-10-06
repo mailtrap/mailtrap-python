@@ -12,11 +12,11 @@ class EmailTemplatesApi:
     @property
     def templates(self) -> TemplatesApi:
         """
-        Deprecated: use ``MailtrapClient.templates_api``, which serves the
-        paginated ``/api/templates`` endpoints.
+        Deprecated: use ``MailtrapClient.templates_api.templates``, which
+        serves the paginated ``/api/templates`` endpoints.
         """
         warnings.warn(
-            "EmailTemplatesApi is deprecated; use MailtrapClient.templates_api",
+            "EmailTemplatesApi is deprecated; use MailtrapClient.templates_api.templates",
             DeprecationWarning,
             stacklevel=2,
         )
