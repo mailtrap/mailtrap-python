@@ -118,9 +118,7 @@ class TestAccountTemplatesApi:
         assert result.pagination.next_url == f"{BASE_TEMPLATES_URL}?per_page=50&token=2"
 
     @responses.activate
-    def test_get_list_should_return_empty_list(
-        self, client: AccountTemplatesApi
-    ) -> None:
+    def test_get_list_should_return_empty_list(self, client: AccountTemplatesApi) -> None:
         responses.get(
             BASE_TEMPLATES_URL, json={"data": [], "pagination": {"token": 1}}, status=200
         )

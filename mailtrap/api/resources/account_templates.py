@@ -11,6 +11,11 @@ from mailtrap.models.common import DeletedObject
 
 
 class AccountTemplatesApi:
+    """
+    Templates API. The ``/api/templates`` endpoints are experimental: their
+    request and response shapes may change before general availability.
+    """
+
     def __init__(self, client: HttpClient, account_id: str) -> None:
         self._account_id = account_id
         self._client = client
@@ -36,9 +41,7 @@ class AccountTemplatesApi:
         response = self._client.post(self._api_path(), json=template_params.api_data)
         return TemplateResponse(**response).data
 
-    def update(
-        self, template_id: int, template_params: UpdateTemplateParams
-    ) -> Template:
+    def update(self, template_id: int, template_params: UpdateTemplateParams) -> Template:
         """Update an email template. Only the supplied fields are changed."""
         response = self._client.patch(
             self._api_path(template_id), json=template_params.api_data
