@@ -1,4 +1,5 @@
 from mailtrap.api.resources.inbound_folders import InboundFoldersApi
+from mailtrap.api.resources.inbound_forward_rules import InboundForwardRulesApi
 from mailtrap.api.resources.inbound_inboxes import InboundInboxesApi
 from mailtrap.api.resources.inbound_messages import InboundMessagesApi
 from mailtrap.api.resources.inbound_threads import InboundThreadsApi
@@ -24,3 +25,7 @@ class InboundBaseApi:
     @property
     def threads(self) -> InboundThreadsApi:
         return InboundThreadsApi(client=self._client)
+
+    @property
+    def forward_rules(self) -> InboundForwardRulesApi:
+        return InboundForwardRulesApi(client=self._client)

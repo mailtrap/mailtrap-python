@@ -7,6 +7,7 @@ from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.inbound import ForwardInboundMessageParams
+from mailtrap.models.inbound import InboundForwardOutcome
 from mailtrap.models.inbound import InboundMessageDetails
 from mailtrap.models.inbound import InboundMessagesListResponse
 from mailtrap.models.inbound import InboundSendResult
@@ -38,10 +39,20 @@ class TestInboundMessagesApi:
                         "from": "customer@example.com",
                         "subject": "Question",
                         "received_at": "2026-01-15T10:30:00Z",
+                        "forwards": [
+                            {
+                                "rule_id": 7,
+                                "rule_name": "Copy to support team",
+                                "destination": "team@example.com",
+                                "status": "rejected",
+                                "reason": "loop_prevention",
+                                "message_id": None,
+                            }
+                        ],
                     }
                 ],
                 "total_count": 1,
-                "last_id": MESSAGE_ID,
+                "last_id": "WzE3NzgyNDE5MDAwMDAsIjE3MDAwMDAwMDAwMDAxMjMiXQ==",
             },
             status=200,
         )
@@ -50,8 +61,14 @@ class TestInboundMessagesApi:
 
         assert isinstance(page, InboundMessagesListResponse)
         assert page.total_count == 1
-        assert page.last_id == MESSAGE_ID
+        assert page.last_id == "WzE3NzgyNDE5MDAwMDAsIjE3MDAwMDAwMDAwMDAxMjMiXQ=="
         assert page.data[0].from_ == "customer@example.com"
+        forward = page.data[0].forwards[0]
+        assert isinstance(forward, InboundForwardOutcome)
+        assert forward.rule_id == 7
+        assert forward.status == "rejected"
+        assert forward.reason == "loop_prevention"
+        assert forward.message_id is None
 
     @responses.activate
     def test_get_list_should_pass_last_id_cursor(
@@ -78,6 +95,16 @@ class TestInboundMessagesApi:
                 "received_at": "2026-01-15T10:30:00Z",
                 "html_body": "<p>Hi</p>",
                 "attachments": [{"attachment_id": "a1", "download_url": "https://x/a1"}],
+                "forwards": [
+                    {
+                        "rule_id": 7,
+                        "rule_name": "Copy to support team",
+                        "destination": "team@example.com",
+                        "status": "forwarded",
+                        "reason": None,
+                        "message_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                    }
+                ],
             },
             status=200,
         )
@@ -87,6 +114,9 @@ class TestInboundMessagesApi:
         assert isinstance(message, InboundMessageDetails)
         assert message.html_body == "<p>Hi</p>"
         assert message.attachments[0].download_url == "https://x/a1"
+        assert message.forwards[0].status == "forwarded"
+        assert message.forwards[0].destination == "team@example.com"
+        assert message.forwards[0].message_id == "f47ac10b-58cc-4372-a567-0e02b2c3d479"
 
     @responses.activate
     def test_delete_should_return_deleted_object(

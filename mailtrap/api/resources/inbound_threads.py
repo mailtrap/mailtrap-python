@@ -12,7 +12,10 @@ class InboundThreadsApi:
         self._client = client
 
     def get_list(
-        self, inbox_id: int, last_id: Optional[str] = None
+        self,
+        inbox_id: int,
+        last_id: Optional[str] = None,
+        search: Optional[str] = None,
     ) -> InboundThreadsListResponse:
         """
         List conversation threads in an inbox. Pass last_id from a previous
@@ -21,6 +24,8 @@ class InboundThreadsApi:
         params: dict[str, Any] = {}
         if last_id:
             params["last_id"] = last_id
+        if search:
+            params["search"] = search
         response = self._client.get(self._api_path(inbox_id), params=params or None)
         return InboundThreadsListResponse(**response)
 

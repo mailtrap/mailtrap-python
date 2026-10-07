@@ -14,6 +14,10 @@ from mailtrap.models.mail.address import Address
 from mailtrap.models.mail.attachment import Attachment
 
 ContentDisposition = Literal["attachment", "inline"]
+ForwardRuleMatchType = Literal["sender", "recipient", "header"]
+ForwardRuleOperator = Literal[
+    "equal", "not_equal", "contains", "starts_with", "ends_with", "empty", "not_empty"
+]
 
 # --- Attachments ---
 
@@ -55,6 +59,21 @@ class InboundInbox:
     domain_id: int
 
 
+# --- Forward outcomes ---
+
+
+@dataclass
+class InboundForwardOutcome:
+    """Forward-rule outcome for one destination of a received message."""
+
+    rule_id: int
+    destination: str
+    status: Literal["forwarded", "rejected"]
+    rule_name: Optional[str] = None
+    reason: Optional[str] = None
+    message_id: Optional[str] = None
+
+
 # --- Messages ---
 
 
@@ -81,6 +100,7 @@ class InboundMessage(BaseModel):
     received_at: str
     thread_id: Optional[str] = None
     attachments: list[InboundAttachment] = Field(default_factory=list)
+    forwards: list[InboundForwardOutcome] = Field(default_factory=list)
 
 
 class InboundMessageDetails(InboundMessage):
@@ -121,6 +141,16 @@ class InboundThreadSummary(BaseModel):
     attachments: list[InboundAttachment] = Field(default_factory=list)
 
 
+@dataclass
+class InboundThreadMessageDelivery:
+    """Delivery outcome of a sent (outbound) thread message."""
+
+    to: str
+    status: Literal["delivered", "not_delivered", "enqueued", "opted_out"]
+    delivered_at: Optional[str] = None
+    bounced_at: Optional[str] = None
+
+
 class InboundThreadMessage(BaseModel):
     """
     A message inside a thread. Only visibility_status and direction are
@@ -147,9 +177,8 @@ class InboundThreadMessage(BaseModel):
     text_body: Optional[str] = None
     html_body: Optional[str] = None
     attachments: Optional[list[InboundAttachment]] = None
-    delivery_status: Optional[str] = None
-    delivered_at: Optional[str] = None
-    bounced_at: Optional[str] = None
+    delivery: Optional[InboundThreadMessageDelivery] = None
+    forwards: Optional[list[InboundForwardOutcome]] = None
 
 
 class InboundThread(InboundThreadSummary):
@@ -172,6 +201,42 @@ class InboundSendResult:
     """Result of a reply, reply-all, or forward (sends a real email)."""
 
     message_ids: list[str] = Field(default_factory=list)
+
+
+# --- Forward rules ---
+
+
+@dataclass
+class InboundForwardRuleCondition:
+    match_type: ForwardRuleMatchType
+    operator: ForwardRuleOperator
+    value: Optional[str] = None
+    header_key: Optional[str] = None
+
+
+@dataclass
+class InboundForwardRuleDestination:
+    email: str
+
+
+@dataclass
+class InboundForwardRule:
+    id: int
+    name: str
+    created_at: str
+    updated_at: str
+    conditions: list[InboundForwardRuleCondition] = Field(default_factory=list)
+    destinations: list[InboundForwardRuleDestination] = Field(default_factory=list)
+
+
+@dataclass
+class InboundForwardRuleResponse:
+    data: InboundForwardRule
+
+
+@dataclass
+class InboundForwardRulesListResponse:
+    data: list[InboundForwardRule] = Field(default_factory=list)
 
 
 # --- Request params ---
@@ -235,3 +300,25 @@ class ForwardInboundMessageParams(_InboundMessageParams):
     def __post_init__(self) -> None:
         if not self.to:
             raise ValueError("`to` must contain at least one recipient for forward")
+
+
+@dataclass
+class InboundForwardRuleConditionParams(RequestParams):
+    match_type: ForwardRuleMatchType
+    operator: ForwardRuleOperator
+    value: Optional[str] = None
+    header_key: Optional[str] = None
+
+
+@dataclass
+class CreateInboundForwardRuleParams(RequestParams):
+    name: str
+    conditions: Optional[list[InboundForwardRuleConditionParams]] = None
+    destinations: Optional[list[InboundForwardRuleDestination]] = None
+
+
+@dataclass
+class UpdateInboundForwardRuleParams(RequestParams):
+    name: Optional[str] = None
+    conditions: Optional[list[InboundForwardRuleConditionParams]] = None
+    destinations: Optional[list[InboundForwardRuleDestination]] = None

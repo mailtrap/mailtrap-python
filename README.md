@@ -250,7 +250,8 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 - Folders management – [`inbound/folders.py`](examples/inbound/folders.py)
 - Inboxes management – [`inbound/inboxes.py`](examples/inbound/inboxes.py)
 - Messages (list/get/delete + reply/reply_all/forward) – [`inbound/messages.py`](examples/inbound/messages.py)
-- Threads (list/get/delete) – [`inbound/threads.py`](examples/inbound/threads.py)
+- Threads (list/search/get/delete) – [`inbound/threads.py`](examples/inbound/threads.py)
+- Forward rules management – [`inbound/forward_rules.py`](examples/inbound/forward_rules.py)
 
 ### Email Campaigns API:
 - Email Campaigns (list, create, get, update, delete, lifecycle actions, stats) – [`email_campaigns/email_campaigns.py`](examples/email_campaigns/email_campaigns.py)
