@@ -1,3 +1,14 @@
+## [2.11.0] - 2026-10-07
+
+## What's Changed
+* run CI on pull requests by @oshchyhol in https://github.com/mailtrap/mailtrap-python/pull/84
+* Add templates_api for the paginated /api/templates endpoints by @izikaj in https://github.com/mailtrap/mailtrap-python/pull/86
+
+## New Contributors
+* @izikaj made their first contribution in https://github.com/mailtrap/mailtrap-python/pull/86
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-python/compare/v2.10.0...v2.11.0
+
 ## [2.10.0] - 2026-08-31
 
 ## What's Changed
