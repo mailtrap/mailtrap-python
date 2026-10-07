@@ -239,6 +239,7 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 - Contact Imports – [`contacts/contact_imports.py`](examples/contacts/contact_imports.py)
 
 ### Email Templates API:
+- Templates (experimental, `/api/templates`) – [`paginated_templates/templates.py`](examples/paginated_templates/templates.py)
 - Templates management – [`email_templates/templates.py`](examples/email_templates/templates.py)
 
 ### Sending Domains API:

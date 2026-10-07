@@ -13,6 +13,7 @@ from mailtrap.api.email_logs import EmailLogsBaseApi
 from mailtrap.api.general import GeneralApi
 from mailtrap.api.inbound import InboundBaseApi
 from mailtrap.api.organizations import OrganizationsBaseApi
+from mailtrap.api.paginated_templates import TemplatesBaseApi
 from mailtrap.api.resources.stats import StatsApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.sending_domains import SendingDomainsBaseApi
@@ -99,6 +100,14 @@ class MailtrapClient:
     def email_templates_api(self) -> EmailTemplatesApi:
         self._validate_account_id("Email Templates API")
         return EmailTemplatesApi(
+            account_id=cast(str, self.account_id),
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
+    def templates_api(self) -> TemplatesBaseApi:
+        self._validate_account_id("Templates API")
+        return TemplatesBaseApi(
             account_id=cast(str, self.account_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )

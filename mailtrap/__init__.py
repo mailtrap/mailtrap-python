@@ -58,6 +58,11 @@ from .models.mail import Mail
 from .models.mail import MailFromTemplate
 from .models.messages import UpdateEmailMessageParams
 from .models.organizations import CreateSubAccountParams
+from .models.paginated_templates import CreateTemplateParams
+from .models.paginated_templates import Template
+from .models.paginated_templates import TemplateListParams
+from .models.paginated_templates import TemplateListResponse
+from .models.paginated_templates import UpdateTemplateParams
 from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
 from .models.sending_domains import CreateSendingDomainParams
