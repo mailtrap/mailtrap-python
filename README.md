@@ -278,7 +278,7 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 - Permissions listing – [`general/permissions.py`](examples/general/permissions.py)
 
 ### Organizations API:
-- Sub-Accounts management – [`organizations/sub_accounts.py`](examples/organizations/sub_accounts.py)
+- Sub-Accounts management (list, create, delete) – [`organizations/sub_accounts.py`](examples/organizations/sub_accounts.py)
 
 ## Contributing
 
