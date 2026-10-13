@@ -22,23 +22,21 @@ def client() -> MarketingStatsApi:
     return MarketingStatsApi(client=HttpClient(GENERAL_HOST))
 
 
-@pytest.fixture
-def sample_stats_dict() -> dict[str, Any]:
-    return {
-        "delivery_count": 1200,
-        "delivery_rate": 0.96,
-        "bounce_count": 50,
-        "bounce_rate": 0.04,
-        "open_count": 600,
-        "open_rate": 0.5,
-        "click_count": 240,
-        "click_rate": 0.2,
-        "spam_count": 3,
-        "spam_rate": 0.0025,
-        "unsubscription_count": 12,
-        "unsubscription_rate": 0.01,
-        "sent_count": 1250,
-    }
+SAMPLE_STATS: dict[str, Any] = {
+    "delivery_count": 1200,
+    "delivery_rate": 0.96,
+    "bounce_count": 50,
+    "bounce_rate": 0.04,
+    "open_count": 600,
+    "open_rate": 0.5,
+    "click_count": 240,
+    "click_rate": 0.2,
+    "spam_count": 3,
+    "spam_rate": 0.0025,
+    "unsubscription_count": 12,
+    "unsubscription_rate": 0.01,
+    "sent_count": 1250,
+}
 
 
 def _default_params() -> MarketingStatsFilterParams:
@@ -91,108 +89,68 @@ class TestMarketingStatsApi:
 
         assert expected_error_message in str(exc_info.value)
 
+    @pytest.mark.parametrize(
+        "stats_dict",
+        [SAMPLE_STATS, dict.fromkeys(SAMPLE_STATS, 0)],
+        ids=["with_activity", "nothing_matched"],
+    )
     @responses.activate
     def test_get_should_unwrap_data_envelope(
-        self, client: MarketingStatsApi, sample_stats_dict: dict
+        self, client: MarketingStatsApi, stats_dict: dict[str, Any]
     ) -> None:
         responses.get(
             MARKETING_STATS_URL,
-            json={"data": sample_stats_dict},
+            json={"data": stats_dict},
             status=200,
         )
 
         stats = client.get(_default_params())
 
-        assert isinstance(stats, MarketingStats)
-        assert stats.delivery_count == 1200
-        assert stats.delivery_rate == 0.96
-        assert stats.bounce_count == 50
-        assert stats.bounce_rate == 0.04
-        assert stats.open_count == 600
-        assert stats.open_rate == 0.5
-        assert stats.click_count == 240
-        assert stats.click_rate == 0.2
-        assert stats.spam_count == 3
-        assert stats.spam_rate == 0.0025
-        assert stats.unsubscription_count == 12
-        assert stats.unsubscription_rate == 0.01
-        assert stats.sent_count == 1250
+        assert stats == MarketingStats(**stats_dict)
 
+    @pytest.mark.parametrize(
+        "params,expected_query",
+        [
+            (
+                _default_params(),
+                {"start_date": ["2026-05-01"], "end_date": ["2026-05-31"]},
+            ),
+            (
+                MarketingStatsFilterParams(
+                    start_date="2026-05-01",
+                    end_date="2026-05-31",
+                    sending_domain_ids=[3938, 3939],
+                    sources=["campaigns"],
+                    email_service_providers=["Google", "Google Workspace"],
+                ),
+                {
+                    "start_date": ["2026-05-01"],
+                    "end_date": ["2026-05-31"],
+                    "sending_domain_ids[]": ["3938", "3939"],
+                    "sources[]": ["campaigns"],
+                    "email_service_providers[]": ["Google", "Google Workspace"],
+                },
+            ),
+        ],
+        ids=["dates_only", "with_filters_as_array_params"],
+    )
     @responses.activate
-    def test_get_should_send_only_dates_without_filters(
-        self, client: MarketingStatsApi, sample_stats_dict: dict
+    def test_get_should_send_query_params(
+        self,
+        client: MarketingStatsApi,
+        params: MarketingStatsFilterParams,
+        expected_query: dict[str, list[str]],
     ) -> None:
         responses.get(
             MARKETING_STATS_URL,
-            json={"data": sample_stats_dict},
+            json={"data": SAMPLE_STATS},
             status=200,
         )
 
-        client.get(_default_params())
+        client.get(params)
 
         query = parse_qs(urlparse(responses.calls[0].request.url).query)
-        assert query == {"start_date": ["2026-05-01"], "end_date": ["2026-05-31"]}
-
-    @responses.activate
-    def test_get_should_send_filters_as_array_query_params(
-        self, client: MarketingStatsApi, sample_stats_dict: dict
-    ) -> None:
-        responses.get(
-            MARKETING_STATS_URL,
-            json={"data": sample_stats_dict},
-            status=200,
-        )
-
-        client.get(
-            MarketingStatsFilterParams(
-                start_date="2026-05-01",
-                end_date="2026-05-31",
-                sending_domain_ids=[3938, 3939],
-                sources=["campaigns"],
-                email_service_providers=["Google", "Google Workspace"],
-            )
-        )
-
-        query = parse_qs(urlparse(responses.calls[0].request.url).query)
-        assert query == {
-            "start_date": ["2026-05-01"],
-            "end_date": ["2026-05-31"],
-            "sending_domain_ids[]": ["3938", "3939"],
-            "sources[]": ["campaigns"],
-            "email_service_providers[]": ["Google", "Google Workspace"],
-        }
-
-    @responses.activate
-    def test_get_should_return_zeros_when_nothing_matched(
-        self, client: MarketingStatsApi
-    ) -> None:
-        zeros = {
-            "delivery_count": 0,
-            "delivery_rate": 0,
-            "bounce_count": 0,
-            "bounce_rate": 0,
-            "open_count": 0,
-            "open_rate": 0,
-            "click_count": 0,
-            "click_rate": 0,
-            "spam_count": 0,
-            "spam_rate": 0,
-            "unsubscription_count": 0,
-            "unsubscription_rate": 0,
-            "sent_count": 0,
-        }
-        responses.get(
-            MARKETING_STATS_URL,
-            json={"data": zeros},
-            status=200,
-        )
-
-        stats = client.get(_default_params())
-
-        assert isinstance(stats, MarketingStats)
-        assert stats.sent_count == 0
-        assert stats.delivery_rate == 0.0
-        assert stats.unsubscription_rate == 0.0
+        assert query == expected_query
 
 
 class TestMarketingStatsFilterParams:

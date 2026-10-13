@@ -14,9 +14,7 @@ class MarketingStatsApi:
         together, for a date range. Email API/SMTP traffic is not included;
         ``stats_api`` reports it.
         """
-        response = self._client.get(self._api_path(), params=params.api_query_params)
+        response = self._client.get(
+            "/api/marketing/stats", params=params.api_query_params
+        )
         return MarketingStatsResponse(**response).data
-
-    @staticmethod
-    def _api_path() -> str:
-        return "/api/marketing/stats"
