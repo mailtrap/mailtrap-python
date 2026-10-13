@@ -1,0 +1,14 @@
+examples/general/api_tokens.py
+  h_68ae9308e52348 110-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "024bcc0eebcb632e8cb38a9ae9e2d4f0baabffcd",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

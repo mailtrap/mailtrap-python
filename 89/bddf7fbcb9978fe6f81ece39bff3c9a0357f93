@@ -1,0 +1,19 @@
+.github/workflows/main.yml
+  s_68685392187c7b::t_bd0feaf6f91ec2 3-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "89bddf7fbcb9978fe6f81ece39bff3c9a0357f93",
+  "prompts": {},
+  "sessions": {
+    "s_68685392187c7b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "45c63a0a-0b68-42ae-b7ed-108d78ed4d89",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

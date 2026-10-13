@@ -1,0 +1,19 @@
+examples/general/api_tokens.py
+  s_087d56d840fd5a::t_b212840c0f4ba2 56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "a11e1287b3a48e235a977643bef467a1bdcea385",
+  "prompts": {},
+  "sessions": {
+    "s_087d56d840fd5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9af45dfd-0c76-46da-81f0-ee4646ca9836",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

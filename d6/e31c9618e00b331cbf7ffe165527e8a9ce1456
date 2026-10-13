@@ -1,0 +1,29 @@
+mailtrap/models/common.py
+  s_2888372bb1c5c5::t_1484beaa7c03b3 19-20,52-63,72
+tests/unit/models/test_common.py
+  s_708c27c9751599::t_2ebbf9cb2eb073 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "d6e31c9618e00b331cbf7ffe165527e8a9ce1456",
+  "prompts": {},
+  "sessions": {
+    "s_2888372bb1c5c5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4a64d53a-0d1f-4f91-b8d8-d3627c8b1bf7",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    },
+    "s_708c27c9751599": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "12d2d338-ddf9-4e1b-905e-0cd56d158e3b",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
