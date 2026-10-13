@@ -1,0 +1,24 @@
+examples/marketing_stats/marketing_stats.py
+  s_4596293ace2ac9::t_c72a338b803c8f 2,4,16-18
+  s_4596293ace2ac9::t_37b0ee62af0ab0 31-34,40
+mailtrap/api/resources/marketing_stats.py
+  s_4596293ace2ac9::t_37b0ee62af0ab0 17-19
+tests/unit/api/marketing_stats/test_marketing_stats.py
+  s_4596293ace2ac9::t_1b5fddf4ba3d2a 25-39,92-96,99,103,109,111-136,138-142,146,150,153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1871d183dbecf14ae314ca9b006c56e809e1f346",
+  "prompts": {},
+  "sessions": {
+    "s_4596293ace2ac9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "68e107c4-0402-4437-a026-877c12994abe",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
