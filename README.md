@@ -266,6 +266,7 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 ### Stats API:
 - Sending stats – [`stats/stats.py`](examples/stats/stats.py)
+- Email Marketing stats (campaigns & automations) – [`marketing_stats/marketing_stats.py`](examples/marketing_stats/marketing_stats.py)
 
 ### Email Logs API:
 - List email logs (with filters & pagination) and get message by ID – [`email_logs/email_logs.py`](examples/email_logs/email_logs.py)
