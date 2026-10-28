@@ -12,6 +12,7 @@ from mailtrap.api.email_campaigns import EmailCampaignsBaseApi
 from mailtrap.api.email_logs import EmailLogsBaseApi
 from mailtrap.api.general import GeneralApi
 from mailtrap.api.inbound import InboundBaseApi
+from mailtrap.api.marketing_stats import MarketingStatsBaseApi
 from mailtrap.api.organizations import OrganizationsBaseApi
 from mailtrap.api.paginated_templates import TemplatesBaseApi
 from mailtrap.api.resources.stats import StatsApi
@@ -151,6 +152,12 @@ class MailtrapClient:
     @property
     def email_campaigns_api(self) -> EmailCampaignsBaseApi:
         return EmailCampaignsBaseApi(
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
+    def marketing_stats_api(self) -> MarketingStatsBaseApi:
+        return MarketingStatsBaseApi(
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
 

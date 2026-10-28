@@ -60,6 +60,7 @@ from .models.mail import BatchSendEmailParams
 from .models.mail import Disposition
 from .models.mail import Mail
 from .models.mail import MailFromTemplate
+from .models.marketing_stats import MarketingStatsFilterParams
 from .models.messages import UpdateEmailMessageParams
 from .models.organizations import CreateSubAccountParams
 from .models.paginated_templates import CreateTemplateParams
