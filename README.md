@@ -17,7 +17,7 @@ Versions of this package up to 1.0.1 were different, unrelated project, that is 
 
 ### Prerequisites
 
-- Python version 3.9+
+- Python version 3.10+
 
 ### Install package
 
@@ -309,7 +309,7 @@ To setup virtual environments, run tests and linters use:
 tox
 ```
 
-It will create virtual environments with all installed dependencies for each available python interpreter (starting from `python3.9`) on your machine.
+It will create virtual environments with all installed dependencies for each available python interpreter (starting from `python3.10`) on your machine.
 By default, they will be available in `{project}/.tox/` directory. So, for instance, to activate `python3.11` environment, run the following:
 
 ```bash
