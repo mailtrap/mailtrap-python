@@ -1,3 +1,12 @@
+## [3.0.0] - 2026-10-29
+
+## What's Changed
+* Add marketing_stats_api for GET /api/marketing/stats by @Rabsztok in https://github.com/mailtrap/mailtrap-python/pull/89
+* Drop Python 3.9 so CI runs on ubuntu-latest again by @Rabsztok in https://github.com/mailtrap/mailtrap-python/pull/90
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-python/compare/v2.11.0...v3.0.0
+
 ## [2.11.0] - 2026-10-07
 
 ## What's Changed
