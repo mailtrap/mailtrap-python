@@ -1,6 +1,7 @@
 import os
 
 import mailtrap as mt
+from mailtrap.models.common import DeletedObject
 from mailtrap.models.organizations import SubAccount
 
 API_KEY = os.environ["MAILTRAP_API_KEY"]
@@ -18,9 +19,16 @@ def create_sub_account(name: str) -> SubAccount:
     return sub_accounts_api.create(mt.CreateSubAccountParams(name=name))
 
 
+def delete_sub_account(sub_account_id: int) -> DeletedObject:
+    return sub_accounts_api.delete(sub_account_id=sub_account_id)
+
+
 if __name__ == "__main__":
     sub_accounts = list_sub_accounts()
     print(sub_accounts)
 
     created = create_sub_account("New Team Account")
     print(created)
+
+    deleted = delete_sub_account(created.id)
+    print(deleted)
