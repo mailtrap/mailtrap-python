@@ -64,9 +64,11 @@ if __name__ == "__main__":
     sandboxes = list_sandboxes()
     print(sandboxes)
 
-    project_id = client.sandbox_api.projects.get_list()[0].id
+    projects = client.sandbox_api.projects.get_list()
+    if not projects:
+        raise SystemExit("Create a project before running this example.")
     created = create_sandbox(
-        project_id=project_id, sandbox_name="example-created-sandbox"
+        project_id=projects[0].id, sandbox_name="example-created-sandbox"
     )
     print(created)
 

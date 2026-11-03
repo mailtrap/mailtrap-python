@@ -170,6 +170,16 @@ class TestSandboxesApi:
         assert isinstance(sandbox, Sandbox)
         assert sandbox.id == SANDBOX_ID
 
+    @responses.activate
+    def test_get_by_id_should_request_sandbox_url_for_id_zero(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
+    ) -> None:
+        responses.get(f"{BASE_INBOXES_URL}/0", json=sample_sandbox_dict, status=200)
+
+        sandbox = client.get_by_id(0)
+
+        assert isinstance(sandbox, Sandbox)
+
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
         [
