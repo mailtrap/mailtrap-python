@@ -233,6 +233,10 @@ class TestDomainsApi:
         assert isinstance(domain, Domain)
         assert domain.id == DOMAIN_ID
         assert domain.domain_name == "example.com"
+        assert responses.calls[0].request.body is not None
+        assert json.loads(responses.calls[0].request.body) == {
+            "sending_domain": {"domain_name": "example.com"}
+        }
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",

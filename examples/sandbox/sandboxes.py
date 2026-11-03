@@ -64,7 +64,10 @@ if __name__ == "__main__":
     sandboxes = list_sandboxes()
     print(sandboxes)
 
-    created = create_sandbox(project_id=1, sandbox_name="example-created-sandbox")
+    project_id = client.sandbox_api.projects.get_list()[0].id
+    created = create_sandbox(
+        project_id=project_id, sandbox_name="example-created-sandbox"
+    )
     print(created)
 
     sandbox_id = created.id

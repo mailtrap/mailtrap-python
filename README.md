@@ -284,7 +284,8 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ## Renamed APIs
 
 Email Sandbox inboxes are now called sandboxes, and sending domains are now called domains.
-The old names still work, but they raise a `DeprecationWarning` and will be removed in a future major release.
+The old names still work and will be removed in a future major release.
+The old client properties, methods, constructor arguments and keyword arguments raise a `DeprecationWarning`; the old model and params names are plain aliases and don't warn.
 API requests are the same with either name.
 
 | Old name | New name |

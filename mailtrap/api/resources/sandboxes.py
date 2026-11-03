@@ -83,6 +83,6 @@ class SandboxesApi:
 
     def _api_path(self, sandbox_id: Optional[int] = None) -> str:
         path = f"/api/accounts/{self._account_id}/inboxes"
-        if sandbox_id:
+        if sandbox_id is not None:
             return f"{path}/{sandbox_id}"
         return path

@@ -1,4 +1,5 @@
 import os
+from typing import Any
 from typing import Optional
 
 import mailtrap as mt
@@ -74,7 +75,7 @@ def get_message_as_eml(sandbox_id: int, message_id: str) -> str:
     return messages_api.get_message_as_eml(sandbox_id=sandbox_id, message_id=message_id)
 
 
-def get_mail_headers(sandbox_id: int, message_id: str) -> str:
+def get_mail_headers(sandbox_id: int, message_id: str) -> dict[str, Any]:
     return messages_api.get_mail_headers(sandbox_id=sandbox_id, message_id=message_id)
 
 

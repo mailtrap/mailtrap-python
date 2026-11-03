@@ -70,8 +70,10 @@ def resolve_renamed_arg(
     if old_value is None:
         return new_value
     warn_deprecated(f"{owner}({old}=...)", f"{owner}({new}=...)", stacklevel=4)
-    if new_value is not None and new_value != old_value:
+    if new_value is None:
+        return old_value
+    if str(new_value) != str(old_value):
         raise ClientConfigurationError(
             f"`{old}` and `{new}` have different values; pass only `{new}`"
         )
-    return old_value
+    return new_value

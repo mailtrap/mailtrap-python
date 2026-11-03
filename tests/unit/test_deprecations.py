@@ -128,6 +128,18 @@ def test_client_accepts_same_inbox_id_and_sandbox_id() -> None:
     assert client.sandbox_id == "12345"
 
 
+def test_client_accepts_same_inbox_id_and_sandbox_id_of_different_types() -> None:
+    with pytest.warns(DeprecationWarning, match="inbox_id"):
+        client = mt.MailtrapClient(
+            token="fake_token",
+            sandbox=True,
+            inbox_id=12345,  # type: ignore[arg-type]
+            sandbox_id="12345",
+        )
+
+    assert client.sandbox_id == "12345"
+
+
 def test_client_rejects_different_inbox_id_and_sandbox_id() -> None:
     with pytest.warns(DeprecationWarning, match="inbox_id"):
         with pytest.raises(mt.ClientConfigurationError, match="pass only `sandbox_id`"):

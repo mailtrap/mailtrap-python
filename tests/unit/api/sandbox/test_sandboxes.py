@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 import pytest
@@ -227,6 +228,10 @@ class TestSandboxesApi:
 
         assert isinstance(sandbox, Sandbox)
         assert sandbox.name == "Admin Sandbox"
+        assert responses.calls[0].request.body is not None
+        assert json.loads(responses.calls[0].request.body) == {
+            "inbox": {"name": "New Sandbox"}
+        }
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -292,6 +297,10 @@ class TestSandboxesApi:
 
         assert isinstance(sandbox, Sandbox)
         assert sandbox.name == updated_name
+        assert responses.calls[0].request.body is not None
+        assert json.loads(responses.calls[0].request.body) == {
+            "inbox": {"name": updated_name}
+        }
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
