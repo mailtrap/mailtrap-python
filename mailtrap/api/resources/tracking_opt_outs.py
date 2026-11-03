@@ -26,7 +26,7 @@ class TrackingOptOutsApi:
 
     def create(self, params: CreateTrackingOptOutParams) -> TrackingOptOut:
         """
-        Add an email address to the tracking opt-out list for a sending domain.
+        Add an email address to the tracking opt-out list for a domain.
         """
         response = self._client.post(self._api_path(), json=params.api_data)
         return TrackingOptOutResponse(**response).data

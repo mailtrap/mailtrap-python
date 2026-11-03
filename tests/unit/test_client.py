@@ -29,23 +29,35 @@ class TestMailtrapClient:
         return mt.MailtrapClient(**props)
 
     @pytest.mark.parametrize(
-        "arguments",
+        "arguments, expected_message",
         [
-            {"sandbox": True},
-            {"inbox_id": "12345"},
-            {"bulk": True, "sandbox": True, "inbox_id": "12345"},
+            ({"sandbox": True}, "`sandbox_id` is required for sandbox mode"),
+            ({"sandbox_id": "12345"}, "`sandbox_id` is not allowed in non-sandbox mode"),
+            (
+                {"bulk": True, "sandbox": True, "sandbox_id": "12345"},
+                "bulk mode is not allowed in sandbox mode",
+            ),
         ],
     )
-    def test_client_validation(self, arguments: dict[str, Any]) -> None:
-        with pytest.raises(mt.ClientConfigurationError):
+    def test_client_validation(
+        self, arguments: dict[str, Any], expected_message: str
+    ) -> None:
+        with pytest.raises(mt.ClientConfigurationError, match=expected_message):
             self.get_client(**arguments)
 
-    def test_get_testing_api_validation(self) -> None:
+    def test_sandbox_api_requires_account_id(self) -> None:
         client = self.get_client()
         with pytest.raises(mt.ClientConfigurationError) as exc_info:
-            _ = client.testing_api
+            _ = client.sandbox_api
 
-        assert "`account_id` is required for Testing API" in str(exc_info.value)
+        assert "`account_id` is required for Sandbox API" in str(exc_info.value)
+
+    def test_domains_api_requires_account_id(self) -> None:
+        client = self.get_client()
+        with pytest.raises(mt.ClientConfigurationError) as exc_info:
+            _ = client.domains_api
+
+        assert "`account_id` is required for Domains API" in str(exc_info.value)
 
     def test_organizations_api_requires_organization_id(self) -> None:
         client = self.get_client()
@@ -89,7 +101,7 @@ class TestMailtrapClient:
                 "https://example.send.com:543/api/send",
             ),
             (
-                {"api_host": "example.send.com", "sandbox": True, "inbox_id": "12345"},
+                {"api_host": "example.send.com", "sandbox": True, "sandbox_id": "12345"},
                 "https://example.send.com:443/api/send/12345",
             ),
             (
@@ -97,7 +109,7 @@ class TestMailtrapClient:
                 "https://example.send.com:443/api/send",
             ),
             (
-                {"sandbox": True, "inbox_id": "12345"},
+                {"sandbox": True, "sandbox_id": "12345"},
                 "https://sandbox.api.mailtrap.io:443/api/send/12345",
             ),
             (

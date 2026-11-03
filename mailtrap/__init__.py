@@ -22,6 +22,9 @@ from .models.contacts import CreateContactParams
 from .models.contacts import ImportContactParams
 from .models.contacts import UpdateContactFieldParams
 from .models.contacts import UpdateContactParams
+from .models.domains import CreateDomainParams
+from .models.domains import SendSetupInstructionsParams
+from .models.domains import UpdateDomainParams
 from .models.email_campaigns import CreateEmailCampaignParams
 from .models.email_campaigns import CreateEmailCampaignTemplateAttributes
 from .models.email_campaigns import EmailCampaign
@@ -70,8 +73,9 @@ from .models.paginated_templates import TemplateListResponse
 from .models.paginated_templates import UpdateTemplateParams
 from .models.permissions import PermissionResourceParams
 from .models.projects import ProjectParams
+from .models.sandboxes import CreateSandboxParams
+from .models.sandboxes import UpdateSandboxParams
 from .models.sending_domains import CreateSendingDomainParams
-from .models.sending_domains import SendSetupInstructionsParams
 from .models.sending_domains import UpdateSendingDomainParams
 from .models.stats import StatsFilterParams
 from .models.suppressions import CreateSuppressionParams

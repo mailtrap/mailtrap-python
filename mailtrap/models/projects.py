@@ -3,8 +3,8 @@ from typing import Optional
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
-from mailtrap.models.inboxes import Inbox
 from mailtrap.models.permissions import Permissions
+from mailtrap.models.sandboxes import Sandbox
 
 
 @dataclass
@@ -17,7 +17,7 @@ class ShareLinks:
 class Project:
     id: int
     name: str
-    inboxes: list[Inbox]
+    inboxes: list[Sandbox]
     permissions: Permissions
     share_links: Optional[ShareLinks] = None
 

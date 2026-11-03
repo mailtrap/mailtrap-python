@@ -3,17 +3,17 @@ from typing import Any
 import pytest
 import responses
 
-from mailtrap.api.resources.inboxes import InboxesApi
+from mailtrap.api.resources.sandboxes import SandboxesApi
 from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
-from mailtrap.models.inboxes import CreateInboxParams
-from mailtrap.models.inboxes import Inbox
-from mailtrap.models.inboxes import UpdateInboxParams
+from mailtrap.models.sandboxes import CreateSandboxParams
+from mailtrap.models.sandboxes import Sandbox
+from mailtrap.models.sandboxes import UpdateSandboxParams
 from tests import conftest
 
 ACCOUNT_ID = "321"
-INBOX_ID = 3538
+SANDBOX_ID = 3538
 PROJECT_ID = 2293
 BASE_INBOXES_URL = f"https://{GENERAL_HOST}/api/accounts/{ACCOUNT_ID}/inboxes"
 BASE_PROJECT_INBOXES_URL = (
@@ -22,15 +22,15 @@ BASE_PROJECT_INBOXES_URL = (
 
 
 @pytest.fixture
-def client() -> InboxesApi:
-    return InboxesApi(account_id=ACCOUNT_ID, client=HttpClient(GENERAL_HOST))
+def client() -> SandboxesApi:
+    return SandboxesApi(account_id=ACCOUNT_ID, client=HttpClient(GENERAL_HOST))
 
 
 @pytest.fixture
-def sample_inbox_dict() -> dict[str, Any]:
+def sample_sandbox_dict() -> dict[str, Any]:
     return {
-        "id": INBOX_ID,
-        "name": "Admin Inbox",
+        "id": SANDBOX_ID,
+        "name": "Admin Sandbox",
         "username": "b3a87978452ae1",
         "password": "6be9fcfc613a7c",
         "max_size": 0,
@@ -61,7 +61,7 @@ def sample_inbox_dict() -> dict[str, Any]:
     }
 
 
-class TestInboxesApi:
+class TestSandboxesApi:
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -81,7 +81,7 @@ class TestInboxesApi:
     @responses.activate
     def test_get_list_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -98,20 +98,20 @@ class TestInboxesApi:
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_get_list_should_return_inbox_list(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_get_list_should_return_sandbox_list(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
         responses.get(
             BASE_INBOXES_URL,
-            json=[sample_inbox_dict],
+            json=[sample_sandbox_dict],
             status=200,
         )
 
-        inboxes = client.get_list()
+        sandboxes = client.get_list()
 
-        assert isinstance(inboxes, list)
-        assert all(isinstance(i, Inbox) for i in inboxes)
-        assert inboxes[0].id == INBOX_ID
+        assert isinstance(sandboxes, list)
+        assert all(isinstance(i, Sandbox) for i in sandboxes)
+        assert sandboxes[0].id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -136,12 +136,12 @@ class TestInboxesApi:
     @responses.activate
     def test_get_by_id_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}"
         responses.get(
             url,
             status=status_code,
@@ -149,25 +149,25 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.get_by_id(INBOX_ID)
+            client.get_by_id(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_get_by_id_should_return_single_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_get_by_id_should_return_single_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}"
         responses.get(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        inbox = client.get_by_id(INBOX_ID)
+        sandbox = client.get_by_id(SANDBOX_ID)
 
-        assert isinstance(inbox, Inbox)
-        assert inbox.id == INBOX_ID
+        assert isinstance(sandbox, Sandbox)
+        assert sandbox.id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -192,7 +192,7 @@ class TestInboxesApi:
     @responses.activate
     def test_create_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
@@ -205,27 +205,28 @@ class TestInboxesApi:
 
         with pytest.raises(APIError) as exc_info:
             client.create(
-                project_id=PROJECT_ID, inbox_params=CreateInboxParams(name="New Inbox")
+                project_id=PROJECT_ID,
+                sandbox_params=CreateSandboxParams(name="New Sandbox"),
             )
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_create_should_return_new_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_create_should_return_new_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
         responses.post(
             BASE_PROJECT_INBOXES_URL,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=201,
         )
 
-        inbox = client.create(
-            project_id=PROJECT_ID, inbox_params=CreateInboxParams(name="New Inbox")
+        sandbox = client.create(
+            project_id=PROJECT_ID, sandbox_params=CreateSandboxParams(name="New Sandbox")
         )
 
-        assert isinstance(inbox, Inbox)
-        assert inbox.name == "Admin Inbox"
+        assert isinstance(sandbox, Sandbox)
+        assert sandbox.name == "Admin Sandbox"
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -250,12 +251,12 @@ class TestInboxesApi:
     @responses.activate
     def test_update_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}"
         responses.patch(
             url,
             status=status_code,
@@ -264,30 +265,33 @@ class TestInboxesApi:
 
         with pytest.raises(APIError) as exc_info:
             _ = client.update(
-                INBOX_ID, inbox_params=UpdateInboxParams(name="Updated Inbox Name")
+                SANDBOX_ID,
+                sandbox_params=UpdateSandboxParams(name="Updated Sandbox Name"),
             )
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_update_should_return_updated_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_update_should_return_updated_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}"
-        updated_name = "Updated Inbox"
-        updated_inbox_dict = sample_inbox_dict.copy()
-        updated_inbox_dict["name"] = updated_name
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}"
+        updated_name = "Updated Sandbox"
+        updated_sandbox_dict = sample_sandbox_dict.copy()
+        updated_sandbox_dict["name"] = updated_name
 
         responses.patch(
             url,
-            json=updated_inbox_dict,
+            json=updated_sandbox_dict,
             status=200,
         )
 
-        inbox = client.update(INBOX_ID, inbox_params=UpdateInboxParams(name=updated_name))
+        sandbox = client.update(
+            SANDBOX_ID, sandbox_params=UpdateSandboxParams(name=updated_name)
+        )
 
-        assert isinstance(inbox, Inbox)
-        assert inbox.name == updated_name
+        assert isinstance(sandbox, Sandbox)
+        assert sandbox.name == updated_name
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -312,12 +316,12 @@ class TestInboxesApi:
     @responses.activate
     def test_delete_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}"
         responses.delete(
             url,
             status=status_code,
@@ -325,25 +329,25 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.delete(INBOX_ID)
+            client.delete(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_delete_should_return_deleted_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_delete_should_return_deleted_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}"
         responses.delete(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        result = client.delete(INBOX_ID)
+        result = client.delete(SANDBOX_ID)
 
-        assert isinstance(result, Inbox)
-        assert result.id == INBOX_ID
+        assert isinstance(result, Sandbox)
+        assert result.id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -368,12 +372,12 @@ class TestInboxesApi:
     @responses.activate
     def test_clean_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/clean"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/clean"
         responses.patch(
             url,
             status=status_code,
@@ -381,25 +385,25 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.clean(INBOX_ID)
+            client.clean(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_clean_should_return_cleaned_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_clean_should_return_cleaned_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/clean"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/clean"
         responses.patch(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        result = client.clean(INBOX_ID)
+        result = client.clean(SANDBOX_ID)
 
-        assert isinstance(result, Inbox)
-        assert result.id == INBOX_ID
+        assert isinstance(result, Sandbox)
+        assert result.id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -424,12 +428,12 @@ class TestInboxesApi:
     @responses.activate
     def test_mark_as_read_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/all_read"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/all_read"
         responses.patch(
             url,
             status=status_code,
@@ -437,25 +441,25 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.mark_as_read(INBOX_ID)
+            client.mark_as_read(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_mark_as_read_should_return_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_mark_as_read_should_return_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/all_read"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/all_read"
         responses.patch(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        result = client.mark_as_read(INBOX_ID)
+        result = client.mark_as_read(SANDBOX_ID)
 
-        assert isinstance(result, Inbox)
-        assert result.id == INBOX_ID
+        assert isinstance(result, Sandbox)
+        assert result.id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -480,12 +484,12 @@ class TestInboxesApi:
     @responses.activate
     def test_reset_credentials_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/reset_credentials"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/reset_credentials"
         responses.patch(
             url,
             status=status_code,
@@ -493,25 +497,25 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.reset_credentials(INBOX_ID)
+            client.reset_credentials(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_reset_credentials_should_return_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_reset_credentials_should_return_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/reset_credentials"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/reset_credentials"
         responses.patch(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        result = client.reset_credentials(INBOX_ID)
+        result = client.reset_credentials(SANDBOX_ID)
 
-        assert isinstance(result, Inbox)
-        assert result.id == INBOX_ID
+        assert isinstance(result, Sandbox)
+        assert result.id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -536,12 +540,12 @@ class TestInboxesApi:
     @responses.activate
     def test_enable_email_address_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/toggle_email_username"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/toggle_email_username"
         responses.patch(
             url,
             status=status_code,
@@ -549,25 +553,25 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.enable_email_address(INBOX_ID)
+            client.enable_email_address(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_enable_email_address_should_return_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_enable_email_address_should_return_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/toggle_email_username"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/toggle_email_username"
         responses.patch(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        result = client.enable_email_address(INBOX_ID)
+        result = client.enable_email_address(SANDBOX_ID)
 
-        assert isinstance(result, Inbox)
-        assert result.id == INBOX_ID
+        assert isinstance(result, Sandbox)
+        assert result.id == SANDBOX_ID
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -592,12 +596,12 @@ class TestInboxesApi:
     @responses.activate
     def test_reset_email_username_should_raise_api_errors(
         self,
-        client: InboxesApi,
+        client: SandboxesApi,
         status_code: int,
         response_json: dict,
         expected_error_message: str,
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/reset_email_username"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/reset_email_username"
         responses.patch(
             url,
             status=status_code,
@@ -605,22 +609,22 @@ class TestInboxesApi:
         )
 
         with pytest.raises(APIError) as exc_info:
-            client.reset_email_username(INBOX_ID)
+            client.reset_email_username(SANDBOX_ID)
 
         assert expected_error_message in str(exc_info.value)
 
     @responses.activate
-    def test_reset_email_username_should_return_inbox(
-        self, client: InboxesApi, sample_inbox_dict: dict
+    def test_reset_email_username_should_return_sandbox(
+        self, client: SandboxesApi, sample_sandbox_dict: dict
     ) -> None:
-        url = f"{BASE_INBOXES_URL}/{INBOX_ID}/reset_email_username"
+        url = f"{BASE_INBOXES_URL}/{SANDBOX_ID}/reset_email_username"
         responses.patch(
             url,
-            json=sample_inbox_dict,
+            json=sample_sandbox_dict,
             status=200,
         )
 
-        result = client.reset_email_username(INBOX_ID)
+        result = client.reset_email_username(SANDBOX_ID)
 
-        assert isinstance(result, Inbox)
-        assert result.id == INBOX_ID
+        assert isinstance(result, Sandbox)
+        assert result.id == SANDBOX_ID

@@ -1,0 +1,77 @@
+import functools
+import warnings
+from typing import Callable
+from typing import Optional
+from typing import ParamSpec
+from typing import TypeVar
+
+from mailtrap.exceptions import ClientConfigurationError
+
+P = ParamSpec("P")
+R = TypeVar("R")
+T = TypeVar("T")
+
+
+def warn_deprecated(old: str, new: str, stacklevel: int = 3) -> None:
+    """
+    Emit a DeprecationWarning for a renamed name.
+
+    The default `stacklevel` points at the caller of the function that calls this one,
+    so the warning shows the user's line. Python reports a warning once per call site.
+    """
+    warnings.warn(
+        f"{old} is deprecated and will be removed in a future major release; "
+        f"use {new} instead.",
+        DeprecationWarning,
+        stacklevel=stacklevel,
+    )
+
+
+def renamed_kwargs(**old_to_new: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
+    """
+    Accept the old keyword names of renamed parameters.
+
+    An old keyword is passed on under its new name with a DeprecationWarning; passing
+    both raises TypeError. Static type checkers see only the new signature.
+    """
+
+    def decorator(func: Callable[P, R]) -> Callable[P, R]:
+        @functools.wraps(func)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            for old, new in old_to_new.items():
+                if old not in kwargs:
+                    continue
+                if new in kwargs:
+                    raise TypeError(
+                        f"{func.__qualname__}() got both '{old}' and '{new}'; "
+                        f"pass only '{new}'"
+                    )
+                warn_deprecated(
+                    f"{func.__qualname__}({old}=...)", f"{func.__qualname__}({new}=...)"
+                )
+                kwargs[new] = kwargs.pop(old)
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+def resolve_renamed_arg(
+    owner: str, old: str, old_value: Optional[T], new: str, new_value: Optional[T]
+) -> Optional[T]:
+    """
+    Return the value of a renamed constructor argument whose old name stays in the
+    signature, so code passing the old keyword still type-checks.
+
+    Passing the old one warns; passing both with different values raises
+    ClientConfigurationError.
+    """
+    if old_value is None:
+        return new_value
+    warn_deprecated(f"{owner}({old}=...)", f"{owner}({new}=...)", stacklevel=4)
+    if new_value is not None and new_value != old_value:
+        raise ClientConfigurationError(
+            f"`{old}` and `{new}` have different values; pass only `{new}`"
+        )
+    return old_value

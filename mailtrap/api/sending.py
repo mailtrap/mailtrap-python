@@ -1,5 +1,6 @@
 from typing import Optional
 
+from mailtrap._deprecation import resolve_renamed_arg
 from mailtrap.http import HttpClient
 from mailtrap.models.mail import BaseMail
 from mailtrap.models.mail import SendingMailResponse
@@ -8,13 +9,24 @@ from mailtrap.models.mail.batch_mail import BatchSendResponse
 
 
 class SendingApi:
-    def __init__(self, client: HttpClient, inbox_id: Optional[str] = None) -> None:
-        self._inbox_id = inbox_id
+    def __init__(
+        self,
+        client: HttpClient,
+        inbox_id: Optional[str] = None,
+        sandbox_id: Optional[str] = None,
+    ) -> None:
+        """
+        .. deprecated::
+            The `inbox_id` argument; use `sandbox_id` instead.
+        """
+        self._sandbox_id = resolve_renamed_arg(
+            "SendingApi", "inbox_id", inbox_id, "sandbox_id", sandbox_id
+        )
         self._client = client
 
     def _get_api_url(self, base_url: str) -> str:
-        if self._inbox_id:
-            return f"{base_url}/{self._inbox_id}"
+        if self._sandbox_id:
+            return f"{base_url}/{self._sandbox_id}"
         return base_url
 
     def send(self, mail: BaseMail) -> SendingMailResponse:

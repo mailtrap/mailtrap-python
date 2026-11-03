@@ -1,12 +1,19 @@
-from mailtrap.api.resources.sending_domains import SendingDomainsApi
-from mailtrap.http import HttpClient
+from mailtrap._deprecation import warn_deprecated
+from mailtrap.api.domains import DomainsBaseApi
+from mailtrap.api.resources.domains import DomainsApi
 
 
-class SendingDomainsBaseApi:
-    def __init__(self, client: HttpClient, account_id: str) -> None:
-        self._account_id = account_id
-        self._client = client
+class SendingDomainsBaseApi(DomainsBaseApi):
+    """
+    .. deprecated::
+        Use :class:`mailtrap.api.domains.DomainsBaseApi` instead.
+    """
 
     @property
-    def sending_domains(self) -> SendingDomainsApi:
-        return SendingDomainsApi(account_id=self._account_id, client=self._client)
+    def sending_domains(self) -> DomainsApi:
+        """
+        .. deprecated::
+            Use :attr:`domains` instead.
+        """
+        warn_deprecated("SendingDomainsBaseApi.sending_domains", "DomainsBaseApi.domains")
+        return self.domains

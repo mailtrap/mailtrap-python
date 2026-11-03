@@ -15,7 +15,7 @@ from mailtrap.models.mail.batch_mail import BatchSendResponse
 
 ACCOUNT_ID = "321"
 PROJECT_ID = 123
-INBOX_ID = "456"
+SANDBOX_ID = "456"
 
 DUMMY_ADDRESS = mt.Address(email="joe@mail.com")
 DUMMY_MAIL = mt.Mail(
@@ -189,3 +189,29 @@ class TestSendingApi:
         assert result.responses[0].message_ids == ["12345"]
         assert result.responses[1].success is False
         assert result.responses[1].errors == ["Invalid email address"]
+
+    @responses.activate
+    def test_send_should_post_to_sandbox_url_when_sandbox_id_is_set(self) -> None:
+        responses.post(
+            f"{SEND_FULL_URL}/{SANDBOX_ID}",
+            json={"success": True, "message_ids": ["12345"]},
+        )
+        api = SendingApi(client=HttpClient(SENDING_HOST), sandbox_id=SANDBOX_ID)
+
+        result = api.send(DUMMY_MAIL)
+
+        assert result.success is True
+
+    @responses.activate
+    def test_batch_send_should_post_to_sandbox_url_when_sandbox_id_is_set(
+        self,
+    ) -> None:
+        responses.post(
+            f"{BATCH_SEND_FULL_URL}/{SANDBOX_ID}",
+            json={"success": True, "responses": []},
+        )
+        api = SendingApi(client=HttpClient(SENDING_HOST), sandbox_id=SANDBOX_ID)
+
+        result = api.batch_send(DUMMY_BATCH_PARAMS)
+
+        assert result.success is True

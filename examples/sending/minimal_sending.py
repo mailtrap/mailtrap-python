@@ -19,7 +19,7 @@ def get_client(type_: SendingType) -> mt.MailtrapClient:
         return mt.MailtrapClient(token=API_KEY, bulk=True)
     elif type_ == SendingType.SANDBOX:
         return mt.MailtrapClient(
-            token=API_KEY, sandbox=True, inbox_id=os.environ["MAILTRAP_INBOX_ID"]
+            token=API_KEY, sandbox=True, sandbox_id=os.environ["MAILTRAP_SANDBOX_ID"]
         )
     raise ValueError(f"Invalid sending type: {type_}")
 

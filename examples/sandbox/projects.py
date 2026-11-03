@@ -7,7 +7,7 @@ API_KEY = os.environ["MAILTRAP_API_KEY"]
 ACCOUNT_ID = os.environ["MAILTRAP_ACCOUNT_ID"]
 
 client = mt.MailtrapClient(token=API_KEY, account_id=ACCOUNT_ID)
-projects_api = client.testing_api.projects
+projects_api = client.sandbox_api.projects
 
 
 def list_projects() -> list[Project]:

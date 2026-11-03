@@ -10,7 +10,7 @@ class PermissionsApi:
 
     def get_resources(self, account_id: int) -> list[PermissionResource]:
         """
-        Get all resources in your account (Inboxes, Projects, Domains,
+        Get all resources in your account (Sandboxes, Projects, Domains,
         Email Campaigns, Billing and Account itself) to which the token
         has admin access.
         """
