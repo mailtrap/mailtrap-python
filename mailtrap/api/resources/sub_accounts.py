@@ -32,8 +32,8 @@ class SubAccountsApi:
 
     def delete(self, sub_account_id: int) -> DeletedObject:
         """
-        Delete a sub account of the organization. Requires sub account
-        management permissions for this organization.
+        Delete a sub account of the organization. Requires organization
+        admin permissions.
 
         The sub account and all of its data are removed permanently and cannot
         be restored. Deleting the organization's last sub account also deletes
