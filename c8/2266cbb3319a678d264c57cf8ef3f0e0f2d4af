@@ -1,0 +1,23 @@
+README.md
+  s_af5366e7d13623::t_03db35fc55ea8c 20,312
+pyproject.toml
+  s_af5366e7d13623::t_8112de9587404a 18
+tox.ini
+  s_af5366e7d13623::t_d1276f4c0491d6 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c82266cbb3319a678d264c57cf8ef3f0e0f2d4af",
+  "prompts": {},
+  "sessions": {
+    "s_af5366e7d13623": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "15892136-5787-4834-867e-0041a30ef6cd",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
