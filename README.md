@@ -285,8 +285,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 Email Sandbox inboxes are now called sandboxes, and sending domains are now called domains.
 The old names still work and will be removed in a future major release.
-The old client properties, methods, constructor arguments and keyword arguments raise a `DeprecationWarning`; the old model and params names are plain aliases and don't warn.
+The old client properties, API classes, constructor arguments and keyword arguments raise a `DeprecationWarning`; the old model and params names are plain aliases and don't warn.
 API requests are the same with either name.
+Type checkers such as mypy and pyright report the old keyword arguments of the renamed methods (`inbox_id=`, `inbox_params=`, `sending_domain_id=`) as errors, because those methods' signatures show only the new names; rename them to type-check.
 
 | Old name | New name |
 |---|---|

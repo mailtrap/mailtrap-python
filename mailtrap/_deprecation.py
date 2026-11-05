@@ -1,5 +1,6 @@
 import functools
 import warnings
+from contextvars import ContextVar
 from typing import Callable
 from typing import Optional
 from typing import ParamSpec
@@ -11,6 +12,8 @@ P = ParamSpec("P")
 R = TypeVar("R")
 T = TypeVar("T")
 
+_silenced: ContextVar[bool] = ContextVar("_silenced", default=False)
+
 
 def warn_deprecated(old: str, new: str, stacklevel: int = 3) -> None:
     """
@@ -19,12 +22,28 @@ def warn_deprecated(old: str, new: str, stacklevel: int = 3) -> None:
     The default `stacklevel` points at the caller of the function that calls this one,
     so the warning shows the user's line. Python reports a warning once per call site.
     """
+    if _silenced.get():
+        return
     warnings.warn(
         f"{old} is deprecated and will be removed in a future major release; "
         f"use {new} instead.",
         DeprecationWarning,
         stacklevel=stacklevel,
     )
+
+
+def build_without_warning(cls: Callable[P, T], *args: P.args, **kwargs: P.kwargs) -> T:
+    """
+    Build a deprecated class without the DeprecationWarning its constructor raises.
+    Every warn_deprecated call is silenced while `cls(...)` runs.
+
+    For deprecated properties that have already warned, so a user's call warns once.
+    """
+    token = _silenced.set(True)
+    try:
+        return cls(*args, **kwargs)
+    finally:
+        _silenced.reset(token)
 
 
 def renamed_kwargs(**old_to_new: str) -> Callable[[Callable[P, R]], Callable[P, R]]:

@@ -3,6 +3,8 @@ The Testing, Inbox and SendingDomain names are deprecated aliases of the Sandbox
 and Domain names. Each test checks that an old name still works and warns.
 """
 
+from typing import Any
+
 import pytest
 import responses
 
@@ -30,15 +32,37 @@ from mailtrap.models import sending_domains as sending_domain_models
 ACCOUNT_ID = "321"
 SANDBOX_ID = 3538
 DOMAIN_ID = 432
-MESSAGES_URL = (
-    f"https://{GENERAL_HOST}/api/accounts/{ACCOUNT_ID}/inboxes/{SANDBOX_ID}/messages"
-)
+SANDBOXES_URL = f"https://{GENERAL_HOST}/api/accounts/{ACCOUNT_ID}/inboxes"
+MESSAGES_URL = f"{SANDBOXES_URL}/{SANDBOX_ID}/messages"
+DOMAINS_URL = f"https://{GENERAL_HOST}/api/accounts/{ACCOUNT_ID}/sending_domains"
 COMPANY_INFO_URL = f"https://{GENERAL_HOST}/api/domains/{DOMAIN_ID}/company_info"
 
 
 @pytest.fixture
 def client_with_account() -> mt.MailtrapClient:
     return mt.MailtrapClient(token="fake_token", account_id=ACCOUNT_ID)
+
+
+@pytest.mark.parametrize(
+    ("old_cls", "new_cls"),
+    [
+        (testing.TestingApi, SandboxApi),
+        (InboxesApi, SandboxesApi),
+        (SendingDomainsBaseApi, DomainsBaseApi),
+        (SendingDomainsApi, DomainsApi),
+    ],
+)
+def test_old_api_class_is_deprecated_subclass_of_new_one(
+    old_cls: type[Any], new_cls: type[Any]
+) -> None:
+    with pytest.warns(
+        DeprecationWarning,
+        match=rf"^{old_cls.__name__} is deprecated.*use {new_cls.__name__} instead",
+    ) as record:
+        api = old_cls(client=HttpClient(GENERAL_HOST), account_id=ACCOUNT_ID)
+
+    assert isinstance(api, new_cls)
+    assert record[0].filename == __file__  # points at the caller's line
 
 
 def test_testing_api_is_deprecated_alias_of_sandbox_api(
@@ -49,28 +73,28 @@ def test_testing_api_is_deprecated_alias_of_sandbox_api(
     ) as record:
         api = client_with_account.testing_api
 
-    assert isinstance(api, SandboxApi)
-    assert record[0].filename == __file__  # points at the caller's line
+    assert isinstance(api, testing.TestingApi)
+    assert len(record) == 1
+    assert record[0].filename == __file__
 
 
-def test_testing_api_inboxes_is_deprecated_alias_of_sandboxes() -> None:
-    testing_api = testing.TestingApi(
-        client=HttpClient(GENERAL_HOST), account_id=ACCOUNT_ID
-    )
+@responses.activate
+def test_testing_api_inboxes_is_deprecated_alias_of_sandboxes(
+    client_with_account: mt.MailtrapClient,
+) -> None:
+    responses.get(SANDBOXES_URL, json=[])
+    with pytest.warns(DeprecationWarning, match="testing_api"):
+        testing_api = client_with_account.testing_api
 
-    with pytest.warns(DeprecationWarning, match=r"inboxes is deprecated.*sandboxes"):
+    with pytest.warns(
+        DeprecationWarning, match=r"inboxes is deprecated.*sandboxes"
+    ) as record:
         api = testing_api.inboxes
 
-    assert isinstance(api, SandboxesApi)
-
-
-def test_inboxes_api_is_deprecated_subclass_of_sandboxes_api() -> None:
-    with pytest.warns(
-        DeprecationWarning, match=r"InboxesApi is deprecated.*SandboxesApi"
-    ):
-        api = InboxesApi(client=HttpClient(GENERAL_HOST), account_id=ACCOUNT_ID)
-
-    assert isinstance(api, SandboxesApi)
+    assert isinstance(api, InboxesApi)
+    assert len(record) == 1
+    assert api.get_list() == []
+    assert len(responses.calls) == 1
 
 
 def test_sending_domains_api_is_deprecated_alias_of_domains_api(
@@ -78,32 +102,31 @@ def test_sending_domains_api_is_deprecated_alias_of_domains_api(
 ) -> None:
     with pytest.warns(
         DeprecationWarning, match=r"sending_domains_api is deprecated.*domains_api"
-    ):
+    ) as record:
         api = client_with_account.sending_domains_api
 
-    assert isinstance(api, DomainsBaseApi)
+    assert isinstance(api, SendingDomainsBaseApi)
+    assert len(record) == 1
+    assert record[0].filename == __file__
 
 
-def test_sending_domains_is_deprecated_alias_of_domains() -> None:
-    sending_domains_api = SendingDomainsBaseApi(
-        client=HttpClient(GENERAL_HOST), account_id=ACCOUNT_ID
-    )
+@responses.activate
+def test_sending_domains_is_deprecated_alias_of_domains(
+    client_with_account: mt.MailtrapClient,
+) -> None:
+    responses.get(DOMAINS_URL, json={"data": []})
+    with pytest.warns(DeprecationWarning, match="sending_domains_api"):
+        sending_domains_api = client_with_account.sending_domains_api
 
     with pytest.warns(
         DeprecationWarning, match=r"sending_domains is deprecated.*domains"
-    ):
+    ) as record:
         api = sending_domains_api.sending_domains
 
-    assert isinstance(api, DomainsApi)
-
-
-def test_sending_domains_api_class_is_deprecated_subclass_of_domains_api() -> None:
-    with pytest.warns(
-        DeprecationWarning, match=r"SendingDomainsApi is deprecated.*DomainsApi"
-    ):
-        api = SendingDomainsApi(client=HttpClient(GENERAL_HOST), account_id=ACCOUNT_ID)
-
-    assert isinstance(api, DomainsApi)
+    assert isinstance(api, SendingDomainsApi)
+    assert len(record) == 1
+    assert api.get_list() == []
+    assert len(responses.calls) == 1
 
 
 def test_client_inbox_id_argument_is_deprecated_alias_of_sandbox_id() -> None:

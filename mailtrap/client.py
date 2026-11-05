@@ -6,6 +6,7 @@ from typing import cast
 
 from pydantic import TypeAdapter
 
+from mailtrap._deprecation import build_without_warning
 from mailtrap._deprecation import resolve_renamed_arg
 from mailtrap._deprecation import warn_deprecated
 from mailtrap.api.company_info import CompanyInfoBaseApi
@@ -115,7 +116,8 @@ class MailtrapClient:
         """
         warn_deprecated("MailtrapClient.testing_api", "MailtrapClient.sandbox_api")
         self._validate_account_id("Sandbox API")
-        return TestingApi(
+        return build_without_warning(
+            TestingApi,
             account_id=cast(str, self.account_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
@@ -170,7 +172,8 @@ class MailtrapClient:
             "MailtrapClient.sending_domains_api", "MailtrapClient.domains_api"
         )
         self._validate_account_id("Domains API")
-        return SendingDomainsBaseApi(
+        return build_without_warning(
+            SendingDomainsBaseApi,
             account_id=cast(str, self.account_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
