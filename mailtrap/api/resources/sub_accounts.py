@@ -40,6 +40,7 @@ class SubAccountsApi:
         be restored. Deleting the organization's last sub account also deletes
         the organization. A repeated call for the same sub account returns
         a 404 error.
+        A concurrent deletion of the same sub account fails with 409.
 
         Rate limit: 10 requests per minute per organization.
         """
