@@ -1,69 +1,32 @@
-from typing import Optional
+"""
+Deprecated aliases of the models in `mailtrap.models.domains`.
 
-from pydantic import Field
-from pydantic.dataclasses import dataclass
+.. deprecated::
+    `SendingDomain`, `SendingDomainPermissions`, `CreateSendingDomainParams` and
+    `UpdateSendingDomainParams` will be removed in a future major release; use
+    `Domain`, `DomainPermissions`, `CreateDomainParams` and `UpdateDomainParams`
+    from `mailtrap.models.domains` instead.
+"""
 
-from mailtrap.models.common import RequestParams
+from mailtrap.models.domains import CreateDomainParams
+from mailtrap.models.domains import DnsRecord
+from mailtrap.models.domains import Domain
+from mailtrap.models.domains import DomainPermissions
+from mailtrap.models.domains import SendSetupInstructionsParams
+from mailtrap.models.domains import SendSetupInstructionsResponse
+from mailtrap.models.domains import UpdateDomainParams
 
+SendingDomain = Domain
+SendingDomainPermissions = DomainPermissions
+CreateSendingDomainParams = CreateDomainParams
+UpdateSendingDomainParams = UpdateDomainParams
 
-@dataclass
-class SendingDomainPermissions:
-    can_read: bool
-    can_update: bool
-    can_destroy: bool
-
-
-@dataclass
-class DnsRecord:
-    key: str
-    domain: str
-    type: str
-    value: str
-    status: str
-    name: str
-
-
-@dataclass
-class SendingDomain:
-    id: int
-    domain_name: str
-    demo: bool
-    compliance_status: str
-    dns_verified: bool
-    open_tracking_enabled: bool
-    click_tracking_enabled: bool
-    auto_unsubscribe_link_enabled: bool
-    custom_domain_tracking_enabled: bool
-    health_alerts_enabled: bool
-    critical_alerts_enabled: bool
-    permissions: SendingDomainPermissions
-    alert_recipient_email: Optional[str] = None
-    dns_verified_at: Optional[str] = None
-    dns_records: list[DnsRecord] = Field(default_factory=list)
-    tracking_opt_out_enabled: Optional[bool] = None
-    inbound_enabled: Optional[bool] = None
-    inbound_verified: Optional[bool] = None
-
-
-@dataclass
-class CreateSendingDomainParams(RequestParams):
-    domain_name: str
-
-
-@dataclass
-class UpdateSendingDomainParams(RequestParams):
-    open_tracking_enabled: Optional[bool] = None
-    click_tracking_enabled: Optional[bool] = None
-    tracking_opt_out_enabled: Optional[bool] = None
-    auto_unsubscribe_link_enabled: Optional[bool] = None
-    inbound_enabled: Optional[bool] = None
-
-
-@dataclass
-class SendSetupInstructionsParams(RequestParams):
-    email: str
-
-
-@dataclass
-class SendSetupInstructionsResponse:
-    message: str
+__all__ = [
+    "CreateSendingDomainParams",
+    "DnsRecord",
+    "SendSetupInstructionsParams",
+    "SendSetupInstructionsResponse",
+    "SendingDomain",
+    "SendingDomainPermissions",
+    "UpdateSendingDomainParams",
+]

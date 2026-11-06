@@ -12,12 +12,12 @@ class ProjectsApi:
         self._client = client
 
     def get_list(self) -> list[Project]:
-        """List projects and their inboxes to which the API token has access."""
+        """List projects and their sandboxes to which the API token has access."""
         response = self._client.get(self._api_path())
         return [Project(**project) for project in response]
 
     def get_by_id(self, project_id: int) -> Project:
-        """Get the project and its inboxes."""
+        """Get the project and its sandboxes."""
         response = self._client.get(self._api_path(project_id))
         return Project(**response)
 
@@ -44,7 +44,7 @@ class ProjectsApi:
         return Project(**response)
 
     def delete(self, project_id: int) -> DeletedObject:
-        """Delete project and its inboxes."""
+        """Delete project and its sandboxes."""
         response = self._client.delete(self._api_path(project_id))
         return DeletedObject(**response)
 

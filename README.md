@@ -50,14 +50,14 @@ client.send(mail)
 ### Sandbox vs Production (easy switching)
 
 Mailtrap lets you test safely in the Email Sandbox and then switch to Production (Sending).
-Remove the inbox_id field or set it to None. Then, remove the sandbox field or set it to False.
+Remove the sandbox_id field or set it to None. Then, remove the sandbox field or set it to False.
 You can change the arguments in the code or via another way. Here is an example using environment variables.
 
 Set next environment variables:
 ```bash
 MAILTRAP_API_KEY=your_api_token # https://mailtrap.io/api-tokens
 MAILTRAP_USE_SANDBOX=true       # true/false toggle
-MAILTRAP_INBOX_ID=123456        # Only needed for sandbox
+MAILTRAP_SANDBOX_ID=123456      # Only needed for sandbox
 ```
 
 Bootstrap logic:
@@ -67,12 +67,12 @@ import mailtrap as mt
 
 API_KEY = os.environ["MAILTRAP_API_KEY"]
 IS_SANDBOX = os.environ.get("MAILTRAP_USE_SANDBOX", "true").lower() == "true"
-INBOX_ID = os.environ.get("MAILTRAP_INBOX_ID")
+SANDBOX_ID = os.environ.get("MAILTRAP_SANDBOX_ID")
 
 client = mt.MailtrapClient(
   token=API_KEY,
   sandbox=IS_SANDBOX,
-  inbox_id=INBOX_ID,  # None is ignored for production
+  sandbox_id=SANDBOX_ID,  # None is ignored for production
 )
 
 # Create mail object
@@ -224,11 +224,11 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 - Advanced sending – [`sending/advanced_sending.py`](examples/sending/advanced_sending.py)
 - Advanced batch sending – [`sending/batch_advanced_sending.py`](examples/sending/batch_advanced_sending.py)
 
-### Email Sandbox (Testing) API:
-- Attachments management – [`testing/attachments.py`](examples/testing/attachments.py)
-- Inboxes management – [`testing/inboxes.py`](examples/testing/inboxes.py)
-- Messages management – [`testing/messages.py`](examples/testing/messages.py)
-- Projects management – [`testing/projects.py`](examples/testing/projects.py)
+### Email Sandbox API:
+- Attachments management – [`sandbox/attachments.py`](examples/sandbox/attachments.py)
+- Sandboxes management – [`sandbox/sandboxes.py`](examples/sandbox/sandboxes.py)
+- Messages management – [`sandbox/messages.py`](examples/sandbox/messages.py)
+- Projects management – [`sandbox/projects.py`](examples/sandbox/projects.py)
 
 ### Contacts API:
 - Contacts management – [`contacts/contacts.py`](examples/contacts/contacts.py)
@@ -242,9 +242,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 - Templates (experimental, `/api/templates`) – [`paginated_templates/templates.py`](examples/paginated_templates/templates.py)
 - Templates management – [`email_templates/templates.py`](examples/email_templates/templates.py)
 
-### Sending Domains API:
-- Sending Domains – [`sending_domains/sending_domains.py`](examples/sending_domains/sending_domains.py)
-- Sending Domain Company Info – [`company_info/company_info.py`](examples/company_info/company_info.py)
+### Domains API:
+- Domains – [`domains/domains.py`](examples/domains/domains.py)
+- Domain Company Info – [`company_info/company_info.py`](examples/company_info/company_info.py)
 
 ### Inbound Email API:
 - Folders management – [`inbound/folders.py`](examples/inbound/folders.py)
@@ -280,6 +280,32 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 
 ### Organizations API:
 - Sub-Accounts management (list, create, delete) – [`organizations/sub_accounts.py`](examples/organizations/sub_accounts.py)
+
+## Renamed APIs
+
+Email Sandbox inboxes are now called sandboxes, and sending domains are now called domains.
+The old names still work and will be removed in a future major release.
+The old client properties, API classes, constructor arguments and keyword arguments raise a `DeprecationWarning`; the old model and params names are plain aliases and don't warn.
+API requests are the same with either name.
+Type checkers such as mypy and pyright report the old keyword arguments of the renamed methods (`inbox_id=`, `inbox_params=`, `sending_domain_id=`) as errors, because those methods' signatures show only the new names; rename them to type-check.
+
+| Old name | New name |
+|---|---|
+| `MailtrapClient(inbox_id=...)` | `MailtrapClient(sandbox_id=...)` |
+| `client.inbox_id` | `client.sandbox_id` |
+| `client.testing_api` (`TestingApi`) | `client.sandbox_api` (`SandboxApi`) |
+| `client.testing_api.inboxes` (`InboxesApi`) | `client.sandbox_api.sandboxes` (`SandboxesApi`) |
+| `inbox_id=`, `inbox_params=` keyword arguments of the sandbox, message and attachment methods | `sandbox_id=`, `sandbox_params=` |
+| `Inbox`, `CreateInboxParams`, `UpdateInboxParams` | `Sandbox`, `CreateSandboxParams`, `UpdateSandboxParams` |
+| `SendingApi(inbox_id=...)` | `SendingApi(sandbox_id=...)` |
+| `client.sending_domains_api` (`SendingDomainsBaseApi`) | `client.domains_api` (`DomainsBaseApi`) |
+| `client.sending_domains_api.sending_domains` (`SendingDomainsApi`) | `client.domains_api.domains` (`DomainsApi`) |
+| `sending_domain_id=` keyword argument of the domain and company info methods | `domain_id=` |
+| `SendingDomain`, `SendingDomainPermissions`, `CreateSendingDomainParams`, `UpdateSendingDomainParams` | `Domain`, `DomainPermissions`, `CreateDomainParams`, `UpdateDomainParams` |
+
+Fields that mirror the API response or query parameters keep their names, for example `EmailMessage.inbox_id`, `Project.inboxes` and `sending_domain_ids`. Email Inbound inboxes are not renamed.
+
+Python hides `DeprecationWarning` outside `__main__` by default. To see the warnings, run with `python -W default::DeprecationWarning`.
 
 ## Contributing
 

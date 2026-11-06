@@ -2,6 +2,7 @@ from typing import Any
 from typing import Optional
 from typing import cast
 
+from mailtrap._deprecation import renamed_kwargs
 from mailtrap.http import HttpClient
 from mailtrap.models.messages import AnalysisReport
 from mailtrap.models.messages import AnalysisReportResponse
@@ -16,44 +17,48 @@ class MessagesApi:
         self._account_id = account_id
         self._client = client
 
-    def show_message(self, inbox_id: int, message_id: int) -> EmailMessage:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def show_message(self, sandbox_id: int, message_id: int) -> EmailMessage:
         """Get email message by ID."""
-        response = self._client.get(self._api_path(inbox_id, message_id))
+        response = self._client.get(self._api_path(sandbox_id, message_id))
         return EmailMessage(**response)
 
+    @renamed_kwargs(inbox_id="sandbox_id")
     def update(
-        self, inbox_id: int, message_id: int, message_params: UpdateEmailMessageParams
+        self, sandbox_id: int, message_id: int, message_params: UpdateEmailMessageParams
     ) -> EmailMessage:
         """
         Update message attributes
         (right now only the **is_read** attribute is available for modification).
         """
         response = self._client.patch(
-            self._api_path(inbox_id, message_id),
+            self._api_path(sandbox_id, message_id),
             json={"message": message_params.api_data},
         )
         return EmailMessage(**response)
 
-    def delete(self, inbox_id: int, message_id: int) -> EmailMessage:
-        """Delete message from inbox."""
-        response = self._client.delete(self._api_path(inbox_id, message_id))
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def delete(self, sandbox_id: int, message_id: int) -> EmailMessage:
+        """Delete message from sandbox."""
+        response = self._client.delete(self._api_path(sandbox_id, message_id))
         return EmailMessage(**response)
 
+    @renamed_kwargs(inbox_id="sandbox_id")
     def get_list(
         self,
-        inbox_id: int,
+        sandbox_id: int,
         search: Optional[str] = None,
         last_id: Optional[int] = None,
         page: Optional[int] = None,
     ) -> list[EmailMessage]:
         """
-        Get messages from the inbox.
+        Get messages from the sandbox.
 
         The response contains up to 30 messages per request. You can use pagination
         parameters (`last_id` or `page`) to retrieve additional results.
 
         Args:
-            inbox_id (int): ID of the inbox to retrieve messages from.
+            sandbox_id (int): ID of the sandbox to retrieve messages from.
             search (Optional[str]):
                 Search query string. Matches `subject`, `to_email`, and `to_name`.
                 Example: `"welcome"`
@@ -84,69 +89,80 @@ class MessagesApi:
         if page:
             params["page"] = page
 
-        response = self._client.get(self._api_path(inbox_id), params=params)
+        response = self._client.get(self._api_path(sandbox_id), params=params)
         return [EmailMessage(**message) for message in response]
 
-    def forward(self, inbox_id: int, message_id: int, email: str) -> ForwardedMessage:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def forward(self, sandbox_id: int, message_id: int, email: str) -> ForwardedMessage:
         """
         Forward message to an email address.
         The email address must be confirmed by the recipient in advance.
         """
         response = self._client.post(
-            f"{self._api_path(inbox_id, message_id)}/forward", json={"email": email}
+            f"{self._api_path(sandbox_id, message_id)}/forward", json={"email": email}
         )
         return ForwardedMessage(**response)
 
-    def get_spam_report(self, inbox_id: int, message_id: int) -> SpamReport:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_spam_report(self, sandbox_id: int, message_id: int) -> SpamReport:
         """Get a brief spam report by message ID."""
-        response = self._client.get(f"{self._api_path(inbox_id, message_id)}/spam_report")
+        response = self._client.get(
+            f"{self._api_path(sandbox_id, message_id)}/spam_report"
+        )
         return SpamReport(**response["report"])
 
-    def get_html_analysis(self, inbox_id: int, message_id: int) -> AnalysisReport:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_html_analysis(self, sandbox_id: int, message_id: int) -> AnalysisReport:
         """Get a brief HTML report by message ID."""
-        response = self._client.get(f"{self._api_path(inbox_id, message_id)}/analyze")
+        response = self._client.get(f"{self._api_path(sandbox_id, message_id)}/analyze")
         return AnalysisReportResponse(**response).report
 
-    def get_text_message(self, inbox_id: int, message_id: int) -> str:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_text_message(self, sandbox_id: int, message_id: int) -> str:
         """Get text email body, if it exists."""
         return cast(
-            str, self._client.get(f"{self._api_path(inbox_id, message_id)}/body.txt")
+            str, self._client.get(f"{self._api_path(sandbox_id, message_id)}/body.txt")
         )
 
-    def get_raw_message(self, inbox_id: int, message_id: int) -> str:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_raw_message(self, sandbox_id: int, message_id: int) -> str:
         """Get raw email body."""
         return cast(
-            str, self._client.get(f"{self._api_path(inbox_id, message_id)}/body.raw")
+            str, self._client.get(f"{self._api_path(sandbox_id, message_id)}/body.raw")
         )
 
-    def get_html_source(self, inbox_id: int, message_id: int) -> str:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_html_source(self, sandbox_id: int, message_id: int) -> str:
         """Get HTML source of email."""
         return cast(
             str,
-            self._client.get(f"{self._api_path(inbox_id, message_id)}/body.htmlsource"),
+            self._client.get(f"{self._api_path(sandbox_id, message_id)}/body.htmlsource"),
         )
 
-    def get_html_message(self, inbox_id: int, message_id: int) -> str:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_html_message(self, sandbox_id: int, message_id: int) -> str:
         """Get formatted HTML email body. Not applicable for plain text emails."""
         return cast(
-            str, self._client.get(f"{self._api_path(inbox_id, message_id)}/body.html")
+            str, self._client.get(f"{self._api_path(sandbox_id, message_id)}/body.html")
         )
 
-    def get_message_as_eml(self, inbox_id: int, message_id: int) -> str:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_message_as_eml(self, sandbox_id: int, message_id: int) -> str:
         """Get email message in .eml format."""
         return cast(
-            str, self._client.get(f"{self._api_path(inbox_id, message_id)}/body.eml")
+            str, self._client.get(f"{self._api_path(sandbox_id, message_id)}/body.eml")
         )
 
-    def get_mail_headers(self, inbox_id: int, message_id: int) -> dict[str, Any]:
+    @renamed_kwargs(inbox_id="sandbox_id")
+    def get_mail_headers(self, sandbox_id: int, message_id: int) -> dict[str, Any]:
         """Get mail headers of a message."""
         response = self._client.get(
-            f"{self._api_path(inbox_id, message_id)}/mail_headers"
+            f"{self._api_path(sandbox_id, message_id)}/mail_headers"
         )
         return cast(dict[str, Any], response["headers"])
 
-    def _api_path(self, inbox_id: int, message_id: Optional[int] = None) -> str:
-        path = f"/api/accounts/{self._account_id}/inboxes/{inbox_id}/messages"
+    def _api_path(self, sandbox_id: int, message_id: Optional[int] = None) -> str:
+        path = f"/api/accounts/{self._account_id}/inboxes/{sandbox_id}/messages"
         if message_id:
             return f"{path}/{message_id}"
         return path

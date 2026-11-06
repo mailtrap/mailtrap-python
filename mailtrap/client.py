@@ -6,8 +6,12 @@ from typing import cast
 
 from pydantic import TypeAdapter
 
+from mailtrap._deprecation import build_without_warning
+from mailtrap._deprecation import resolve_renamed_arg
+from mailtrap._deprecation import warn_deprecated
 from mailtrap.api.company_info import CompanyInfoBaseApi
 from mailtrap.api.contacts import ContactsBaseApi
+from mailtrap.api.domains import DomainsBaseApi
 from mailtrap.api.email_campaigns import EmailCampaignsBaseApi
 from mailtrap.api.email_logs import EmailLogsBaseApi
 from mailtrap.api.general import GeneralApi
@@ -16,6 +20,7 @@ from mailtrap.api.marketing_stats import MarketingStatsBaseApi
 from mailtrap.api.organizations import OrganizationsBaseApi
 from mailtrap.api.paginated_templates import TemplatesBaseApi
 from mailtrap.api.resources.stats import StatsApi
+from mailtrap.api.sandbox import SandboxApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.sending_domains import SendingDomainsBaseApi
 from mailtrap.api.suppressions import SuppressionsBaseApi
@@ -61,14 +66,21 @@ class MailtrapClient:
         inbox_id: Optional[str] = None,
         organization_id: Optional[str] = None,
         user_agent: Optional[str] = None,
+        sandbox_id: Optional[str] = None,
     ) -> None:
+        """
+        .. deprecated::
+            The `inbox_id` argument; use `sandbox_id` instead.
+        """
         self.token = token
         self.api_host = api_host
         self.api_port = api_port
         self.bulk = bulk
         self.sandbox = sandbox
         self.account_id = account_id
-        self.inbox_id = inbox_id
+        self.sandbox_id = resolve_renamed_arg(
+            "MailtrapClient", "inbox_id", inbox_id, "sandbox_id", sandbox_id
+        )
         self.organization_id = organization_id
         self._user_agent = (
             user_agent if user_agent is not None else self.DEFAULT_USER_AGENT
@@ -89,11 +101,24 @@ class MailtrapClient:
         )
 
     @property
-    def testing_api(self) -> TestingApi:
-        self._validate_account_id()
-        return TestingApi(
+    def sandbox_api(self) -> SandboxApi:
+        self._validate_account_id("Sandbox API")
+        return SandboxApi(
             account_id=cast(str, self.account_id),
-            inbox_id=self.inbox_id,
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
+    def testing_api(self) -> TestingApi:
+        """
+        .. deprecated::
+            Use :attr:`sandbox_api` instead.
+        """
+        warn_deprecated("MailtrapClient.testing_api", "MailtrapClient.sandbox_api")
+        self._validate_account_id("Sandbox API")
+        return build_without_warning(
+            TestingApi,
+            account_id=cast(str, self.account_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
 
@@ -130,9 +155,25 @@ class MailtrapClient:
         )
 
     @property
+    def domains_api(self) -> DomainsBaseApi:
+        self._validate_account_id("Domains API")
+        return DomainsBaseApi(
+            account_id=cast(str, self.account_id),
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
     def sending_domains_api(self) -> SendingDomainsBaseApi:
-        self._validate_account_id("Sending Domains API")
-        return SendingDomainsBaseApi(
+        """
+        .. deprecated::
+            Use :attr:`domains_api` instead.
+        """
+        warn_deprecated(
+            "MailtrapClient.sending_domains_api", "MailtrapClient.domains_api"
+        )
+        self._validate_account_id("Domains API")
+        return build_without_warning(
+            SendingDomainsBaseApi,
             account_id=cast(str, self.account_id),
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
@@ -188,7 +229,7 @@ class MailtrapClient:
     @property
     def sending_api(self) -> SendingApi:
         http_client = HttpClient(host=self._sending_api_host, headers=self.headers)
-        return SendingApi(client=http_client, inbox_id=self.inbox_id)
+        return SendingApi(client=http_client, sandbox_id=self.sandbox_id)
 
     @property
     def stats_api(self) -> StatsApi:
@@ -227,9 +268,23 @@ class MailtrapClient:
             stacklevel=2,
         )
         url = f"{self.base_url}/api/send"
-        if self.sandbox and self.inbox_id:
-            return f"{url}/{self.inbox_id}"
+        if self.sandbox and self.sandbox_id:
+            return f"{url}/{self.sandbox_id}"
         return url
+
+    @property
+    def inbox_id(self) -> Optional[str]:
+        """
+        .. deprecated::
+            Use :attr:`sandbox_id` instead.
+        """
+        warn_deprecated("MailtrapClient.inbox_id", "MailtrapClient.sandbox_id")
+        return self.sandbox_id
+
+    @inbox_id.setter
+    def inbox_id(self, value: Optional[str]) -> None:
+        warn_deprecated("MailtrapClient.inbox_id", "MailtrapClient.sandbox_id")
+        self.sandbox_id = value
 
     @property
     def headers(self) -> dict[str, str]:
@@ -249,7 +304,7 @@ class MailtrapClient:
             return BULK_HOST
         return SENDING_HOST
 
-    def _validate_account_id(self, api_name: str = "Testing API") -> None:
+    def _validate_account_id(self, api_name: str) -> None:
         if not self.account_id:
             raise ClientConfigurationError(f"`account_id` is required for {api_name}")
 
@@ -260,12 +315,12 @@ class MailtrapClient:
             )
 
     def _validate_itself(self) -> None:
-        if self.sandbox and not self.inbox_id:
-            raise ClientConfigurationError("`inbox_id` is required for sandbox mode")
+        if self.sandbox and not self.sandbox_id:
+            raise ClientConfigurationError("`sandbox_id` is required for sandbox mode")
 
-        if not self.sandbox and self.inbox_id:
+        if not self.sandbox and self.sandbox_id:
             raise ClientConfigurationError(
-                "`inbox_id` is not allowed in non-sandbox mode"
+                "`sandbox_id` is not allowed in non-sandbox mode"
             )
 
         if self.bulk and self.sandbox:

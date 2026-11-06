@@ -1,32 +1,31 @@
 from typing import Optional
 
-from mailtrap.api.resources.attachments import AttachmentsApi
+from mailtrap._deprecation import build_without_warning
+from mailtrap._deprecation import warn_deprecated
 from mailtrap.api.resources.inboxes import InboxesApi
-from mailtrap.api.resources.messages import MessagesApi
-from mailtrap.api.resources.projects import ProjectsApi
+from mailtrap.api.sandbox import SandboxApi
 from mailtrap.http import HttpClient
 
 
-class TestingApi:
+class TestingApi(SandboxApi):
+    """
+    .. deprecated::
+        Use :class:`mailtrap.api.sandbox.SandboxApi` instead.
+    """
+
     def __init__(
         self, client: HttpClient, account_id: str, inbox_id: Optional[str] = None
     ) -> None:
-        self._account_id = account_id
-        self._inbox_id = inbox_id
-        self._client = client
-
-    @property
-    def projects(self) -> ProjectsApi:
-        return ProjectsApi(account_id=self._account_id, client=self._client)
+        warn_deprecated("TestingApi", "SandboxApi")
+        super().__init__(client=client, account_id=account_id)
 
     @property
     def inboxes(self) -> InboxesApi:
-        return InboxesApi(account_id=self._account_id, client=self._client)
-
-    @property
-    def messages(self) -> MessagesApi:
-        return MessagesApi(account_id=self._account_id, client=self._client)
-
-    @property
-    def attachments(self) -> AttachmentsApi:
-        return AttachmentsApi(account_id=self._account_id, client=self._client)
+        """
+        .. deprecated::
+            Use :attr:`sandboxes` instead.
+        """
+        warn_deprecated("TestingApi.inboxes", "SandboxApi.sandboxes")
+        return build_without_warning(
+            InboxesApi, client=self._client, account_id=self._account_id
+        )

@@ -1,9 +1,9 @@
-from mailtrap.models.sending_domains import CreateSendingDomainParams
-from mailtrap.models.sending_domains import SendingDomain
-from mailtrap.models.sending_domains import SendSetupInstructionsParams
+from mailtrap.models.domains import CreateDomainParams
+from mailtrap.models.domains import Domain
+from mailtrap.models.domains import SendSetupInstructionsParams
 
 
-def _sending_domain_dict() -> dict:
+def _domain_dict() -> dict:
     return {
         "id": 1,
         "domain_name": "example.com",
@@ -24,26 +24,26 @@ def _sending_domain_dict() -> dict:
     }
 
 
-class TestSendingDomain:
+class TestDomain:
     def test_parses_inbound_flags_when_present(self) -> None:
         data = {
-            **_sending_domain_dict(),
+            **_domain_dict(),
             "inbound_enabled": True,
             "inbound_verified": False,
         }
-        domain = SendingDomain(**data)
+        domain = Domain(**data)
         assert domain.inbound_enabled is True
         assert domain.inbound_verified is False
 
     def test_inbound_flags_default_when_absent(self) -> None:
-        domain = SendingDomain(**_sending_domain_dict())
+        domain = Domain(**_domain_dict())
         assert domain.inbound_enabled is None
         assert domain.inbound_verified is None
 
 
-class TestCreateSendingDomainParams:
+class TestCreateDomainParams:
     def test_api_data_should_return_dict_with_all_props(self) -> None:
-        entity = CreateSendingDomainParams(domain_name="test.co")
+        entity = CreateDomainParams(domain_name="test.co")
         assert entity.api_data == {"domain_name": "test.co"}
 
 

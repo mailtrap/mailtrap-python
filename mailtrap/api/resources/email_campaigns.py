@@ -40,7 +40,7 @@ class EmailCampaignsApi:
     def create(self, campaign_params: CreateEmailCampaignParams) -> EmailCampaign:
         """
         Create a new email campaign in the ``draft`` state. The campaign must
-        reference an existing sending domain via ``domain_id`` and
+        reference an existing domain via ``domain_id`` and
         include a template ``subject`` within ``template_attributes``.
         """
         response = self._client.post(self._api_path(), json=campaign_params.api_data)
