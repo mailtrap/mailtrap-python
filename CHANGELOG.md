@@ -1,3 +1,12 @@
+## [3.1.0] - 2026-11-09
+
+## What's Changed
+* Add SubAccountsApi.delete for DELETE /api/organizations/{id}/sub_accounts/{id} by @oshchyhol in https://github.com/mailtrap/mailtrap-python/pull/83
+* Add Sandbox and Domain names; deprecate Testing, Inbox, SendingDomain by @Rabsztok in https://github.com/mailtrap/mailtrap-python/pull/92
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-python/compare/v3.0.0...v3.1.0
+
 ## [3.0.0] - 2026-10-29
 
 ## What's Changed
