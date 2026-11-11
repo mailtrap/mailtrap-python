@@ -125,10 +125,15 @@ jobs:
           enable-cache: false
 
       - name: Check PyPI release
-        uses: railsware/github-actions/check-sdk-pypi-release@master
-        with:
-          package: mailtrap
-          version: ${{ needs.detect.outputs.version }}
+        env:
+          VERSION: ${{ needs.detect.outputs.version }}
+        run: |
+          status=$(curl -sS -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/mailtrap/$VERSION/json")
+          case "$status" in
+            404) echo "mailtrap $VERSION is not published to PyPI yet" ;;
+            200) echo "::error::mailtrap $VERSION is already published to PyPI"; exit 1 ;;
+            *) echo "::error::Failed to query PyPI for mailtrap $VERSION (HTTP $status)"; exit 1 ;;
+          esac
 
       - name: Check GitHub release
         uses: railsware/github-actions/check-sdk-github-release@master
