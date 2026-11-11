@@ -125,31 +125,24 @@ jobs:
         with:
           enable-cache: false
 
-      - name: Check PyPI release
-        env:
-          VERSION: ${{ needs.detect.outputs.version }}
-        run: |
-          status=$(curl -sS -o /dev/null -w '%{http_code}' "https://pypi.org/pypi/mailtrap/$VERSION/json")
-          case "$status" in
-            404) echo "mailtrap $VERSION is not published to PyPI yet" ;;
-            200) echo "::error::mailtrap $VERSION is already published to PyPI"; exit 1 ;;
-            *) echo "::error::Failed to query PyPI for mailtrap $VERSION (HTTP $status)"; exit 1 ;;
-          esac
-
       - name: Check GitHub release
         uses: railsware/github-actions/check-sdk-github-release@master
         with:
           tag: ${{ needs.detect.outputs.tag }}
 
-      # Uploading the built files runs none of their code, so nothing from the dependency tree runs here.
-      - name: Publish to PyPI
-        run: uv publish --trusted-publishing always dist/*
-
+      # Attached while still a draft (invisible to users) and before the registry publish, so the
+      # un-draft is the only step after it; --clobber lets a re-run overwrite assets.
       - name: Attach build artifacts to GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.detect.outputs.tag }}
-        run: gh release upload "$TAG" dist/* --repo "$GITHUB_REPOSITORY"
+        run: gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
+
+      # Uploading the built files runs none of their code, so nothing from the dependency tree runs here.
+      # --check-url skips files PyPI already has with the same hash (a re-run after a partial publish)
+      # and fails on a file whose hash differs, so a different build of a released version can't go out.
+      - name: Publish to PyPI
+        run: uv publish --trusted-publishing always --check-url https://pypi.org/simple/ dist/*
 
       - name: Publish GitHub release
         uses: railsware/github-actions/publish-github-release@master
