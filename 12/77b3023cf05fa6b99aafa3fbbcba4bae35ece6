@@ -1,0 +1,35 @@
+mailtrap/api/resources/inbound_messages.py
+  s_576b7c7847dbe9::t_383c2a00603b13 1-9,11-40,42-49,51-71
+  s_576b7c7847dbe9::t_0f72d6d631fae1 10,41,50
+mailtrap/api/resources/inbound_threads.py
+  s_576b7c7847dbe9::t_e8a49ac095ce24 1-41
+mailtrap/api/resources/inbound_folders.py
+  s_576b7c7847dbe9::t_8d04a5e70f14bd 1-28,30-43
+  s_576b7c7847dbe9::t_7d07220cb9f74b 29
+mailtrap/api/inbound.py
+  s_576b7c7847dbe9::t_0a710766917392 1-26
+mailtrap/client.py
+  s_576b7c7847dbe9::t_2186e18cf221fb 81-82
+  s_576b7c7847dbe9::t_0ef47874591711 12
+  s_576b7c7847dbe9::t_fe1e47302564b4 80
+  s_576b7c7847dbe9::t_70017a724cd9d9 83-85
+mailtrap/api/resources/inbound_inboxes.py
+  s_576b7c7847dbe9::t_2965906ea108e9 1-23,25-47
+  s_576b7c7847dbe9::t_7d07220cb9f74b 24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "1277b3023cf05fa6b99aafa3fbbcba4bae35ece6",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": null
+    }
+  }
+}

@@ -1,0 +1,19 @@
+mailtrap/api/resources/sub_accounts.py
+  s_e230f8402aeb04::t_998248fa4dd51c 36-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b41711fd4e5a3824cc782538dc08ffaddcbda2ce",
+  "prompts": {},
+  "sessions": {
+    "s_e230f8402aeb04": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "687eee04-9358-47f0-8f66-b060d86645c7",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

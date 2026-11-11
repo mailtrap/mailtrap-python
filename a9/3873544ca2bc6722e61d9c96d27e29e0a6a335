@@ -1,0 +1,19 @@
+tests/unit/api/email_campaigns/test_email_campaigns.py
+  s_38fff224e39f0f::t_8478ddf42f8039 323-325
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "a93873544ca2bc6722e61d9c96d27e29e0a6a335",
+  "prompts": {},
+  "sessions": {
+    "s_38fff224e39f0f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "722ac34e-d0a2-4e18-968e-fca8d8d2dfd5",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

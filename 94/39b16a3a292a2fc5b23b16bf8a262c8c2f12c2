@@ -1,0 +1,23 @@
+mailtrap/models/webhooks.py
+  s_576b7c7847dbe9::t_6358568a614d97 18
+  s_576b7c7847dbe9::t_e40f4d8577f87d 51
+  s_576b7c7847dbe9::t_4218d8a68b40db 60
+tests/unit/models/test_webhooks.py
+  s_576b7c7847dbe9::t_3138fb09292192 1-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "9439b16a3a292a2fc5b23b16bf8a262c8c2f12c2",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

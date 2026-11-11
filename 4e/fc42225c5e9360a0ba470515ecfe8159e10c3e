@@ -1,0 +1,41 @@
+examples/inbound/threads.py
+  s_ea02f2a89792e1::t_c3da3b2ed3e466 20-21
+  s_ea02f2a89792e1::t_1d260eb12c6a1c 35
+  s_ea02f2a89792e1::t_d8d325dcd48095 22-23
+README.md
+  s_ea02f2a89792e1::t_08f410d1e922fe 252-253
+examples/inbound/forward_rules.py
+  s_ea02f2a89792e1::t_49d61f9e7b19df 1-63
+mailtrap/__init__.py
+  s_ea02f2a89792e1::t_3b9cbb0ccdf07d 42,45-46,49
+mailtrap/api/inbound.py
+  s_ea02f2a89792e1::t_97ce14587dc4bc 2,28-31
+mailtrap/api/resources/inbound_forward_rules.py
+  s_ea02f2a89792e1::t_ed9cb6ec82bebc 1-54
+mailtrap/api/resources/inbound_threads.py
+  s_ea02f2a89792e1::t_a9ac5cf7333ce5 15-18,27-28
+tests/unit/api/inbound/test_inbound_forward_rules.py
+  s_ea02f2a89792e1::t_90e64db0010895 1-352
+tests/unit/api/inbound/test_inbound_messages.py
+  s_ea02f2a89792e1::t_bcde51dc05fcca 10,42-51,55,64,66-71,98-107,117-119
+tests/unit/api/inbound/test_inbound_threads.py
+  s_ea02f2a89792e1::t_707e500a9b779e 9,11,66-106,125-147,156-173
+mailtrap/models/inbound.py
+  s_ea02f2a89792e1::t_675702a7571751 17-20,62-76,103,144-153,180-181,206-241,303-324
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4efc42225c5e9360a0ba470515ecfe8159e10c3e",
+  "prompts": {},
+  "sessions": {
+    "s_ea02f2a89792e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87ceb478-60a1-47fe-84f9-1458c02d71bf",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

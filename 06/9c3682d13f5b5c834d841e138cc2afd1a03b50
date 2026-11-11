@@ -1,0 +1,46 @@
+mailtrap/models/email_campaigns.py
+  s_1d139e47a09853::t_60c54d58abf3dd 30-32,41-48
+  s_1d139e47a09853::t_089caae890a8cb 202
+  s_1d139e47a09853::t_b74a2a26374fa5 49-51
+  s_1d139e47a09853::t_2ca6d0047b3fb6 52-53
+mailtrap/api/resources/email_campaigns.py
+  s_1d139e47a09853::t_3b25dc0c753b4f 18
+mailtrap/api/email_campaigns.py
+  s_1d139e47a09853::t_d033dbdd80e4ef 6,11
+mailtrap/client.py
+  s_1d139e47a09853::t_0e29fd61b30f7b 123-124
+examples/email_campaigns/email_campaigns.py
+  s_1d139e47a09853::t_7d48c58c0f3ca0 1-4,14-15
+  s_1d139e47a09853::t_29a189742297f1 108,111-112
+  s_1d139e47a09853::t_8be8eac59ef7c2 43-45
+  s_1d139e47a09853::t_65ca126aa53af8 76-78,82
+tests/unit/test_client.py
+  s_1d139e47a09853::t_e0f17a11e42edc 66,69
+tests/unit/api/email_campaigns/test_email_campaigns.py
+  s_1d139e47a09853::t_50145458f5b6bb 15
+  s_1d139e47a09853::t_4259afc7f94acd 364-376
+  s_1d139e47a09853::t_56d4d5a8ca94e3 405-414
+  s_1d139e47a09853::t_d90c0183dff6fe 568-570
+  s_1d139e47a09853::t_2a0ba9cd441256 326
+  s_1d139e47a09853::t_9fd853e01782e6 345
+  s_1d139e47a09853::t_a18b90980b39fe 1
+  s_1d139e47a09853::t_b6c5fe9bde2d9b 34
+mailtrap/__init__.py
+  s_1d139e47a09853::t_de7b5ca59396b2 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "069c3682d13f5b5c834d841e138cc2afd1a03b50",
+  "prompts": {},
+  "sessions": {
+    "s_1d139e47a09853": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3943c4ee-a6f3-493c-aa4d-bc291df8727e",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

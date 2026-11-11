@@ -1,0 +1,21 @@
+README.md
+  s_84c25ad63d8c76::t_44315044e96376 279
+examples/organizations/sub_accounts.py
+  s_84c25ad63d8c76::t_13ea3cf797819c 4,22-25,32-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "06c37c711a32f3d00003f8b2801827a83c6adef1",
+  "prompts": {},
+  "sessions": {
+    "s_84c25ad63d8c76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1fbe9c4a-85b3-45c0-922e-f12aed1c5674",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
