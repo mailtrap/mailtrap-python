@@ -1,7 +1,8 @@
 # Publishes the release drafted by draft-release.yml. Runs when the release PR lands on main
-# (or manually, as a fallback / dry run): detects the pending draft from CHANGELOG.md, tests and
-# builds the sdist and wheel without any publishing rights, then uploads them to PyPI from the
-# `release` environment, attaches them to the GitHub Release and un-drafts it, which creates the tag.
+# (or manually, as a fallback / dry run): detects the newest unreleased CHANGELOG.md version,
+# tests and builds the sdist and wheel without any publishing rights, then uploads them to PyPI from
+# the `release` environment, attaches them to the GitHub Release and un-drafts it, which creates the
+# tag.
 name: Release
 on:
   push:
@@ -83,7 +84,7 @@ jobs:
         with:
           persist-credentials: false
 
-      # .tool-versions pins an older Python than requires-python, so set it explicitly.
+      # The release build runs on Python 3.13.
       - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
           python-version: '3.13'
