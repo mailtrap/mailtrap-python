@@ -1,0 +1,156 @@
+# Publishes the release drafted by draft-release.yml. Runs when the release PR lands on main
+# (or manually, as a fallback / dry run): detects the newest unreleased CHANGELOG.md version,
+# tests and builds the sdist and wheel without any publishing rights, then uploads them to PyPI from
+# the `release` environment, attaches them to the GitHub Release and un-drafts it, which creates the
+# tag.
+name: Release
+on:
+  push:
+    branches: [main]
+    paths: [CHANGELOG.md]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: detect the release, test and build, but do not publish"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect pending release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.pending.outputs.version }}
+      tag: ${{ steps.pending.outputs.tag }}
+      go: ${{ steps.decide.outputs.go }}
+    steps:
+      - name: Refuse to release from a non-default branch
+        env:
+          REF: ${{ github.ref }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          if [ "$REF" != "refs/heads/$DEFAULT_BRANCH" ]; then
+            echo "::error::Releases must run from $DEFAULT_BRANCH, got $REF"
+            exit 1
+          fi
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Resolve pending release
+        id: pending
+        uses: railsware/github-actions/resolve-pending-release@master
+
+      # push: skip quietly when nothing is pending (an ordinary CHANGELOG edit).
+      # dispatch: a real run needs an unreleased version; a dry run doesn't. detect can't see drafts
+      # (read-only token), so the publish job confirms the draft after approval.
+      - name: Decide
+        id: decide
+        env:
+          EVENT: ${{ github.event_name }}
+          PENDING: ${{ steps.pending.outputs.pending }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          echo "pending=$PENDING dry_run=$DRY_RUN"
+          if [ "$DRY_RUN" = "true" ] && [ "$PENDING" != "true" ]; then
+            echo "::warning::The top CHANGELOG.md version is already released, so this dry run doesn't exercise detection"
+          fi
+          if [ "$PENDING" = "true" ] || [ "$DRY_RUN" = "true" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          elif [ "$EVENT" = "workflow_dispatch" ]; then
+            echo "::error::The top CHANGELOG.md version is already released; run Draft Python Release first"
+            exit 1
+          else
+            echo "Nothing to release"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    name: Test and build
+    needs: detect
+    if: needs.detect.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The release build runs on Python 3.13.
+      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          python-version: '3.13'
+          enable-cache: false
+
+      - name: Check version matches CHANGELOG.md
+        env:
+          EXPECTED: ${{ needs.detect.outputs.version }}
+        run: |
+          actual=$(uv version --short)
+          if [ "$actual" != "$EXPECTED" ]; then
+            echo "::error::pyproject.toml is $actual but CHANGELOG.md is $EXPECTED"
+            exit 1
+          fi
+
+      - name: Test and build
+        run: |
+          uv run --with-requirements requirements.test.txt pytest -q
+          uv build
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  release:
+    name: Publish
+    needs: [detect, build]
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write # upload assets to and un-draft the release
+      id-token: write # PyPI trusted publishing
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist/
+
+      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+        with:
+          enable-cache: false
+
+      - name: Check GitHub release
+        uses: railsware/github-actions/check-sdk-github-release@master
+        with:
+          tag: ${{ needs.detect.outputs.tag }}
+
+      # Attached while still a draft (invisible to users) and before the registry publish, so the
+      # un-draft is the only step after it; --clobber lets a re-run overwrite assets.
+      - name: Attach build artifacts to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.detect.outputs.tag }}
+        run: gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
+
+      # Uploading the built files runs none of their code, so nothing from the dependency tree runs here.
+      # --check-url skips files PyPI already has with the same hash (a re-run after a partial publish)
+      # and fails on a file whose hash differs, so a different build of a released version can't go out.
+      - name: Publish to PyPI
+        run: uv publish --trusted-publishing always --check-url https://pypi.org/simple/ dist/*
+
+      - name: Publish GitHub release
+        uses: railsware/github-actions/publish-github-release@master
+        with:
+          tag: ${{ needs.detect.outputs.tag }}
+          target: ${{ github.sha }}
