@@ -1,3 +1,11 @@
+## [3.1.1] - 2026-11-13
+
+## What's Changed
+* Add release workflow by @IgorDobryn in https://github.com/mailtrap/mailtrap-python/pull/94
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-python/compare/v3.1.0...v3.1.1
+
 ## [3.1.0] - 2026-11-09
 
 ## What's Changed
