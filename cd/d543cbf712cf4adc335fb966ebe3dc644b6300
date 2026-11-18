@@ -1,0 +1,89 @@
+examples/inbound/messages.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,10
+examples/general/permissions.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/inbound/threads.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+examples/general/accounts.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/organizations/sub_accounts.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/stats/stats.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/suppressions/suppressions.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+examples/testing/attachments.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/testing/messages.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,10
+examples/webhooks/webhooks.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+examples/contacts/contact_lists.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+examples/testing/projects.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/contacts/contacts.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,9
+examples/testing/inboxes.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+examples/contacts/contact_events.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+examples/general/api_tokens.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+examples/sending_domains/sending_domains.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/contacts/contact_fields.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+examples/inbound/folders.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/email_templates/templates.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,8
+examples/general/billing.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/contacts/contact_exports.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+examples/email_logs/email_logs.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,15
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/general/account_accesses.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/contacts/contact_imports.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,6
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/inbound/inboxes.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1,7
+  s_576b7c7847dbe9::t_aef878b3641409 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "cdd543cbf712cf4adc335fb966ebe3dc644b6300",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

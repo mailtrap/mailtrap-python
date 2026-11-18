@@ -1,0 +1,24 @@
+mailtrap/models/inbound.py
+  s_576b7c7847dbe9::t_8d2c44e5ea28a3 23-26,121,149,233
+  s_576b7c7847dbe9::t_a85c9db6884bd6 204,206-208,225-231
+  s_576b7c7847dbe9::t_769470968a0490 1-22,27-120,122-148,150-203,205,209-224,232,234-237
+mailtrap/__init__.py
+  s_576b7c7847dbe9::t_a0a04d606141bc 23-25,27-28
+  s_576b7c7847dbe9::t_231c1792a96437 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "6b5ce554bf79d361aba4495d39c07d2cd2aa642d",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": null
+    }
+  }
+}

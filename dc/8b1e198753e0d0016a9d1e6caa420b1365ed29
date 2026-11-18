@@ -1,0 +1,31 @@
+mailtrap/api/resources/company_info.py
+  s_a416a2bbf03afd::t_97706ac1352e7d 9,45-47
+mailtrap/client.py
+  s_a416a2bbf03afd::t_2506e05e9a0d47 9
+  s_a416a2bbf03afd::t_5b8d798c95e796 130-134
+  s_a416a2bbf03afd::t_7c44aeddea163b 129
+README.md
+  s_a416a2bbf03afd::t_c05046645d6115 246
+mailtrap/api/company_info.py
+  s_a416a2bbf03afd::t_dbee0606b1dd51 1-11
+examples/company_info/company_info.py
+  s_a416a2bbf03afd::t_c73c0bd1f98b4b 9-10
+tests/unit/api/company_info/test_company_info.py
+  s_a416a2bbf03afd::t_a40b7ef79a6786 17,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "dc8b1e198753e0d0016a9d1e6caa420b1365ed29",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,136 @@
+tests/unit/test_deprecations.py
+  s_ac9965ad740394::t_6a79438d1ec8f4 10,33-35,191-194,197,199-200,204
+  s_ac9965ad740394::t_152c6629449a4f 1-9,12-20,22-32,36-46,50-52,54-55,60-86,91-190,195-196,198,201-203,205-228
+  s_ac9965ad740394::t_3a0408e979032e 11,21,47-49,53,56-59,87-90
+mailtrap/api/resources/company_info.py
+  s_ac9965ad740394::t_6446eba6dc428e 1,13-14,16,18,21,23,26,30,35,37,40,44,50-51
+tests/unit/api/sandbox/test_messages.py
+  s_ac9965ad740394::t_4f5bf99251d677 1-875
+mailtrap/api/resources/inboxes.py
+  s_ac9965ad740394::t_4b63bea292d241 1-2,6-10,12-14
+mailtrap/api/resources/sending_domains.py
+  s_ac9965ad740394::t_6446eba6dc428e 1-2,6-10,12-14
+examples/sending/batch_advanced_sending.py
+  s_ac9965ad740394::t_d5ec4879f765a6 25
+mailtrap/api/resources/sandboxes.py
+  s_ac9965ad740394::t_41ae503224f404 3-87
+  s_c6ccc5336939e2::t_f5f5f5c1bf08c6 1-2,88
+mailtrap/api/testing.py
+  s_ac9965ad740394::t_a7920077522125 3-5,9-14,18,21-27
+mailtrap/models/projects.py
+  s_ac9965ad740394::t_4a13d64165fc56 7
+  s_ac9965ad740394::t_e58a629c44fe64 20
+mailtrap/models/sandboxes.py
+  s_ac9965ad740394::t_4d8d7f7805009c 1-57
+tests/unit/api/sandbox/test_sandboxes.py
+  s_ac9965ad740394::t_3a5ff4f94740b2 1-15,17-29,31,33-63,65-100,103-105,107-109,111,115-143,145-151,153-156,159,161-162,164-166,168,171-207,210-214,217-219,221-223,225-227,230-258,260-267,270-274,277,279,282-284,286-288,292,295-323,325-331,333-336,339,341-342,344-346,348-349,351-379,381-387,389-392,395,397-398,400-402,404-405,407-435,437-443,445-448,451,453-454,456-458,460-461,463-491,493-499,501-504,507,509-510,512-514,516-517,519-547,549-555,557-560,563,565-566,568-570,572-573,575-603,605-611,613-616,619,621-622,624-626,628-629
+  s_ac9965ad740394::t_9dd43e6d34fb8c 16,30,32,64,102,106,110,112-114,144,152,157-158,160,163,167,169-170,215-216,220,224,228-229,259,275-276,278,280-281,285,293-294,324,332,337-338,340,343,347,350,380,388,393-394,396,399,403,406,436,444,449-450,452,455,459,462,492,500,505-506,508,511,515,518,548,556,561-562,564,567,571,574,604,612,617-618,620,623,627,630
+  s_ac9965ad740394::t_4a13d64165fc56 208-209,268-269,289-291
+  s_ac9965ad740394::t_47f44f2a7f1387 101
+mailtrap/client.py
+  s_ac9965ad740394::t_46af5ed534a287 9-10,13,22,68,70-73,80-82,102-109,112-117,155-162,165-172,229,268-269,272-285,304,315-316,318,320
+tests/unit/api/domains/test_domains.py
+  s_ac9965ad740394::t_add2da3559d4f8 159
+  s_ac9965ad740394::t_abb2edd73ea3b5 21,65,83,91,102,106,140,148,163,201,209,221,225,268,276,288,294,323,327,366,374,385,389,427,443
+  s_ac9965ad740394::t_4f5bf99251d677 1-20,22-64,66-82,84-90,92-101,103-105,107-139,141-147,149-158,160-162,164-200,202-208,210-220,222-224,226-267,269-275,277-287,289-293,295-322,324-326,328-365,367-373,375-384,386-388,390-426,428-442,444-451
+tests/unit/api/test_sending.py
+  s_ac9965ad740394::t_f73fce6147658d 18,192-217
+mailtrap/__init__.py
+  s_ac9965ad740394::t_4f860cefb04810 76-77
+  s_ac9965ad740394::t_4a13d64165fc56 25-27
+tests/unit/models/test_domains.py
+  s_ac9965ad740394::t_70b3a934b63ba4 27
+  s_ac9965ad740394::t_add2da3559d4f8 1-26,28-53
+tests/unit/test_client.py
+  s_ac9965ad740394::t_31faf15c2af2f0 32,34-39,42-45,48-55,58,60,104,112
+mailtrap/models/sending_domains.py
+  s_ac9965ad740394::t_e58a629c44fe64 1-32
+examples/sandbox/attachments.py
+  s_ac9965ad740394::t_d5ec4879f765a6 1-34
+examples/sandbox/messages.py
+  s_ac9965ad740394::t_d5ec4879f765a6 1-121
+examples/sandbox/sandboxes.py
+  s_ac9965ad740394::t_d5ec4879f765a6 1-33,36-93
+  s_ac9965ad740394::t_2a9930fdbf55f0 34-35
+README.md
+  s_ac9965ad740394::t_77334ebc52c4e8 53,60,70,75,227-231,245-247,284-306
+  s_ac9965ad740394::t_7e9e3ff0d4ddd3 307
+mailtrap/api/resources/billing.py
+  s_ac9965ad740394::t_2a9930fdbf55f0 10
+mailtrap/api/resources/domains.py
+  s_ac9965ad740394::t_4a13d64165fc56 46
+  s_ac9965ad740394::t_48562300112697 1-19,21-35,37,39-45,47,49-59,61-71,73-86
+  s_ac9965ad740394::t_6446eba6dc428e 20,36,38,48,60,72
+mailtrap/models/domains.py
+  s_ac9965ad740394::t_4d8d7f7805009c 1-69
+mailtrap/_deprecation.py
+  s_ac9965ad740394::t_e80d1023cae2b2 1-3,5-7,10-11,13-57
+  s_ac9965ad740394::t_047c7b5f0c914d 4,8-9,12,58-64,66-77
+  s_ac9965ad740394::t_a99502a6fc22a8 65
+examples/sandbox/projects.py
+  s_ac9965ad740394::t_d5ec4879f765a6 1-47
+examples/sending/batch_minimal_sending.py
+  s_ac9965ad740394::t_d5ec4879f765a6 22
+examples/sending/minimal_sending.py
+  s_ac9965ad740394::t_d5ec4879f765a6 22
+mailtrap/models/inboxes.py
+  s_ac9965ad740394::t_e58a629c44fe64 1-16
+mailtrap/api/resources/projects.py
+  s_ac9965ad740394::t_2a9930fdbf55f0 15,20,47
+mailtrap/api/sandbox.py
+  s_ac9965ad740394::t_c435a09100d198 1-27
+mailtrap/api/resources/permissions.py
+  s_ac9965ad740394::t_2a9930fdbf55f0 13
+mailtrap/api/resources/tracking_opt_outs.py
+  s_ac9965ad740394::t_2a9930fdbf55f0 29
+tests/unit/models/test_sandboxes.py
+  s_ac9965ad740394::t_add2da3559d4f8 1-29
+mailtrap/api/domains.py
+  s_ac9965ad740394::t_c435a09100d198 1-12
+examples/sending/batch_sending_with_template.py
+  s_ac9965ad740394::t_d5ec4879f765a6 21
+tests/unit/api/sandbox/test_attachments.py
+  s_ac9965ad740394::t_4f5bf99251d677 1-159
+mailtrap/api/sending_domains.py
+  s_ac9965ad740394::t_a7920077522125 1-3,6-10,13-19
+mailtrap/api/resources/messages.py
+  s_ac9965ad740394::t_4f00b3ab225dcf 42,55,61
+  s_ac9965ad740394::t_4a13d64165fc56 109-111
+  s_ac9965ad740394::t_47aa6fdb5b42c9 5,20-21,23,26,28,35,40-41,43,46,49,92,95-96,102,106-107,114-115,117,120-121,124,127-128,131,134-135,139,142-143,146,149-150,153,156-157,160,164-165
+examples/sending/sending_with_template.py
+  s_ac9965ad740394::t_d5ec4879f765a6 21
+mailtrap/api/sending.py
+  s_ac9965ad740394::t_215ca4e216f81c 3,12-24,28-29
+mailtrap/api/resources/attachments.py
+  s_ac9965ad740394::t_47aa6fdb5b42c9 3,13,16,20,23,26,30-31,36,42
+examples/sending/advanced_sending.py
+  s_ac9965ad740394::t_d5ec4879f765a6 25
+examples/domains/domains.py
+  s_ac9965ad740394::t_8041a99daa71f8 1-65
+mailtrap/api/resources/email_campaigns.py
+  s_ac9965ad740394::t_2a9930fdbf55f0 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "86bd4ad1ae9b816677e9ddbcac0fe67d354b6ca8",
+  "prompts": {},
+  "sessions": {
+    "s_ac9965ad740394": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a6a50261-6dfa-4056-bee9-9fc2c35a4537",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_c6ccc5336939e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "38250c4f-7827-4931-b761-12d7255fde25",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

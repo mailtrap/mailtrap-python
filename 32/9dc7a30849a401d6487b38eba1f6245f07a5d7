@@ -1,0 +1,22 @@
+mailtrap/models/inbound.py
+  s_576b7c7847dbe9::t_769470968a0490 1-22,27-120,122-148,150-226,228-231
+  s_576b7c7847dbe9::t_8d2c44e5ea28a3 23-26,121,149,227
+mailtrap/__init__.py
+  s_576b7c7847dbe9::t_a0a04d606141bc 23-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "329dc7a30849a401d6487b38eba1f6245f07a5d7",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

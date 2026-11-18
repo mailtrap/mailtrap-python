@@ -1,0 +1,24 @@
+examples/webhooks/verify_signature.py
+  s_a907e0cf970afa::t_fae68bbdb2353e 1-2,6-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "8d3facabf87ae80212fdf8bfc7d9aee719fafe55",
+  "prompts": {},
+  "humans": {
+    "h_c750c91773bbc1": {
+      "author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  },
+  "sessions": {
+    "s_a907e0cf970afa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a609038c-f688-402a-a84e-55b5ac1bed6d",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

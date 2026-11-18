@@ -1,0 +1,19 @@
+tox.ini
+  s_a7481cf6017852::t_36e450f9f3a000 24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d875d10692cc8e6bebffc37d6a9d287159007f72",
+  "prompts": {},
+  "sessions": {
+    "s_a7481cf6017852": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "aacbee0b-089d-4af3-923f-d3a3d3cc0e8b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
