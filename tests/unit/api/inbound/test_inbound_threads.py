@@ -142,6 +142,7 @@ class TestInboundThreadsApi:
                             "status": "delivered",
                             "delivered_at": "2026-05-08T11:40:05.000Z",
                             "bounced_at": None,
+                            "rejected_at": None,
                         },
                     },
                     {"visibility_status": "placeholder", "direction": "inbound"},
@@ -168,9 +169,49 @@ class TestInboundThreadsApi:
         assert outbound.delivery.status == "delivered"
         assert outbound.delivery.delivered_at == "2026-05-08T11:40:05.000Z"
         assert outbound.delivery.bounced_at is None
+        assert outbound.delivery.rejected_at is None
 
         assert placeholder.delivery is None
         assert placeholder.forwards is None
+
+    @responses.activate
+    def test_get_by_id_should_map_rejected_at_on_delivery(
+        self, threads_api: InboundThreadsApi
+    ) -> None:
+        responses.get(
+            f"{BASE_URL}/{THREAD_ID}",
+            json={
+                "id": THREAD_ID,
+                "subject": "Billing",
+                "message_count": 1,
+                "size": 0,
+                "first_message_at": "2026-01-15T10:00:00Z",
+                "last_activity_at": "2026-01-15T10:00:00Z",
+                "messages": [
+                    {
+                        "visibility_status": "available",
+                        "direction": "outbound",
+                        "from": "support@inbound-mailtrap.io",
+                        "delivery": {
+                            "to": "suppressed@example.com",
+                            "status": "not_delivered",
+                            "delivered_at": None,
+                            "bounced_at": None,
+                            "rejected_at": "2026-01-15T10:00:01.000Z",
+                        },
+                    },
+                ],
+            },
+            status=200,
+        )
+
+        thread = threads_api.get_by_id(INBOX_ID, THREAD_ID)
+
+        delivery = thread.messages[0].delivery
+        assert isinstance(delivery, InboundThreadMessageDelivery)
+        assert delivery.status == "not_delivered"
+        assert delivery.bounced_at is None
+        assert delivery.rejected_at == "2026-01-15T10:00:01.000Z"
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
