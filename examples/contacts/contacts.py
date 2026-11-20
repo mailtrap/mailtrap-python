@@ -44,6 +44,15 @@ def update_contact(
     return contacts_api.update(contact_id_or_email, params)
 
 
+def set_subscription_topic_status(
+    contact_id_or_email: str, preference: mt.ContactSubscriptionTopic
+) -> Contact:
+    # Only the given topic on the given sending domain changes; the contact's
+    # other topic preferences keep their status.
+    params = mt.UpdateContactParams(subscription_topics=[preference])
+    return contacts_api.update(contact_id_or_email, params)
+
+
 def get_contact(contact_id_or_email: str) -> Contact:
     return contacts_api.get_by_id(contact_id_or_email)
 
@@ -73,6 +82,20 @@ if __name__ == "__main__":
 
     contact = get_contact(updated_contact.id)
     print(contact)
+
+    # The contact's status for every subscription topic on every sending
+    # domain; None when the account has no subscription topics.
+    if contact.subscription_topics:
+        preference = contact.subscription_topics[0]
+        unsubscribed_contact = set_subscription_topic_status(
+            contact.id,
+            mt.ContactSubscriptionTopic(
+                subscription_topic_id=preference.subscription_topic_id,
+                domain_id=preference.domain_id,
+                status="unsubscribed",
+            ),
+        )
+        print(unsubscribed_contact.subscription_topics)
 
     deleted_contact = delete_contact(updated_contact.id)
     print(deleted_contact)

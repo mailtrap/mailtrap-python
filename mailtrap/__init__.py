@@ -16,6 +16,7 @@ from .models.company_info import UpdateCompanyInfoParams
 from .models.contacts import ContactEventParams
 from .models.contacts import ContactExportFilter
 from .models.contacts import ContactListParams
+from .models.contacts import ContactSubscriptionTopic
 from .models.contacts import CreateContactExportParams
 from .models.contacts import CreateContactFieldParams
 from .models.contacts import CreateContactParams
@@ -78,6 +79,9 @@ from .models.sandboxes import UpdateSandboxParams
 from .models.sending_domains import CreateSendingDomainParams
 from .models.sending_domains import UpdateSendingDomainParams
 from .models.stats import StatsFilterParams
+from .models.subscription_topics import SubscriptionTopic
+from .models.subscription_topics import SubscriptionTopicListParams
+from .models.subscription_topics import SubscriptionTopicListResponse
 from .models.suppressions import CreateSuppressionParams
 from .models.templates import CreateEmailTemplateParams
 from .models.templates import UpdateEmailTemplateParams

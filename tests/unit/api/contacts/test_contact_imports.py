@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 import pytest
@@ -8,6 +9,7 @@ from mailtrap.config import GENERAL_HOST
 from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
 from mailtrap.models.contacts import ContactImport
+from mailtrap.models.contacts import ContactSubscriptionTopic
 from mailtrap.models.contacts import ImportContactParams
 from tests import conftest
 
@@ -92,6 +94,20 @@ class TestContactImportsApi:
                 },
                 "contacts limit reached",
             ),
+            (
+                conftest.VALIDATION_ERRORS_STATUS_CODE,
+                {
+                    "errors": [
+                        {
+                            "base": [
+                                "subscription topics are not available for this"
+                                " account"
+                            ]
+                        }
+                    ]
+                },
+                "subscription topics are not available for this account",
+            ),
         ],
     )
     @responses.activate
@@ -135,6 +151,32 @@ class TestContactImportsApi:
         assert isinstance(contact_import, ContactImport)
         assert contact_import.id == IMPORT_ID
         assert contact_import.status == "started"
+
+    @responses.activate
+    def test_import_contacts_should_send_subscription_topics(
+        self, contact_imports_api: ContactImportsApi
+    ) -> None:
+        responses.post(
+            BASE_CONTACT_IMPORTS_URL, json={"id": IMPORT_ID, "status": "started"}
+        )
+        topic = {"subscription_topic_id": 17, "domain_id": 4321, "status": "unsubscribed"}
+
+        contact_imports_api.import_contacts(
+            [
+                ImportContactParams(
+                    email="john.smith@example.com",
+                    subscription_topics=[ContactSubscriptionTopic(**topic)],
+                ),
+                ImportContactParams(email="john.doe@example.com"),
+            ]
+        )
+
+        assert json.loads(responses.calls[0].request.body) == {
+            "contacts": [
+                {"email": "john.smith@example.com", "subscription_topics": [topic]},
+                {"email": "john.doe@example.com"},
+            ]
+        }
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",

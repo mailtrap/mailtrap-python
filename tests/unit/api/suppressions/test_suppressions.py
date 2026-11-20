@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 from typing import Any
+from urllib.parse import parse_qs
+from urllib.parse import urlparse
 
 import pytest
 import responses
@@ -114,6 +116,60 @@ class TestSuppressionsApi:
         assert suppressions[0].id == SUPPRESSION_ID
         assert suppressions[0].email == email_filter
         assert isinstance(suppressions[0].created_at, datetime)
+
+    @responses.activate
+    def test_get_suppressions_should_send_no_query_params_by_default(
+        self, suppressions_api: SuppressionsApi, sample_suppression_dict: dict
+    ) -> None:
+        responses.get(BASE_SUPPRESSIONS_URL, json=[sample_suppression_dict])
+
+        suppressions = suppressions_api.get_list()
+
+        assert urlparse(responses.calls[0].request.url).query == ""
+        assert suppressions[0].subscription_topic_id is None
+
+    @responses.activate
+    def test_get_suppressions_should_include_topic_unsubscriptions(
+        self, suppressions_api: SuppressionsApi, sample_suppression_dict: dict
+    ) -> None:
+        topic_unsubscription = {
+            "id": "supp_654321",
+            "type": "topic unsubscription",
+            "created_at": "2024-12-27T09:40:44.161Z",
+            "email": "recipient@example.com",
+            "sending_stream": "bulk",
+            "domain_name": "sender.com",
+            "subscription_topic_id": 17,
+        }
+        responses.get(
+            BASE_SUPPRESSIONS_URL,
+            json=[sample_suppression_dict, topic_unsubscription],
+        )
+
+        suppressions = suppressions_api.get_list(include_topic_unsubscriptions=True)
+
+        # The API opts in only on the exact string "true".
+        assert parse_qs(urlparse(responses.calls[0].request.url).query) == {
+            "include_topic_unsubscriptions": ["true"]
+        }
+        assert suppressions[1].type == "topic unsubscription"
+        assert suppressions[1].domain_name == "sender.com"
+        assert suppressions[1].subscription_topic_id == 17
+
+    @responses.activate
+    def test_get_suppressions_should_send_email_with_topic_unsubscriptions(
+        self, suppressions_api: SuppressionsApi
+    ) -> None:
+        responses.get(BASE_SUPPRESSIONS_URL, json=[])
+
+        suppressions_api.get_list(
+            email="recipient@example.com", include_topic_unsubscriptions=True
+        )
+
+        assert parse_qs(urlparse(responses.calls[0].request.url).query) == {
+            "email": ["recipient@example.com"],
+            "include_topic_unsubscriptions": ["true"],
+        }
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",

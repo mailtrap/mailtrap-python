@@ -92,6 +92,11 @@ class TestMailtrapClient:
 
         assert client.marketing_stats_api.marketing_stats is not None
 
+    def test_subscription_topics_api_does_not_require_account_id(self) -> None:
+        client = self.get_client()
+
+        assert client.subscription_topics_api.subscription_topics is not None
+
     @pytest.mark.parametrize(
         "arguments, expected_url",
         [

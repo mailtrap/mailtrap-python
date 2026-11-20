@@ -57,13 +57,28 @@ class EventDetailsReject:
 
 
 @dataclass
+class EventDetailsTopicSubscription:
+    """Details of a ``topic_unsubscribe`` or ``topic_resubscribe`` event."""
+
+    web_ip_address: Optional[str] = None
+    subscription_topic_id: Optional[int] = None
+
+
+@dataclass
 class MessageEvent:
-    """Event attached to a message (delivery, open, click, bounce, etc.)."""
+    """
+    Event attached to a message (delivery, open, click, bounce, etc.).
+    ``details`` of an event type the SDK doesn't know stay the API's dict.
+    """
 
     event_type: str
     created_at: str
+    # Left to right with the dict first: pydantic's default smart union would
+    # turn an unknown event's dict into whichever EventDetails* fits best,
+    # dropping the keys it doesn't have.
     details: Optional[
         Union[
+            dict[str, Any],
             EventDetailsDelivery,
             EventDetailsOpen,
             EventDetailsClick,
@@ -71,9 +86,9 @@ class MessageEvent:
             EventDetailsSpam,
             EventDetailsUnsubscribe,
             EventDetailsReject,
-            dict[str, Any],
+            EventDetailsTopicSubscription,
         ]
-    ] = None
+    ] = Field(default=None, union_mode="left_to_right")
 
 
 def _parse_event_details(
@@ -88,6 +103,7 @@ def _parse_event_details(
         EventDetailsSpam,
         EventDetailsUnsubscribe,
         EventDetailsReject,
+        EventDetailsTopicSubscription,
         dict[str, Any],
     ]
 ]:
@@ -108,6 +124,8 @@ def _parse_event_details(
         return EventDetailsUnsubscribe(**data)
     if event_type in ("suspension", "reject"):
         return EventDetailsReject(**data)
+    if event_type in ("topic_unsubscribe", "topic_resubscribe"):
+        return EventDetailsTopicSubscription(**data)
     return data
 
 

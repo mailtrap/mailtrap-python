@@ -33,6 +33,20 @@ def create_webhook() -> WebhookWithSecret:
     )
 
 
+def create_bulk_webhook() -> WebhookWithSecret:
+    # `subscription_preferences_update` is sent when a contact changes their
+    # subscription topic preferences. It is available only for the bulk stream
+    # and on `campaigns` webhooks.
+    return webhooks_api.create(
+        mt.CreateWebhookParams(
+            url="https://example.com/mailtrap/webhooks",
+            webhook_type="email_sending",
+            sending_stream="bulk",
+            event_types=["delivery", "unsubscribe", "subscription_preferences_update"],
+        )
+    )
+
+
 def update_webhook(webhook_id: int) -> Webhook:
     return webhooks_api.update(
         webhook_id=webhook_id,

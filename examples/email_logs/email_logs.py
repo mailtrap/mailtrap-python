@@ -61,3 +61,7 @@ if __name__ == "__main__":
     if response.messages:
         detail = get_message(response.messages[0].message_id)
         print(f"Detail: {detail.subject}, events: {len(detail.events)}")
+        for event in detail.events:
+            # topic_unsubscribe and topic_resubscribe events carry the
+            # subscription_topic_id in their details.
+            print(f"  {event.created_at} {event.event_type}: {event.details}")

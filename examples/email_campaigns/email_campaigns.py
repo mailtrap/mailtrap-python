@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
+from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.common import DeletedObject
@@ -29,10 +30,26 @@ def get_email_campaign(email_campaign_id: int) -> EmailCampaign:
     return email_campaigns_api.get_by_id(email_campaign_id=email_campaign_id)
 
 
+def find_subscription_topic_id(domain_id: int) -> Optional[int]:
+    # A topic covers the campaign's domain when its `domain_id` is that domain
+    # or None (every domain). The list answers 403 when the account has no
+    # subscription topics.
+    try:
+        topics = client.subscription_topics_api.subscription_topics.get_list()
+    except mt.APIError as error:
+        if error.status == 403:
+            return None
+        raise
+    return next(
+        (topic.id for topic in topics.data if topic.domain_id in (None, domain_id)),
+        None,
+    )
+
+
 def create_email_campaign() -> EmailCampaign:
     # A campaign is created in the `draft` state and must reference a verified
     # sending domain via `domain_id` (as returned by the Sending Domains
-    # endpoints).
+    # endpoints). `subscription_topic_id` is left out of the request when None.
     return email_campaigns_api.create(
         mt.CreateEmailCampaignParams(
             name="Spring Sale",
@@ -47,6 +64,7 @@ def create_email_campaign() -> EmailCampaign:
             template_attributes=mt.CreateEmailCampaignTemplateAttributes(
                 subject="Spring is here — 30% off"
             ),
+            subscription_topic_id=find_subscription_topic_id(DOMAIN_ID),
         )
     )
 

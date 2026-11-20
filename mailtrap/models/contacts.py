@@ -51,12 +51,27 @@ class ContactList:
 
 
 @dataclass
+class ContactSubscriptionTopic:
+    """
+    A contact's status for one subscription topic on one sending domain.
+    ``status`` is ``"subscribed"`` or ``"unsubscribed"``; ``domain_id`` is the
+    sending domain's ID, as in the Domains API.
+    """
+
+    subscription_topic_id: int
+    domain_id: int
+    status: str
+
+
+@dataclass
 class CreateContactParams(RequestParams):
     email: str
     fields: Optional[dict[str, Union[str, int, float, bool]]] = (
         None  # field_merge_tag: value
     )
     list_ids: Optional[list[int]] = None
+    # Topic and domain pairs left out keep their status.
+    subscription_topics: Optional[list[ContactSubscriptionTopic]] = None
 
 
 @dataclass
@@ -68,6 +83,8 @@ class UpdateContactParams(RequestParams):
     list_ids_included: Optional[list[int]] = None
     list_ids_excluded: Optional[list[int]] = None
     unsubscribed: Optional[bool] = None
+    # Topic and domain pairs left out keep their status.
+    subscription_topics: Optional[list[ContactSubscriptionTopic]] = None
 
     def __post_init__(self) -> None:
         if all(
@@ -78,6 +95,7 @@ class UpdateContactParams(RequestParams):
                 self.list_ids_included,
                 self.list_ids_excluded,
                 self.unsubscribed,
+                self.subscription_topics,
             ]
         ):
             raise ValueError("At least one field must be provided for update action")
@@ -85,6 +103,12 @@ class UpdateContactParams(RequestParams):
 
 @dataclass
 class Contact:
+    """
+    ``subscription_topics`` has the contact's status for every topic on every
+    sending domain. It is ``None`` both when the account has no subscription
+    topics and when the preferences couldn't be read (retry the request).
+    """
+
     id: str
     email: str
     fields: dict[str, Union[str, int, float, bool]]  # field_merge_tag: value
@@ -92,6 +116,7 @@ class Contact:
     status: str
     created_at: int
     updated_at: int
+    subscription_topics: Optional[list[ContactSubscriptionTopic]] = None
 
 
 @dataclass
@@ -116,6 +141,7 @@ class ImportContactParams(RequestParams):
     )
     list_ids_included: Optional[list[int]] = None
     list_ids_excluded: Optional[list[int]] = None
+    subscription_topics: Optional[list[ContactSubscriptionTopic]] = None
 
 
 @dataclass

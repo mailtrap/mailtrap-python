@@ -11,8 +11,14 @@ client = mt.MailtrapClient(token=API_KEY, account_id=ACCOUNT_ID)
 suppressions_api = client.suppressions_api.suppressions
 
 
-def list_suppressions(email: Optional[str] = None) -> list[Suppression]:
-    return suppressions_api.get_list(email)
+def list_suppressions(
+    email: Optional[str] = None, include_topic_unsubscriptions: bool = False
+) -> list[Suppression]:
+    # With `include_topic_unsubscriptions`, the list also has unsubscribes from
+    # single subscription topics, of type "topic unsubscription".
+    return suppressions_api.get_list(
+        email, include_topic_unsubscriptions=include_topic_unsubscriptions
+    )
 
 
 def create_suppression() -> Suppression:
@@ -37,3 +43,11 @@ if __name__ == "__main__":
     if suppressions:
         deleted_suppression = delete_suppression(suppressions[0].id)
         print(deleted_suppression)
+
+    # A topic unsubscription can't be deleted, so only print them.
+    for suppression in list_suppressions(include_topic_unsubscriptions=True):
+        if suppression.type == "topic unsubscription":
+            print(
+                f"{suppression.email} left topic {suppression.subscription_topic_id}"
+                f" on {suppression.domain_name}"
+            )
