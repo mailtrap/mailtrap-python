@@ -149,6 +149,7 @@ class InboundThreadMessageDelivery:
     status: Literal["delivered", "not_delivered", "enqueued", "opted_out"]
     delivered_at: Optional[str] = None
     bounced_at: Optional[str] = None
+    rejected_at: Optional[str] = None
 
 
 class InboundThreadMessage(BaseModel):
