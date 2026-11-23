@@ -73,9 +73,10 @@ class MessageEvent:
 
     event_type: str
     created_at: str
-    # Left to right with the dict first: pydantic's default smart union would
-    # turn an unknown event's dict into whichever EventDetails* fits best,
-    # dropping the keys it doesn't have.
+    # Left to right with the dict first, so a dict reaches __post_init__ as is,
+    # which picks the class by event_type: pydantic's default smart union would
+    # turn it into whichever EventDetails* fits best, dropping the keys that
+    # class doesn't have.
     details: Optional[
         Union[
             dict[str, Any],
@@ -89,6 +90,10 @@ class MessageEvent:
             EventDetailsTopicSubscription,
         ]
     ] = Field(default=None, union_mode="left_to_right")
+
+    def __post_init__(self) -> None:
+        if isinstance(self.details, dict):
+            self.details = _parse_event_details(self.event_type, self.details)
 
 
 def _parse_event_details(

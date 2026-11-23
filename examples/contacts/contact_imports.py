@@ -17,7 +17,7 @@ def import_contacts(contacts: list[mt.ImportContactParams]) -> ContactImport:
 
 def find_topic_preference() -> Optional[mt.ContactSubscriptionTopic]:
     # The first subscription topic, on its sending domain or, for a topic that
-    # covers every domain, on the first one. The topics list answers 403 when
+    # covers every domain, on the first non-demo one. The topics list answers 403 when
     # the account has no subscription topics.
     try:
         topics = client.subscription_topics_api.subscription_topics.get_list().data
@@ -29,10 +29,13 @@ def find_topic_preference() -> Optional[mt.ContactSubscriptionTopic]:
         return None
     domain_id = topics[0].domain_id
     if domain_id is None:
-        domains = client.domains_api.domains.get_list()
-        if not domains:
+        # Skip demo domains: the API doesn't take topic preferences on the
+        # inbound replies one.
+        domain_id = next(
+            (d.id for d in client.domains_api.domains.get_list() if not d.demo), None
+        )
+        if domain_id is None:
             return None
-        domain_id = domains[0].id
     return mt.ContactSubscriptionTopic(
         subscription_topic_id=topics[0].id, domain_id=domain_id, status="unsubscribed"
     )
