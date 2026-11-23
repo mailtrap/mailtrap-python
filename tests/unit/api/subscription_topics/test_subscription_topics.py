@@ -1,4 +1,5 @@
 from typing import Any
+from typing import Optional
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
@@ -190,31 +191,18 @@ class TestSubscriptionTopicsApi:
 
         assert expected_error_message in str(exc_info.value)
 
+    # A deleted topic is returned too, with deleted_at set.
+    @pytest.mark.parametrize("deleted_at", [None, "2026-05-03T12:00:00.000Z"])
     @responses.activate
     def test_get_by_id_should_unwrap_data_envelope(
-        self, client: SubscriptionTopicsApi, sample_topic_dict: dict
+        self,
+        client: SubscriptionTopicsApi,
+        sample_topic_dict: dict,
+        deleted_at: Optional[str],
     ) -> None:
-        responses.get(
-            f"{BASE_TOPICS_URL}/{TOPIC_ID}",
-            json={"data": sample_topic_dict},
-            status=200,
-        )
+        data = {**sample_topic_dict, "deleted_at": deleted_at}
+        responses.get(f"{BASE_TOPICS_URL}/{TOPIC_ID}", json={"data": data}, status=200)
 
         topic = client.get_by_id(TOPIC_ID)
 
-        assert topic == SubscriptionTopic(**sample_topic_dict)
-
-    @responses.activate
-    def test_get_by_id_should_return_deleted_topic(
-        self, client: SubscriptionTopicsApi, sample_topic_dict: dict
-    ) -> None:
-        deleted_at = "2026-05-03T12:00:00.000Z"
-        responses.get(
-            f"{BASE_TOPICS_URL}/{TOPIC_ID}",
-            json={"data": {**sample_topic_dict, "deleted_at": deleted_at}},
-            status=200,
-        )
-
-        topic = client.get_by_id(TOPIC_ID)
-
-        assert topic.deleted_at == deleted_at
+        assert topic == SubscriptionTopic(**data)

@@ -80,6 +80,21 @@ EventDetails = Union[
 ]
 
 
+_DETAILS_TYPE_BY_EVENT_TYPE: dict[str, type[Any]] = {
+    "delivery": EventDetailsDelivery,
+    "open": EventDetailsOpen,
+    "click": EventDetailsClick,
+    "soft_bounce": EventDetailsBounce,
+    "bounce": EventDetailsBounce,
+    "spam": EventDetailsSpam,
+    "unsubscribe": EventDetailsUnsubscribe,
+    "suspension": EventDetailsReject,
+    "reject": EventDetailsReject,
+    "topic_unsubscribe": EventDetailsTopicSubscription,
+    "topic_resubscribe": EventDetailsTopicSubscription,
+}
+
+
 @dataclass
 class MessageEvent:
     """
@@ -99,29 +114,10 @@ class MessageEvent:
         # The union alone would pick whichever EventDetails* fits the dict's
         # keys best, dropping the keys that class doesn't have.
         if isinstance(value, dict):
-            return _parse_event_details(info.data.get("event_type", ""), value)
+            event_type = info.data.get("event_type", "")
+            details_type = _DETAILS_TYPE_BY_EVENT_TYPE.get(event_type)
+            return details_type(**value) if details_type else value
         return handler(value)
-
-
-def _parse_event_details(event_type: str, data: dict[str, Any]) -> EventDetails:
-    """Build the correct EventDetails* from event_type and raw details dict."""
-    if event_type == "delivery":
-        return EventDetailsDelivery(**data)
-    if event_type == "open":
-        return EventDetailsOpen(**data)
-    if event_type == "click":
-        return EventDetailsClick(**data)
-    if event_type in ("soft_bounce", "bounce"):
-        return EventDetailsBounce(**data)
-    if event_type == "spam":
-        return EventDetailsSpam(**data)
-    if event_type == "unsubscribe":
-        return EventDetailsUnsubscribe(**data)
-    if event_type in ("suspension", "reject"):
-        return EventDetailsReject(**data)
-    if event_type in ("topic_unsubscribe", "topic_resubscribe"):
-        return EventDetailsTopicSubscription(**data)
-    return data
 
 
 class EmailLogMessage(BaseModel):

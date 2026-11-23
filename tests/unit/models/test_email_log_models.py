@@ -2,6 +2,8 @@
 
 from typing import Any
 
+import pytest
+
 from mailtrap.models.email_logs import EmailLogMessage
 from mailtrap.models.email_logs import EmailLogsListFilters
 from mailtrap.models.email_logs import EventDetailsBounce
@@ -260,43 +262,59 @@ class TestEmailLogMessage:
                         "event_type": "future_event",
                         "created_at": "2025-01-15T10:40:00Z",
                         "details": details,
-                    },
-                    {
-                        "event_type": "other_future_event",
-                        "created_at": "2025-01-15T10:45:00Z",
-                        "details": {"sending_ip": "192.0.2.1"},
-                    },
+                    }
                 ],
             }
         )
 
         assert msg.events[0].event_type == "future_event"
         assert msg.events[0].details == details
-        assert msg.events[1].details == {"sending_ip": "192.0.2.1"}
 
-    def test_message_event_picks_details_type_from_event_type(self) -> None:
-        """Details given as a dict get their class by event_type, not by shape."""
-        unsubscribe = MessageEvent(
-            event_type="unsubscribe",
-            created_at="2025-01-15T10:40:00Z",
-            details={"web_ip_address": "198.51.100.50"},
-        )
-        delivery = MessageEvent(
-            event_type="delivery",
-            created_at="2025-01-15T10:31:00Z",
-            details={"sending_ip": "192.0.2.1"},
-        )
-        unknown = MessageEvent(
-            event_type="future_event",
-            created_at="2025-01-15T10:40:00Z",
-            details={"web_ip_address": "198.51.100.50"},
+    @pytest.mark.parametrize(
+        "event_type,details,expected",
+        [
+            # A dict gets its class by event_type, not by which class fits its keys.
+            (
+                "unsubscribe",
+                {"web_ip_address": "198.51.100.50"},
+                EventDetailsUnsubscribe(web_ip_address="198.51.100.50"),
+            ),
+            (
+                "delivery",
+                {"sending_ip": "192.0.2.1"},
+                EventDetailsDelivery(sending_ip="192.0.2.1"),
+            ),
+            (
+                "future_event",
+                {"web_ip_address": "198.51.100.50"},
+                {"web_ip_address": "198.51.100.50"},
+            ),
+            # An EventDetails* instance is kept as given.
+            (
+                "unsubscribe",
+                EventDetailsUnsubscribe(web_ip_address="198.51.100.50"),
+                EventDetailsUnsubscribe(web_ip_address="198.51.100.50"),
+            ),
+            (
+                "topic_unsubscribe",
+                EventDetailsTopicSubscription(
+                    web_ip_address="198.51.100.50", subscription_topic_id=17
+                ),
+                EventDetailsTopicSubscription(
+                    web_ip_address="198.51.100.50", subscription_topic_id=17
+                ),
+            ),
+        ],
+    )
+    def test_message_event_details_type(
+        self, event_type: str, details: Any, expected: Any
+    ) -> None:
+        event = MessageEvent(
+            event_type=event_type, created_at="2025-01-15T10:40:00Z", details=details
         )
 
-        assert unsubscribe.details == EventDetailsUnsubscribe(
-            web_ip_address="198.51.100.50"
-        )
-        assert delivery.details == EventDetailsDelivery(sending_ip="192.0.2.1")
-        assert unknown.details == {"web_ip_address": "198.51.100.50"}
+        assert type(event.details) is type(expected)
+        assert event.details == expected
 
     def test_message_round_trips_through_model_dump(self) -> None:
         """Validating a dumped message gives back the same typed details."""
@@ -325,27 +343,6 @@ class TestEmailLogMessage:
 
         assert restored == msg
         assert isinstance(restored.events[0].details, EventDetailsTopicSubscription)
-
-    def test_message_event_keeps_known_details_types(self) -> None:
-        """Building MessageEvent keeps each EventDetails* as given."""
-        unsubscribe = EventDetailsUnsubscribe(web_ip_address="198.51.100.50")
-        topic = EventDetailsTopicSubscription(
-            web_ip_address="198.51.100.50", subscription_topic_id=17
-        )
-
-        unsubscribe_event = MessageEvent(
-            event_type="unsubscribe",
-            created_at="2025-01-15T10:40:00Z",
-            details=unsubscribe,
-        )
-        topic_event = MessageEvent(
-            event_type="topic_unsubscribe",
-            created_at="2025-01-15T10:40:00Z",
-            details=topic,
-        )
-
-        assert type(unsubscribe_event.details) is EventDetailsUnsubscribe
-        assert type(topic_event.details) is EventDetailsTopicSubscription
 
 
 def _message_dict() -> dict[str, Any]:
