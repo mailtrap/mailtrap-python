@@ -10,6 +10,8 @@ from mailtrap.models.email_logs import EventDetailsBounce
 from mailtrap.models.email_logs import EventDetailsClick
 from mailtrap.models.email_logs import EventDetailsDelivery
 from mailtrap.models.email_logs import EventDetailsOpen
+from mailtrap.models.email_logs import EventDetailsReject
+from mailtrap.models.email_logs import EventDetailsSpam
 from mailtrap.models.email_logs import EventDetailsTopicSubscription
 from mailtrap.models.email_logs import EventDetailsUnsubscribe
 from mailtrap.models.email_logs import MessageEvent
@@ -283,6 +285,26 @@ class TestEmailLogMessage:
                 "delivery",
                 {"sending_ip": "192.0.2.1"},
                 EventDetailsDelivery(sending_ip="192.0.2.1"),
+            ),
+            (
+                "soft_bounce",
+                {"bounce_category": "mailbox_full"},
+                EventDetailsBounce(bounce_category="mailbox_full"),
+            ),
+            (
+                "spam",
+                {"spam_feedback_type": "abuse"},
+                EventDetailsSpam(spam_feedback_type="abuse"),
+            ),
+            (
+                "suspension",
+                {"reject_reason": "account_suspended"},
+                EventDetailsReject(reject_reason="account_suspended"),
+            ),
+            (
+                "reject",
+                {"reject_reason": "unsubscribed"},
+                EventDetailsReject(reject_reason="unsubscribed"),
             ),
             (
                 "future_event",

@@ -168,6 +168,15 @@ class TestContactstApi:
                     ),
                 ],
             ),
+            # Preferences without a sending domain.
+            (
+                [{"subscription_topic_id": TOPIC_ID, "status": "unsubscribed"}],
+                [
+                    ContactSubscriptionTopic(
+                        subscription_topic_id=TOPIC_ID, status="unsubscribed"
+                    )
+                ],
+            ),
             # The preferences couldn't be read.
             (None, None),
         ],

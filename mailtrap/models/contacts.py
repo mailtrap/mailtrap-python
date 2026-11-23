@@ -55,12 +55,13 @@ class ContactSubscriptionTopic:
     """
     A contact's status for one subscription topic on one sending domain.
     ``status`` is ``"subscribed"`` or ``"unsubscribed"``; ``domain_id`` is the
-    sending domain's ID, as in the Domains API.
+    sending domain's ID, as in the Domains API, or ``None`` when the API leaves
+    it out.
     """
 
     subscription_topic_id: int
-    domain_id: int
     status: str
+    domain_id: Optional[int] = None
 
 
 @dataclass
