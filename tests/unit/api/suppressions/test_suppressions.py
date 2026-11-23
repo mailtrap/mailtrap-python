@@ -1,8 +1,6 @@
 import json
 from datetime import datetime
 from typing import Any
-from urllib.parse import parse_qs
-from urllib.parse import urlparse
 
 import pytest
 import responses
@@ -125,7 +123,7 @@ class TestSuppressionsApi:
 
         suppressions = suppressions_api.get_list()
 
-        assert urlparse(responses.calls[0].request.url).query == ""
+        assert responses.calls[0].request.params == {}
         assert suppressions[0].subscription_topic_id is None
 
     @responses.activate
@@ -149,8 +147,8 @@ class TestSuppressionsApi:
         suppressions = suppressions_api.get_list(include_topic_unsubscriptions=True)
 
         # The API opts in only on the exact string "true".
-        assert parse_qs(urlparse(responses.calls[0].request.url).query) == {
-            "include_topic_unsubscriptions": ["true"]
+        assert responses.calls[0].request.params == {
+            "include_topic_unsubscriptions": "true"
         }
         assert suppressions[1].type == "topic unsubscription"
         assert suppressions[1].domain_name == "sender.com"
@@ -166,9 +164,9 @@ class TestSuppressionsApi:
             email="recipient@example.com", include_topic_unsubscriptions=True
         )
 
-        assert parse_qs(urlparse(responses.calls[0].request.url).query) == {
-            "email": ["recipient@example.com"],
-            "include_topic_unsubscriptions": ["true"],
+        assert responses.calls[0].request.params == {
+            "email": "recipient@example.com",
+            "include_topic_unsubscriptions": "true",
         }
 
     @pytest.mark.parametrize(

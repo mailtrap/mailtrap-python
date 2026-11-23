@@ -8,6 +8,9 @@ from typing import Union
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
+from pydantic import ValidationInfo
+from pydantic import ValidatorFunctionWrapHandler
+from pydantic import field_validator
 from pydantic.dataclasses import dataclass
 
 # --- Event details (for get-by-id) ---
@@ -64,6 +67,19 @@ class EventDetailsTopicSubscription:
     subscription_topic_id: Optional[int] = None
 
 
+EventDetails = Union[
+    EventDetailsDelivery,
+    EventDetailsOpen,
+    EventDetailsClick,
+    EventDetailsBounce,
+    EventDetailsSpam,
+    EventDetailsUnsubscribe,
+    EventDetailsReject,
+    EventDetailsTopicSubscription,
+    dict[str, Any],
+]
+
+
 @dataclass
 class MessageEvent:
     """
@@ -73,48 +89,22 @@ class MessageEvent:
 
     event_type: str
     created_at: str
-    # Left to right with the dict first, so a dict reaches __post_init__ as is,
-    # which picks the class by event_type: pydantic's default smart union would
-    # turn it into whichever EventDetails* fits best, dropping the keys that
-    # class doesn't have.
-    details: Optional[
-        Union[
-            dict[str, Any],
-            EventDetailsDelivery,
-            EventDetailsOpen,
-            EventDetailsClick,
-            EventDetailsBounce,
-            EventDetailsSpam,
-            EventDetailsUnsubscribe,
-            EventDetailsReject,
-            EventDetailsTopicSubscription,
-        ]
-    ] = Field(default=None, union_mode="left_to_right")
+    details: Optional[EventDetails] = None
 
-    def __post_init__(self) -> None:
-        if isinstance(self.details, dict):
-            self.details = _parse_event_details(self.event_type, self.details)
+    @field_validator("details", mode="wrap")
+    @classmethod
+    def _details_by_event_type(
+        cls, value: Any, handler: ValidatorFunctionWrapHandler, info: ValidationInfo
+    ) -> Any:
+        # The union alone would pick whichever EventDetails* fits the dict's
+        # keys best, dropping the keys that class doesn't have.
+        if isinstance(value, dict):
+            return _parse_event_details(info.data.get("event_type", ""), value)
+        return handler(value)
 
 
-def _parse_event_details(
-    event_type: str,
-    data: Optional[dict[str, Any]],
-) -> Optional[
-    Union[
-        EventDetailsDelivery,
-        EventDetailsOpen,
-        EventDetailsClick,
-        EventDetailsBounce,
-        EventDetailsSpam,
-        EventDetailsUnsubscribe,
-        EventDetailsReject,
-        EventDetailsTopicSubscription,
-        dict[str, Any],
-    ]
-]:
+def _parse_event_details(event_type: str, data: dict[str, Any]) -> EventDetails:
     """Build the correct EventDetails* from event_type and raw details dict."""
-    if data is None:
-        return None
     if event_type == "delivery":
         return EventDetailsDelivery(**data)
     if event_type == "open":
@@ -132,18 +122,6 @@ def _parse_event_details(
     if event_type in ("topic_unsubscribe", "topic_resubscribe"):
         return EventDetailsTopicSubscription(**data)
     return data
-
-
-def _parse_message_event(event_dict: dict[str, Any]) -> MessageEvent:
-    """Build MessageEvent from API dict using event_type to select details type."""
-    event_type = event_dict["event_type"]
-    created_at = event_dict["created_at"]
-    details = _parse_event_details(event_type, event_dict.get("details"))
-    return MessageEvent(
-        event_type=event_type,
-        created_at=created_at,
-        details=details,
-    )
 
 
 class EmailLogMessage(BaseModel):
@@ -182,8 +160,6 @@ class EmailLogMessage(BaseModel):
         payload = dict(data)
         if payload.get("events") is None:
             payload["events"] = []
-        else:
-            payload["events"] = [_parse_message_event(e) for e in payload["events"]]
         if payload.get("custom_variables") is None:
             payload["custom_variables"] = {}
         if payload.get("template_variables") is None:
