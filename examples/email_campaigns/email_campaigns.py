@@ -32,18 +32,26 @@ def get_email_campaign(email_campaign_id: int) -> EmailCampaign:
 
 def find_subscription_topic_id(domain_id: int) -> Optional[int]:
     # A topic covers the campaign's domain when its `domain_id` is that domain
-    # or None (every domain). The list answers 403 when the account has no
-    # subscription topics.
-    try:
-        topics = client.subscription_topics_api.subscription_topics.get_list()
-    except mt.APIError as error:
-        if error.status == 403:
+    # or None (every domain). The list is paginated, so follow `next_token`
+    # (with the same `per_page`) until a match turns up. It answers 403 when
+    # the account has no subscription topics.
+    topics_api = client.subscription_topics_api.subscription_topics
+    token: Optional[int] = None
+    while True:
+        try:
+            page = topics_api.get_list(
+                mt.SubscriptionTopicListParams(per_page=100, token=token)
+            )
+        except mt.APIError as error:
+            if error.status == 403:
+                return None
+            raise
+        for topic in page.data:
+            if topic.domain_id in (None, domain_id):
+                return topic.id
+        if page.pagination is None or page.pagination.next_token is None:
             return None
-        raise
-    return next(
-        (topic.id for topic in topics.data if topic.domain_id in (None, domain_id)),
-        None,
-    )
+        token = page.pagination.next_token
 
 
 def create_email_campaign() -> EmailCampaign:
