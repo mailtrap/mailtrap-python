@@ -18,6 +18,8 @@ from tests import conftest
 TOPIC_ID = 17
 DOMAIN_ID = 4321
 BASE_TOPICS_URL = f"https://{GENERAL_HOST}/api/subscription_topics"
+# An account without subscription topics gets a 403 with an empty body.
+FORBIDDEN_WITHOUT_TOPICS = (conftest.FORBIDDEN_STATUS_CODE, None, "Empty response body")
 
 
 @pytest.fixture
@@ -58,6 +60,7 @@ class TestSubscriptionTopicsApi:
                 {"errors": "token is out of range"},
                 "token is out of range",
             ),
+            FORBIDDEN_WITHOUT_TOPICS,
         ],
     )
     @responses.activate
@@ -65,7 +68,7 @@ class TestSubscriptionTopicsApi:
         self,
         client: SubscriptionTopicsApi,
         status_code: int,
-        response_json: dict,
+        response_json: Optional[dict],
         expected_error_message: str,
     ) -> None:
         responses.get(BASE_TOPICS_URL, status=status_code, json=response_json)
@@ -73,19 +76,8 @@ class TestSubscriptionTopicsApi:
         with pytest.raises(APIError) as exc_info:
             client.get_list()
 
+        assert exc_info.value.status == status_code
         assert expected_error_message in str(exc_info.value)
-
-    @responses.activate
-    def test_get_list_should_raise_forbidden_without_topics(
-        self, client: SubscriptionTopicsApi
-    ) -> None:
-        # An account without subscription topics gets a 403 with an empty body.
-        responses.get(BASE_TOPICS_URL, status=conftest.FORBIDDEN_STATUS_CODE, body="")
-
-        with pytest.raises(APIError) as exc_info:
-            client.get_list()
-
-        assert exc_info.value.status == conftest.FORBIDDEN_STATUS_CODE
 
     @responses.activate
     def test_get_list_should_return_topics_and_pagination(
@@ -172,6 +164,7 @@ class TestSubscriptionTopicsApi:
                 conftest.NOT_FOUND_RESPONSE,
                 conftest.NOT_FOUND_ERROR_MESSAGE,
             ),
+            FORBIDDEN_WITHOUT_TOPICS,
         ],
     )
     @responses.activate
@@ -179,7 +172,7 @@ class TestSubscriptionTopicsApi:
         self,
         client: SubscriptionTopicsApi,
         status_code: int,
-        response_json: dict,
+        response_json: Optional[dict],
         expected_error_message: str,
     ) -> None:
         responses.get(
@@ -189,6 +182,7 @@ class TestSubscriptionTopicsApi:
         with pytest.raises(APIError) as exc_info:
             client.get_by_id(TOPIC_ID)
 
+        assert exc_info.value.status == status_code
         assert expected_error_message in str(exc_info.value)
 
     # A deleted topic is returned too, with deleted_at set.

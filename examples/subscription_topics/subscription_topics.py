@@ -28,12 +28,13 @@ def get_subscription_topic(subscription_topic_id: int) -> SubscriptionTopic:
 
 if __name__ == "__main__":
     try:
-        page = list_subscription_topics()
+        first_page = list_subscription_topics()
     except mt.APIError as error:
         if error.status != 403:
             raise
         raise SystemExit("Subscription topics aren't available for this account.")
 
+    page = first_page
     while True:
         for topic in page.data:
             # `domain_id` is None when the topic covers every sending domain.
@@ -42,5 +43,5 @@ if __name__ == "__main__":
             break
         page = list_subscription_topics(token=page.pagination.next_token)
 
-    if page.data:
-        print(get_subscription_topic(page.data[0].id))
+    if first_page.data:
+        print(get_subscription_topic(first_page.data[0].id))
