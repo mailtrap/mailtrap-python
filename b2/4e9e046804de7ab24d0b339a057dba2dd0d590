@@ -1,0 +1,22 @@
+tests/unit/api/subscription_topics/test_subscription_topics.py
+  s_b0416cb8a91368::t_76e124faa960f2 79,185
+  s_b0416cb8a91368::t_36675fb7d71f3c 21-22,63,71,167,175
+examples/subscription_topics/subscription_topics.py
+  s_b0416cb8a91368::t_36675fb7d71f3c 31,37,46-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b24e9e046804de7ab24d0b339a057dba2dd0d590",
+  "prompts": {},
+  "sessions": {
+    "s_b0416cb8a91368": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9059b776-5dd0-4259-928d-218dcc83d208",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
