@@ -1,6 +1,4 @@
 from datetime import datetime
-from typing import Optional
-from typing import Union
 
 from pydantic.dataclasses import dataclass
 
@@ -14,17 +12,17 @@ class Suppression:
     created_at: datetime
     email: str
     sending_stream: str
-    domain_name: Optional[str] = None
-    message_bounce_category: Optional[str] = None
-    message_category: Optional[str] = None
-    message_client_ip: Optional[str] = None
-    message_created_at: Optional[Union[str, datetime]] = None
-    message_esp_response: Optional[str] = None
-    message_esp_server_type: Optional[str] = None
-    message_outgoing_ip: Optional[str] = None
-    message_recipient_mx_name: Optional[str] = None
-    message_sender_email: Optional[str] = None
-    message_subject: Optional[str] = None
+    domain_name: str | None = None
+    message_bounce_category: str | None = None
+    message_category: str | None = None
+    message_client_ip: str | None = None
+    message_created_at: str | datetime | None = None
+    message_esp_response: str | None = None
+    message_esp_server_type: str | None = None
+    message_outgoing_ip: str | None = None
+    message_recipient_mx_name: str | None = None
+    message_sender_email: str | None = None
+    message_subject: str | None = None
 
 
 @dataclass
@@ -37,4 +35,4 @@ class CreateSuppressionParams(RequestParams):
     email: str
     domain_id: int
     sending_stream: str
-    type: Optional[str] = None
+    type: str | None = None

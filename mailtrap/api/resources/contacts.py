@@ -1,4 +1,3 @@
-from typing import Optional
 from urllib.parse import quote
 
 from mailtrap.http import HttpClient
@@ -42,7 +41,7 @@ class ContactsApi:
         self._client.delete(self._api_path(contact_id_or_email))
         return DeletedObject(contact_id_or_email)
 
-    def _api_path(self, contact_id_or_email: Optional[str] = None) -> str:
+    def _api_path(self, contact_id_or_email: str | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/contacts"
         if contact_id_or_email is not None:
             return f"{path}/{quote(contact_id_or_email, safe='')}"

@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Optional
 
 from pydantic import Field
 from pydantic import FieldSerializationInfo
@@ -18,9 +17,9 @@ class Disposition(str, Enum):
 class Attachment(RequestParams):
     content: bytes
     filename: str
-    disposition: Optional[Disposition] = None
-    mimetype: Optional[str] = Field(default=None, serialization_alias="type")
-    content_id: Optional[str] = None
+    disposition: Disposition | None = None
+    mimetype: str | None = Field(default=None, serialization_alias="type")
+    content_id: str | None = None
 
     @field_serializer("content")
     def serialize_content(self, value: bytes, _info: FieldSerializationInfo) -> str:

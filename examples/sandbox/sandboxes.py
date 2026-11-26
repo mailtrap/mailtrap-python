@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.sandboxes import Sandbox
@@ -27,8 +26,8 @@ def get_sandbox_by_id(sandbox_id: int) -> Sandbox:
 
 def update_sandbox(
     sandbox_id: int,
-    new_name: Optional[str] = None,
-    new_email_username: Optional[str] = None,
+    new_name: str | None = None,
+    new_email_username: str | None = None,
 ) -> Sandbox:
     return sandboxes_api.update(
         sandbox_id,

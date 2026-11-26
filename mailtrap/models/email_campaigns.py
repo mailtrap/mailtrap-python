@@ -1,7 +1,5 @@
 """Models for the Email Campaigns API (campaigns + stats)."""
 
-from typing import Optional
-
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
@@ -13,16 +11,16 @@ from mailtrap.models.common import RequestParams
 class EmailCampaignReplyTo:
     """Reply-To address parts."""
 
-    display_name: Optional[str] = None
-    local_part: Optional[str] = None
-    domain: Optional[str] = None
+    display_name: str | None = None
+    local_part: str | None = None
+    domain: str | None = None
 
 
 @dataclass
 class EmailCampaignDeliveryOptions:
     """Delivery throttling options. Applies when ``delivery_mode`` is ``gradual``."""
 
-    emails_per_hour: Optional[int] = None
+    emails_per_hour: int | None = None
 
 
 @dataclass
@@ -33,10 +31,10 @@ class EmailCampaignTemplateAttributes:
     when provided.
     """
 
-    subject: Optional[str] = None
-    body_html: Optional[str] = None
-    body_text: Optional[str] = None
-    merge_tags: Optional[list[str]] = None
+    subject: str | None = None
+    body_html: str | None = None
+    body_text: str | None = None
+    merge_tags: list[str] | None = None
 
 
 @dataclass
@@ -47,9 +45,9 @@ class CreateEmailCampaignTemplateAttributes:
     """
 
     subject: str
-    body_html: Optional[str] = None
-    body_text: Optional[str] = None
-    merge_tags: Optional[list[str]] = None
+    body_html: str | None = None
+    body_text: str | None = None
+    merge_tags: list[str] | None = None
 
 
 @dataclass
@@ -59,36 +57,36 @@ class EmailCampaignStats:
     when the campaign has not been started.
     """
 
-    delivery_count: Optional[int] = None
-    open_count: Optional[int] = None
-    click_count: Optional[int] = None
-    bounce_count: Optional[int] = None
-    unsubscription_count: Optional[int] = None
-    sent_count: Optional[int] = None
-    spam_count: Optional[int] = None
-    delivery_rate: Optional[float] = None
-    open_rate: Optional[float] = None
-    click_rate: Optional[float] = None
-    bounce_rate: Optional[float] = None
-    spam_rate: Optional[float] = None
-    unsubscription_rate: Optional[float] = None
+    delivery_count: int | None = None
+    open_count: int | None = None
+    click_count: int | None = None
+    bounce_count: int | None = None
+    unsubscription_count: int | None = None
+    sent_count: int | None = None
+    spam_count: int | None = None
+    delivery_rate: float | None = None
+    open_rate: float | None = None
+    click_rate: float | None = None
+    bounce_rate: float | None = None
+    spam_rate: float | None = None
+    unsubscription_rate: float | None = None
 
 
 @dataclass
 class CampaignStateError:
     """A per-recipient error recorded when sending failed."""
 
-    message: Optional[str] = None
-    rcpt_index: Optional[int] = None
+    message: str | None = None
+    rcpt_index: int | None = None
 
 
 @dataclass
 class CurrentStateMetadata:
     """Metadata about the most recent campaign state transition."""
 
-    reason: Optional[str] = None
-    error: Optional[str] = None
-    scheduled_at: Optional[str] = None
+    reason: str | None = None
+    error: str | None = None
+    scheduled_at: str | None = None
     errors: list[CampaignStateError] = Field(default_factory=list)
 
 
@@ -100,11 +98,11 @@ class EmailCampaignTemplate:
     endpoint omits them.
     """
 
-    id: Optional[int] = None
-    subject: Optional[str] = None
+    id: int | None = None
+    subject: str | None = None
     merge_tags: list[str] = Field(default_factory=list)
-    body_html: Optional[str] = None
-    body_text: Optional[str] = None
+    body_html: str | None = None
+    body_text: str | None = None
 
 
 @dataclass
@@ -112,24 +110,24 @@ class EmailCampaign:
     """A single email campaign."""
 
     id: int
-    domain_id: Optional[int] = None
-    domain_name: Optional[str] = None
-    name: Optional[str] = None
-    from_local_part: Optional[str] = None
-    from_display_name: Optional[str] = None
-    reply_to: Optional[EmailCampaignReplyTo] = None
-    current_state: Optional[str] = None
-    current_state_metadata: Optional[CurrentStateMetadata] = None
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
-    last_started_at: Optional[str] = None
-    last_started_at_date: Optional[str] = None
-    recipient_total_count: Optional[int] = None
+    domain_id: int | None = None
+    domain_name: str | None = None
+    name: str | None = None
+    from_local_part: str | None = None
+    from_display_name: str | None = None
+    reply_to: EmailCampaignReplyTo | None = None
+    current_state: str | None = None
+    current_state_metadata: CurrentStateMetadata | None = None
+    created_at: str | None = None
+    updated_at: str | None = None
+    last_started_at: str | None = None
+    last_started_at_date: str | None = None
+    recipient_total_count: int | None = None
     contact_list_ids: list[int] = Field(default_factory=list)
     contact_segment_ids: list[int] = Field(default_factory=list)
-    delivery_mode: Optional[str] = None
-    delivery_options: Optional[EmailCampaignDeliveryOptions] = None
-    template: Optional[EmailCampaignTemplate] = None
+    delivery_mode: str | None = None
+    delivery_options: EmailCampaignDeliveryOptions | None = None
+    template: EmailCampaignTemplate | None = None
 
 
 @dataclass
@@ -151,7 +149,7 @@ class EmailCampaignListResponse:
     """Paginated response from listing email campaigns."""
 
     data: list[EmailCampaign] = Field(default_factory=list)
-    pagination: Optional[Pagination] = None
+    pagination: Pagination | None = None
 
 
 @dataclass
@@ -161,17 +159,17 @@ class EmailCampaignListParams(RequestParams):
     serializes to the ``search`` wire parameter.
     """
 
-    per_page: Optional[int] = None
-    search: Optional[str] = None
-    token: Optional[int] = None
+    per_page: int | None = None
+    search: str | None = None
+    token: int | None = None
 
 
 @dataclass
 class EmailCampaignStatsParams(RequestParams):
     """Query params for campaign stats (``YYYY-MM-DD`` aggregation window)."""
 
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
+    start_date: str | None = None
+    end_date: str | None = None
 
 
 @dataclass
@@ -185,12 +183,12 @@ class CreateEmailCampaignParams(RequestParams):
     domain_id: int
     from_local_part: str
     template_attributes: CreateEmailCampaignTemplateAttributes
-    from_display_name: Optional[str] = None
-    reply_to: Optional[EmailCampaignReplyTo] = None
-    delivery_mode: Optional[str] = None
-    delivery_options: Optional[EmailCampaignDeliveryOptions] = None
-    contact_list_ids: Optional[list[int]] = None
-    contact_segment_ids: Optional[list[int]] = None
+    from_display_name: str | None = None
+    reply_to: EmailCampaignReplyTo | None = None
+    delivery_mode: str | None = None
+    delivery_options: EmailCampaignDeliveryOptions | None = None
+    contact_list_ids: list[int] | None = None
+    contact_segment_ids: list[int] | None = None
 
 
 @dataclass
@@ -200,16 +198,16 @@ class UpdateEmailCampaignParams(RequestParams):
     All fields are optional; only provided fields are changed.
     """
 
-    name: Optional[str] = None
-    domain_id: Optional[int] = None
-    from_local_part: Optional[str] = None
-    from_display_name: Optional[str] = None
-    reply_to: Optional[EmailCampaignReplyTo] = None
-    template_attributes: Optional[EmailCampaignTemplateAttributes] = None
-    delivery_mode: Optional[str] = None
-    delivery_options: Optional[EmailCampaignDeliveryOptions] = None
-    contact_list_ids: Optional[list[int]] = None
-    contact_segment_ids: Optional[list[int]] = None
+    name: str | None = None
+    domain_id: int | None = None
+    from_local_part: str | None = None
+    from_display_name: str | None = None
+    reply_to: EmailCampaignReplyTo | None = None
+    template_attributes: EmailCampaignTemplateAttributes | None = None
+    delivery_mode: str | None = None
+    delivery_options: EmailCampaignDeliveryOptions | None = None
+    contact_list_ids: list[int] | None = None
+    contact_segment_ids: list[int] | None = None
 
 
 @dataclass

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -30,10 +28,10 @@ class Sandbox:
     pop3_ports: list[int]
     max_message_size: int
     permissions: Permissions
-    password: Optional[str] = (
+    password: str | None = (
         None  # Password is only available if you have admin permissions for the sandbox.
     )
-    last_message_sent_at: Optional[str] = None
+    last_message_sent_at: str | None = None
 
 
 @dataclass
@@ -43,8 +41,8 @@ class CreateSandboxParams(RequestParams):
 
 @dataclass
 class UpdateSandboxParams(RequestParams):
-    name: Optional[str] = None
-    email_username: Optional[str] = None
+    name: str | None = None
+    email_username: str | None = None
 
     def __post_init__(self) -> None:
         if all(

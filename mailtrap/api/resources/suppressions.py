@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.suppressions import CreateSuppressionParams
 from mailtrap.models.suppressions import Suppression
@@ -11,7 +9,7 @@ class SuppressionsApi:
         self._account_id = account_id
         self._client = client
 
-    def get_list(self, email: Optional[str] = None) -> list[Suppression]:
+    def get_list(self, email: str | None = None) -> list[Suppression]:
         """
         List and search suppressions by email.
         The endpoint returns up to 1000 suppressions per request.
@@ -36,7 +34,7 @@ class SuppressionsApi:
         response = self._client.delete(self._api_path(suppression_id))
         return Suppression(**response)
 
-    def _api_path(self, suppression_id: Optional[str] = None) -> str:
+    def _api_path(self, suppression_id: str | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/suppressions"
         if suppression_id is not None:
             return f"{path}/{suppression_id}"

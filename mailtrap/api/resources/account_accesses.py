@@ -1,4 +1,3 @@
-from typing import Optional
 from urllib.parse import quote
 
 from mailtrap.http import HttpClient
@@ -12,7 +11,7 @@ class AccountAccessesApi:
         self._client = client
 
     def get_list(
-        self, account_id: int, filter_params: Optional[AccountAccessFilterParams] = None
+        self, account_id: int, filter_params: AccountAccessFilterParams | None = None
     ) -> list[AccountAccess]:
         """
         Get list of account accesses for which specifier_type is User or Invite.
@@ -36,7 +35,7 @@ class AccountAccessesApi:
         self._client.delete(self._api_path(account_id, account_access_id))
         return DeletedObject(account_access_id)
 
-    def _api_path(self, account_id: int, account_access_id: Optional[int] = None) -> str:
+    def _api_path(self, account_id: int, account_access_id: int | None = None) -> str:
         path = f"/api/accounts/{account_id}/account_accesses"
         if account_access_id is not None:
             return f"{path}/{quote(str(account_access_id), safe='')}"

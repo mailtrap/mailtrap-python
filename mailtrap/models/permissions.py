@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -26,8 +24,8 @@ class PermissionResource:
 class PermissionResourceParams(RequestParams):
     resource_id: str
     resource_type: str
-    access_level: Optional[str] = None
-    _destroy: Optional[bool] = None
+    access_level: str | None = None
+    _destroy: bool | None = None
 
 
 @dataclass

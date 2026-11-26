@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -10,17 +8,17 @@ class CreateEmailTemplateParams(RequestParams):
     name: str
     subject: str
     category: str
-    body_text: Optional[str] = None
-    body_html: Optional[str] = None
+    body_text: str | None = None
+    body_html: str | None = None
 
 
 @dataclass
 class UpdateEmailTemplateParams(RequestParams):
-    name: Optional[str] = None
-    subject: Optional[str] = None
-    category: Optional[str] = None
-    body_text: Optional[str] = None
-    body_html: Optional[str] = None
+    name: str | None = None
+    subject: str | None = None
+    category: str | None = None
+    body_text: str | None = None
+    body_html: str | None = None
 
     def __post_init__(self) -> None:
         if all(
@@ -43,7 +41,7 @@ class EmailTemplate:
     uuid: str
     category: str
     subject: str
-    body_text: Optional[str]
-    body_html: Optional[str]
+    body_text: str | None
+    body_html: str | None
     created_at: str
     updated_at: str

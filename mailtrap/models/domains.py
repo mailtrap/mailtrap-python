@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
@@ -37,12 +35,12 @@ class Domain:
     health_alerts_enabled: bool
     critical_alerts_enabled: bool
     permissions: DomainPermissions
-    alert_recipient_email: Optional[str] = None
-    dns_verified_at: Optional[str] = None
+    alert_recipient_email: str | None = None
+    dns_verified_at: str | None = None
     dns_records: list[DnsRecord] = Field(default_factory=list)
-    tracking_opt_out_enabled: Optional[bool] = None
-    inbound_enabled: Optional[bool] = None
-    inbound_verified: Optional[bool] = None
+    tracking_opt_out_enabled: bool | None = None
+    inbound_enabled: bool | None = None
+    inbound_verified: bool | None = None
 
 
 @dataclass
@@ -52,11 +50,11 @@ class CreateDomainParams(RequestParams):
 
 @dataclass
 class UpdateDomainParams(RequestParams):
-    open_tracking_enabled: Optional[bool] = None
-    click_tracking_enabled: Optional[bool] = None
-    tracking_opt_out_enabled: Optional[bool] = None
-    auto_unsubscribe_link_enabled: Optional[bool] = None
-    inbound_enabled: Optional[bool] = None
+    open_tracking_enabled: bool | None = None
+    click_tracking_enabled: bool | None = None
+    tracking_opt_out_enabled: bool | None = None
+    auto_unsubscribe_link_enabled: bool | None = None
+    inbound_enabled: bool | None = None
 
 
 @dataclass

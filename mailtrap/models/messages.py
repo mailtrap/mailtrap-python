@@ -1,7 +1,5 @@
 from datetime import datetime
 from typing import Any
-from typing import Optional
-from typing import Union
 
 from pydantic import Field
 from pydantic.dataclasses import dataclass
@@ -33,7 +31,7 @@ class SmtpData:
 @dataclass
 class SmtpInformation:
     ok: bool
-    data: Optional[SmtpData] = None
+    data: SmtpData | None = None
 
 
 @dataclass
@@ -58,7 +56,7 @@ class EmailMessage:
     raw_path: str
     download_path: str
     html_source_path: str
-    blacklists_report_info: Union[bool, Blacklists]
+    blacklists_report_info: bool | Blacklists
     smtp_information: SmtpInformation
 
 
@@ -127,4 +125,4 @@ class AnalysisReportSuccess(AnalysisReport):
 
 @dataclass
 class AnalysisReportResponse:
-    report: Union[AnalysisReportError, AnalysisReportSuccess]
+    report: AnalysisReportError | AnalysisReportSuccess

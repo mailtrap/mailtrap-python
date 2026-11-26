@@ -1,5 +1,4 @@
 from typing import Literal
-from typing import Optional
 
 from pydantic.dataclasses import dataclass
 
@@ -49,6 +48,6 @@ class MarketingStatsFilterParams(RequestParams):
 
     start_date: str
     end_date: str
-    sending_domain_ids: Optional[list[int]] = None
-    sources: Optional[list[MarketingStatsSource]] = None
-    email_service_providers: Optional[list[str]] = None
+    sending_domain_ids: list[int] | None = None
+    sources: list[MarketingStatsSource] | None = None
+    email_service_providers: list[str] | None = None

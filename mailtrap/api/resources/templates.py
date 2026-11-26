@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.templates import CreateEmailTemplateParams
@@ -45,7 +43,7 @@ class TemplatesApi:
         self._client.delete(self._api_path(template_id))
         return DeletedObject(template_id)
 
-    def _api_path(self, template_id: Optional[int] = None) -> str:
+    def _api_path(self, template_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/email_templates"
         if template_id:
             return f"{path}/{template_id}"

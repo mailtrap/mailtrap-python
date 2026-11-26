@@ -1,5 +1,4 @@
 from typing import Any
-from typing import Optional
 
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
@@ -14,8 +13,8 @@ class InboundThreadsApi:
     def get_list(
         self,
         inbox_id: int,
-        last_id: Optional[str] = None,
-        search: Optional[str] = None,
+        last_id: str | None = None,
+        search: str | None = None,
     ) -> InboundThreadsListResponse:
         """
         List conversation threads in an inbox. Pass last_id from a previous
@@ -39,7 +38,7 @@ class InboundThreadsApi:
         self._client.delete(self._api_path(inbox_id, thread_id))
         return DeletedObject(thread_id)
 
-    def _api_path(self, inbox_id: int, thread_id: Optional[str] = None) -> str:
+    def _api_path(self, inbox_id: int, thread_id: str | None = None) -> str:
         path = f"/api/inbound/inboxes/{inbox_id}/threads"
         if thread_id:
             return f"{path}/{thread_id}"

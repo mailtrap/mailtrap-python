@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.contacts import ContactExportDetail
 from mailtrap.models.contacts import CreateContactExportParams
@@ -25,7 +23,7 @@ class ContactExportsApi:
         response = self._client.get(self._api_path(export_id))
         return ContactExportDetail(**response)
 
-    def _api_path(self, export_id: Optional[int] = None) -> str:
+    def _api_path(self, export_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/contacts/exports"
         if export_id is not None:
             return f"{path}/{export_id}"

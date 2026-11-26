@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.common import DeletedObject
@@ -27,8 +26,8 @@ def create_contact_field(
 
 def update_contact_field(
     contact_field_id: int,
-    name: Optional[str] = None,
-    merge_tag: Optional[str] = None,
+    name: str | None = None,
+    merge_tag: str | None = None,
 ) -> ContactField:
     params = mt.UpdateContactFieldParams(name=name, merge_tag=merge_tag)
     return contact_fields_api.update(contact_field_id, params)

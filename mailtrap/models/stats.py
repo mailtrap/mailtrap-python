@@ -1,6 +1,3 @@
-from typing import Optional
-from typing import Union
-
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -23,15 +20,15 @@ class SendingStats:
 @dataclass
 class SendingStatGroup:
     name: str
-    value: Union[str, int]
+    value: str | int
     stats: SendingStats
 
 
 @dataclass
 class StatsFilterParams(RequestParams):
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
-    sending_domain_ids: Optional[list[int]] = None
-    sending_streams: Optional[list[str]] = None
-    categories: Optional[list[str]] = None
-    email_service_providers: Optional[list[str]] = None
+    start_date: str | None = None
+    end_date: str | None = None
+    sending_domain_ids: list[int] | None = None
+    sending_streams: list[str] | None = None
+    categories: list[str] | None = None
+    email_service_providers: list[str] | None = None

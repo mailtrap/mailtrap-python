@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap._deprecation import renamed_kwargs
 from mailtrap.http import HttpClient
 from mailtrap.models.attachments import Attachment
@@ -35,7 +33,7 @@ class AttachmentsApi:
         self,
         sandbox_id: int,
         message_id: int,
-        attachment_id: Optional[int] = None,
+        attachment_id: int | None = None,
     ) -> str:
         path = (
             f"/api/accounts/{self._account_id}"

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.api_tokens import ApiToken
 from mailtrap.models.api_tokens import ApiTokenWithToken
@@ -54,7 +52,7 @@ class ApiTokensApi:
         self,
         account_id: int,
         api_token_id: int,
-        token_params: Optional[ResetApiTokenParams] = None,
+        token_params: ResetApiTokenParams | None = None,
     ) -> ApiTokenWithToken:
         """
         Expire the requested token and create a new token with the same
@@ -73,7 +71,7 @@ class ApiTokensApi:
         return ApiTokenWithToken(**response)
 
     @staticmethod
-    def _api_path(account_id: int, api_token_id: Optional[int] = None) -> str:
+    def _api_path(account_id: int, api_token_id: int | None = None) -> str:
         path = f"/api/accounts/{account_id}/api_tokens"
         if api_token_id is not None:
             return f"{path}/{api_token_id}"

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap._deprecation import build_without_warning
 from mailtrap._deprecation import warn_deprecated
 from mailtrap.api.resources.inboxes import InboxesApi
@@ -14,7 +12,7 @@ class TestingApi(SandboxApi):
     """
 
     def __init__(
-        self, client: HttpClient, account_id: str, inbox_id: Optional[str] = None
+        self, client: HttpClient, account_id: str, inbox_id: str | None = None
     ) -> None:
         warn_deprecated("TestingApi", "SandboxApi")
         super().__init__(client=client, account_id=account_id)

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -7,16 +5,16 @@ from mailtrap.models.common import RequestParams
 
 @dataclass
 class CompanyInfo:
-    info_level: Optional[str] = None
-    name: Optional[str] = None
-    address: Optional[str] = None
-    city: Optional[str] = None
-    country: Optional[str] = None
-    phone: Optional[str] = None
-    zip_code: Optional[str] = None
-    privacy_policy_url: Optional[str] = None
-    terms_of_service_url: Optional[str] = None
-    website_url: Optional[str] = None
+    info_level: str | None = None
+    name: str | None = None
+    address: str | None = None
+    city: str | None = None
+    country: str | None = None
+    phone: str | None = None
+    zip_code: str | None = None
+    privacy_policy_url: str | None = None
+    terms_of_service_url: str | None = None
+    website_url: str | None = None
 
 
 @dataclass
@@ -32,21 +30,21 @@ class CreateCompanyInfoParams(RequestParams):
     country: str
     zip_code: str
     website_url: str
-    phone: Optional[str] = None
-    privacy_policy_url: Optional[str] = None
-    terms_of_service_url: Optional[str] = None
-    info_level: Optional[str] = None
+    phone: str | None = None
+    privacy_policy_url: str | None = None
+    terms_of_service_url: str | None = None
+    info_level: str | None = None
 
 
 @dataclass
 class UpdateCompanyInfoParams(RequestParams):
-    name: Optional[str] = None
-    address: Optional[str] = None
-    city: Optional[str] = None
-    country: Optional[str] = None
-    phone: Optional[str] = None
-    zip_code: Optional[str] = None
-    privacy_policy_url: Optional[str] = None
-    terms_of_service_url: Optional[str] = None
-    website_url: Optional[str] = None
-    info_level: Optional[str] = None
+    name: str | None = None
+    address: str | None = None
+    city: str | None = None
+    country: str | None = None
+    phone: str | None = None
+    zip_code: str | None = None
+    privacy_policy_url: str | None = None
+    terms_of_service_url: str | None = None
+    website_url: str | None = None
+    info_level: str | None = None

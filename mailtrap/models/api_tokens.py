@@ -1,6 +1,4 @@
 from typing import Any
-from typing import Optional
-from typing import Union
 
 from pydantic import Field
 from pydantic.dataclasses import dataclass
@@ -13,7 +11,7 @@ from mailtrap.models.common import UnsetType
 @dataclass
 class ApiTokenResource:
     resource_type: str
-    resource_id: Union[int, str]
+    resource_id: int | str
     access_level: int
 
 
@@ -23,7 +21,7 @@ class ApiToken:
     name: str
     last_4_digits: str
     created_by: str
-    expires_at: Optional[str]
+    expires_at: str | None
     resources: list[ApiTokenResource]
 
 
@@ -36,7 +34,7 @@ class ApiTokenWithToken(ApiToken):
 class CreateApiTokenParams(RequestParams):
     name: str
     resources: list[ApiTokenResource] = Field(default_factory=list)
-    expires_at: Union[str, None, UnsetType] = UNSET
+    expires_at: str | None | UnsetType = UNSET
 
     @property
     def api_data(self) -> dict[str, Any]:
@@ -50,7 +48,7 @@ class CreateApiTokenParams(RequestParams):
 
 @dataclass
 class ResetApiTokenParams(RequestParams):
-    expires_at: Union[str, None, UnsetType] = UNSET
+    expires_at: str | None | UnsetType = UNSET
 
     @property
     def api_data(self) -> dict[str, Any]:

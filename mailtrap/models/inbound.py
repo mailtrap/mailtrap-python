@@ -2,7 +2,6 @@
 
 from typing import Any
 from typing import Literal
-from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
@@ -30,13 +29,13 @@ class InboundAttachment:
     """
 
     attachment_id: str
-    size: Optional[int] = None
-    filename: Optional[str] = None
-    content_type: Optional[str] = None
-    content_disposition: Optional[ContentDisposition] = None
-    content_id: Optional[str] = None
-    download_url: Optional[str] = None
-    download_url_expires_at: Optional[str] = None
+    size: int | None = None
+    filename: str | None = None
+    content_type: str | None = None
+    content_disposition: ContentDisposition | None = None
+    content_id: str | None = None
+    download_url: str | None = None
+    download_url_expires_at: str | None = None
 
 
 # --- Folders ---
@@ -69,9 +68,9 @@ class InboundForwardOutcome:
     rule_id: int
     destination: str
     status: Literal["forwarded", "rejected"]
-    rule_name: Optional[str] = None
-    reason: Optional[str] = None
-    message_id: Optional[str] = None
+    rule_name: str | None = None
+    reason: str | None = None
+    message_id: str | None = None
 
 
 # --- Messages ---
@@ -84,21 +83,21 @@ class InboundMessage(BaseModel):
 
     id: str
     inbox_id: int
-    from_: Optional[str] = Field(default=None, alias="from")
+    from_: str | None = Field(default=None, alias="from")
     to: list[str] = Field(default_factory=list)
     cc: list[str] = Field(default_factory=list)
     bcc: list[str] = Field(default_factory=list)
-    reply_to: Optional[str] = None
-    subject: Optional[str] = None
-    rfc_message_id: Optional[str] = None
-    in_reply_to: Optional[str] = None
+    reply_to: str | None = None
+    subject: str | None = None
+    rfc_message_id: str | None = None
+    in_reply_to: str | None = None
     references: list[str] = Field(default_factory=list)
-    headers: Optional[dict[str, str]] = None
-    size: Optional[int] = None
-    html_size: Optional[int] = None
-    text_size: Optional[int] = None
+    headers: dict[str, str] | None = None
+    size: int | None = None
+    html_size: int | None = None
+    text_size: int | None = None
     received_at: str
-    thread_id: Optional[str] = None
+    thread_id: str | None = None
     attachments: list[InboundAttachment] = Field(default_factory=list)
     forwards: list[InboundForwardOutcome] = Field(default_factory=list)
 
@@ -106,10 +105,10 @@ class InboundMessage(BaseModel):
 class InboundMessageDetails(InboundMessage):
     """A received message with body and attachment download URLs (get-by-id)."""
 
-    raw_message_url: Optional[str] = None
-    raw_message_expires_at: Optional[str] = None
-    html_body: Optional[str] = None
-    text_body: Optional[str] = None
+    raw_message_url: str | None = None
+    raw_message_expires_at: str | None = None
+    html_body: str | None = None
+    text_body: str | None = None
 
 
 @dataclass
@@ -118,7 +117,7 @@ class InboundMessagesListResponse:
 
     data: list[InboundMessage] = Field(default_factory=list)
     total_count: int = 0
-    last_id: Optional[str] = None
+    last_id: str | None = None
 
 
 # --- Threads ---
@@ -128,14 +127,14 @@ class InboundThreadSummary(BaseModel):
     """Thread overview (list shape and the head of a thread)."""
 
     id: str
-    subject: Optional[str] = None
+    subject: str | None = None
     message_count: int
     size: int
     first_message_at: str
-    last_received_at: Optional[str] = None
-    last_sent_at: Optional[str] = None
+    last_received_at: str | None = None
+    last_sent_at: str | None = None
     last_activity_at: str
-    last_message_id: Optional[str] = None
+    last_message_id: str | None = None
     senders: list[str] = Field(default_factory=list)
     recipients: list[str] = Field(default_factory=list)
     attachments: list[InboundAttachment] = Field(default_factory=list)
@@ -147,9 +146,9 @@ class InboundThreadMessageDelivery:
 
     to: str
     status: Literal["delivered", "not_delivered", "enqueued", "opted_out"]
-    delivered_at: Optional[str] = None
-    bounced_at: Optional[str] = None
-    rejected_at: Optional[str] = None
+    delivered_at: str | None = None
+    bounced_at: str | None = None
+    rejected_at: str | None = None
 
 
 class InboundThreadMessage(BaseModel):
@@ -162,24 +161,24 @@ class InboundThreadMessage(BaseModel):
 
     visibility_status: Literal["available", "placeholder"]
     direction: Literal["inbound", "outbound"]
-    id: Optional[str] = None
-    message_group_id: Optional[str] = None
-    subject: Optional[str] = None
-    rfc_message_id: Optional[str] = None
-    in_reply_to: Optional[str] = None
-    references: Optional[list[str]] = None
-    from_: Optional[str] = Field(default=None, alias="from")
-    to: Optional[list[str]] = None
-    cc: Optional[list[str]] = None
-    bcc: Optional[list[str]] = None
-    reply_to: Optional[str] = None
-    created_at: Optional[str] = None
-    email_size: Optional[int] = None
-    text_body: Optional[str] = None
-    html_body: Optional[str] = None
-    attachments: Optional[list[InboundAttachment]] = None
-    delivery: Optional[InboundThreadMessageDelivery] = None
-    forwards: Optional[list[InboundForwardOutcome]] = None
+    id: str | None = None
+    message_group_id: str | None = None
+    subject: str | None = None
+    rfc_message_id: str | None = None
+    in_reply_to: str | None = None
+    references: list[str] | None = None
+    from_: str | None = Field(default=None, alias="from")
+    to: list[str] | None = None
+    cc: list[str] | None = None
+    bcc: list[str] | None = None
+    reply_to: str | None = None
+    created_at: str | None = None
+    email_size: int | None = None
+    text_body: str | None = None
+    html_body: str | None = None
+    attachments: list[InboundAttachment] | None = None
+    delivery: InboundThreadMessageDelivery | None = None
+    forwards: list[InboundForwardOutcome] | None = None
 
 
 class InboundThread(InboundThreadSummary):
@@ -194,7 +193,7 @@ class InboundThreadsListResponse:
 
     data: list[InboundThreadSummary] = Field(default_factory=list)
     total_count: int = 0
-    last_id: Optional[str] = None
+    last_id: str | None = None
 
 
 @dataclass
@@ -211,8 +210,8 @@ class InboundSendResult:
 class InboundForwardRuleCondition:
     match_type: ForwardRuleMatchType
     operator: ForwardRuleOperator
-    value: Optional[str] = None
-    header_key: Optional[str] = None
+    value: str | None = None
+    header_key: str | None = None
 
 
 @dataclass
@@ -258,7 +257,7 @@ class CreateInboundInboxParams(RequestParams):
     """Omit domain_id for a Mailtrap-hosted inbox; pass it for a custom-domain inbox."""
 
     name: str
-    domain_id: Optional[int] = None
+    domain_id: int | None = None
 
 
 @dataclass
@@ -274,17 +273,17 @@ class _InboundMessageParams(RequestParams):
     for custom-domain inboxes.
     """
 
-    sender: Optional[Address] = Field(default=None, serialization_alias="from")
-    to: Optional[list[Address]] = None
-    cc: Optional[list[Address]] = None
-    bcc: Optional[list[Address]] = None
-    reply_to: Optional[Address] = None
-    text: Optional[str] = None
-    html: Optional[str] = None
-    category: Optional[str] = None
-    attachments: Optional[list[Attachment]] = None
-    headers: Optional[dict[str, str]] = None
-    custom_variables: Optional[dict[str, Any]] = None
+    sender: Address | None = Field(default=None, serialization_alias="from")
+    to: list[Address] | None = None
+    cc: list[Address] | None = None
+    bcc: list[Address] | None = None
+    reply_to: Address | None = None
+    text: str | None = None
+    html: str | None = None
+    category: str | None = None
+    attachments: list[Attachment] | None = None
+    headers: dict[str, str] | None = None
+    custom_variables: dict[str, Any] | None = None
 
 
 @dataclass
@@ -307,19 +306,19 @@ class ForwardInboundMessageParams(_InboundMessageParams):
 class InboundForwardRuleConditionParams(RequestParams):
     match_type: ForwardRuleMatchType
     operator: ForwardRuleOperator
-    value: Optional[str] = None
-    header_key: Optional[str] = None
+    value: str | None = None
+    header_key: str | None = None
 
 
 @dataclass
 class CreateInboundForwardRuleParams(RequestParams):
     name: str
-    conditions: Optional[list[InboundForwardRuleConditionParams]] = None
-    destinations: Optional[list[InboundForwardRuleDestination]] = None
+    conditions: list[InboundForwardRuleConditionParams] | None = None
+    destinations: list[InboundForwardRuleDestination] | None = None
 
 
 @dataclass
 class UpdateInboundForwardRuleParams(RequestParams):
-    name: Optional[str] = None
-    conditions: Optional[list[InboundForwardRuleConditionParams]] = None
-    destinations: Optional[list[InboundForwardRuleDestination]] = None
+    name: str | None = None
+    conditions: list[InboundForwardRuleConditionParams] | None = None
+    destinations: list[InboundForwardRuleDestination] | None = None

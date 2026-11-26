@@ -1,5 +1,4 @@
 from typing import Any
-from typing import Optional
 
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
@@ -15,7 +14,7 @@ class InboundMessagesApi:
         self._client = client
 
     def get_list(
-        self, inbox_id: int, last_id: Optional[str] = None
+        self, inbox_id: int, last_id: str | None = None
     ) -> InboundMessagesListResponse:
         """
         List received messages in an inbox. Pass last_id from a previous
@@ -64,7 +63,7 @@ class InboundMessagesApi:
         )
         return InboundSendResult(**response)
 
-    def _api_path(self, inbox_id: int, message_id: Optional[str] = None) -> str:
+    def _api_path(self, inbox_id: int, message_id: str | None = None) -> str:
         path = f"/api/inbound/inboxes/{inbox_id}/messages"
         if message_id:
             return f"{path}/{message_id}"
