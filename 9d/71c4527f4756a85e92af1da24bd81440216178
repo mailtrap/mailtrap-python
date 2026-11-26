@@ -1,0 +1,22 @@
+tests/unit/api/sandbox/test_sandboxes.py
+  s_92a8e3fffb6a5d::t_23e37b2caffe04 173-176,178,180,182
+  s_92a8e3fffb6a5d::t_a5b42e9177d96d 177,179,181
+examples/sandbox/sandboxes.py
+  s_92a8e3fffb6a5d::t_e39fc142589104 67-69,71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9d71c4527f4756a85e92af1da24bd81440216178",
+  "prompts": {},
+  "sessions": {
+    "s_92a8e3fffb6a5d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "29947c3a-57a7-4062-9b83-df9d8182b367",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

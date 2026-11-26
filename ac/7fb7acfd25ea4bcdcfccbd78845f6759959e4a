@@ -1,0 +1,16 @@
+CHANGELOG.md
+  h_36a957dc058c42 1-9
+pyproject.toml
+  h_36a957dc058c42 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "ac7fb7acfd25ea4bcdcfccbd78845f6759959e4a",
+  "prompts": {},
+  "humans": {
+    "h_36a957dc058c42": {
+      "author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

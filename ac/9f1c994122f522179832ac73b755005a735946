@@ -1,0 +1,27 @@
+examples/general/stats.py
+  679630e82efc12bc 1-2,5-67
+  422ad8e551e932a6 3-4
+mailtrap/models/stats.py
+  679630e82efc12bc 1-37
+mailtrap/__init__.py
+  679630e82efc12bc 35
+mailtrap/api/general.py
+  679630e82efc12bc 5,28-31
+CHANGELOG.md
+  422ad8e551e932a6 3-4
+mailtrap/api/resources/stats.py
+  679630e82efc12bc 3-4,7,10-73
+  422ad8e551e932a6 5-6
+pyproject.toml
+  422ad8e551e932a6 3
+mailtrap/models/common.py
+  679630e82efc12bc 21-36
+tests/unit/api/general/test_stats.py
+  679630e82efc12bc 1-289
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "ac9f1c994122f522179832ac73b755005a735946",
+  "prompts": {}
+}

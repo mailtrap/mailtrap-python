@@ -1,0 +1,19 @@
+mailtrap/models/api_tokens.py
+  s_2888372bb1c5c5::t_1fa1b0f1434e3b 39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "8d08aa0370c0edc2c0563c11349d61ae51a72714",
+  "prompts": {},
+  "sessions": {
+    "s_2888372bb1c5c5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4a64d53a-0d1f-4f91-b8d8-d3627c8b1bf7",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+mailtrap/models/contacts.py
+  s_c492438429840d::t_b77f455d1d48ee 58-59,64
+tests/unit/models/test_email_log_models.py
+  s_c492438429840d::t_dd0b0ed5fcfe95 13-14
+  s_c492438429840d::t_19a5e4b331d213 289-308
+tests/unit/api/contacts/test_contacts.py
+  s_c492438429840d::t_297bfd9664502e 171-179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "45f2931fecf5dcd6e6dcdeda19c934f8f3436510",
+  "prompts": {},
+  "sessions": {
+    "s_c492438429840d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "be1b9e15-9224-4125-a5bd-b102eb51e605",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

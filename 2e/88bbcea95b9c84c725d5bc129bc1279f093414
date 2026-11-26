@@ -1,0 +1,44 @@
+README.md
+  6c1ebf8f63e820d9 247-249
+mailtrap/__init__.py
+  6c1ebf8f63e820d9 44-45
+mailtrap/client.py
+  6c1ebf8f63e820d9 19,136-143
+mailtrap/api/resources/webhooks.py
+  6c1ebf8f63e820d9 1-68
+mailtrap/models/webhooks.py
+  6c1ebf8f63e820d9 1-57
+mailtrap/api/webhooks.py
+  6c1ebf8f63e820d9 1-12
+tests/unit/api/webhooks/test_webhooks.py
+  6c1ebf8f63e820d9 1-359
+examples/webhooks/webhooks.py
+  6c1ebf8f63e820d9 1-59
+tests/unit/test_client.py
+  6c1ebf8f63e820d9 59-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "2e88bbcea95b9c84c725d5bc129bc1279f093414",
+  "prompts": {
+    "6c1ebf8f63e820d9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffffb203-a039-468e-b919-581b190009d9",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 672,
+      "total_deletions": 96,
+      "accepted_lines": 608,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  }
+}

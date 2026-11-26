@@ -1,0 +1,127 @@
+examples/sending/advanced_sending.py
+  s_576b7c7847dbe9::t_481fc40734410e 2,7,18,20,23,25
+examples/inbound/threads.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/webhooks/webhooks.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/general/permissions.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 7-8,10
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/suppressions/suppressions.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_b591bdce34c17c 7-8,10
+examples/contacts/contact_lists.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 7-8,10
+examples/inbound/folders.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 7,9
+examples/email_logs/email_logs.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 15-16,18
+examples/sending/sending_with_template.py
+  s_576b7c7847dbe9::t_481fc40734410e 1-2,5,16,18,21
+examples/contacts/contact_imports.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-7,9
+examples/general/api_tokens.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+examples/sending/batch_sending_with_template.py
+  s_576b7c7847dbe9::t_481fc40734410e 1-2,5,16,18,21
+examples/organizations/sub_accounts.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-7,9
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/email_templates/templates.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/general/accounts.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 6,8
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/general/billing.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-7,9
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/contacts/contacts.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_b591bdce34c17c 9-10,12
+examples/stats/stats.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+examples/sending_domains/sending_domains.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/contacts/contact_events.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-7,9
+examples/inbound/messages.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 10-11,13
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/testing/projects.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-7,9
+  s_576b7c7847dbe9::t_aef878b3641409 2
+examples/sending/batch_minimal_sending.py
+  s_576b7c7847dbe9::t_481fc40734410e 1-2,6,17,19,22
+examples/testing/attachments.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-9,11
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/contacts/contact_fields.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 8-9,11
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/contacts/contact_exports.py
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_b591bdce34c17c 6-7,9
+examples/sending/batch_advanced_sending.py
+  s_576b7c7847dbe9::t_481fc40734410e 2,7,18,20,23,25
+examples/inbound/inboxes.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+  s_576b7c7847dbe9::t_b591bdce34c17c 7-8,10
+examples/testing/messages.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 10-12,14
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+examples/sending/minimal_sending.py
+  s_576b7c7847dbe9::t_481fc40734410e 1-2,6,17,19,22
+examples/testing/inboxes.py
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_b591bdce34c17c 7-8,10
+examples/general/account_accesses.py
+  s_576b7c7847dbe9::t_b591bdce34c17c 7-8,10
+  s_576b7c7847dbe9::t_5236e828f7e7b1 1
+  s_576b7c7847dbe9::t_aef878b3641409 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "3ddd5743285d1af92a41fbda9f06b2ff6cfd496a",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": null
+    }
+  }
+}

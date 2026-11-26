@@ -1,0 +1,45 @@
+mailtrap/api/resources/stats.py
+  422ad8e551e932a6 5-6
+  679630e82efc12bc 3-4,7,10-73
+mailtrap/__init__.py
+  679630e82efc12bc 35
+mailtrap/models/stats.py
+  679630e82efc12bc 1-37
+mailtrap/api/general.py
+  679630e82efc12bc 27
+mailtrap/models/common.py
+  679630e82efc12bc 21-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "852a1a72d6c62a51477e09da3667c4031d54ab0e",
+  "prompts": {
+    "422ad8e551e932a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5b40f0ee-48f5-41d1-8e91-fe83b4c9ec76",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    },
+    "679630e82efc12bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f306d859-3456-4286-928e-8dd4e0105ee7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 113,
+      "overriden_lines": 0
+    }
+  }
+}

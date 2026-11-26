@@ -1,0 +1,33 @@
+mailtrap/api/resources/api_tokens.py
+  6c1ebf8f63e820d9 1-18
+mailtrap/models/api_tokens.py
+  6c1ebf8f63e820d9 1-21
+tests/unit/api/general/test_api_tokens.py
+  6c1ebf8f63e820d9 1-109
+mailtrap/api/general.py
+  6c1ebf8f63e820d9 3,21-23
+README.md
+  6c1ebf8f63e820d9 259
+examples/general/api_tokens.py
+  6c1ebf8f63e820d9 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "3f528e16de42d86c50939fef1ed98601ae0d0dd4",
+  "prompts": {
+    "6c1ebf8f63e820d9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffffb203-a039-468e-b919-581b190009d9",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 171,
+      "overriden_lines": 0
+    }
+  }
+}

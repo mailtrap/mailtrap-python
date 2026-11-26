@@ -1,0 +1,29 @@
+README.md
+  s_d562da60dc1773::t_348911d28971e1 235
+examples/contacts/contact_lists.py
+  s_d562da60dc1773::t_b66497906da841 26-30
+  s_d562da60dc1773::t_508ef255151099 46-48
+mailtrap/models/contacts.py
+  s_d562da60dc1773::t_f132b3e18e7dc5 42-46
+  s_d562da60dc1773::t_2b85d3e7d6a647 41
+mailtrap/api/resources/contact_lists.py
+  s_d562da60dc1773::t_61f2fdea99bc6d 7,15-23
+tests/unit/api/contacts/test_contact_lists.py
+  s_d562da60dc1773::t_d71cdae20cefd6 109-126
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d272c23b1ea3badd3163e6d8ac3b88f7c4a77cfb",
+  "prompts": {},
+  "sessions": {
+    "s_d562da60dc1773": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0c94c3a5-75e7-49f4-ae2a-aeeef6ebf18c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

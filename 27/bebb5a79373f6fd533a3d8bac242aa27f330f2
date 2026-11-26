@@ -1,0 +1,19 @@
+tests/unit/api/general/test_api_tokens.py
+  s_2a081af338fd48::t_b7317f7d15be6d 298,312,479,492
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "27bebb5a79373f6fd533a3d8bac242aa27f330f2",
+  "prompts": {},
+  "sessions": {
+    "s_2a081af338fd48": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac08a353-2db9-4311-bf0b-ea1d15baccb2",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

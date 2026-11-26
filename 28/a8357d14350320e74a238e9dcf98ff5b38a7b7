@@ -1,0 +1,28 @@
+tests/unit/models/test_email_log_models.py
+  s_de02ff53f81636::t_59a3c20bfda185 5-6,265,273-313,316-317
+tests/unit/api/subscription_topics/test_subscription_topics.py
+  s_de02ff53f81636::t_74bee2e1ec837f 2,194-195,198-201,203-204,208
+tests/unit/api/suppressions/test_suppressions.py
+  s_de02ff53f81636::t_3bbbb709eee4ed 129-132
+  s_de02ff53f81636::t_74bee2e1ec837f 118-128,133-135,137-141,143,145,147,150,169
+mailtrap/models/email_logs.py
+  s_de02ff53f81636::t_fb56c0f44532e5 83-97
+  s_de02ff53f81636::t_9f76fbac24b15a 117-118
+  s_de02ff53f81636::t_aa83af96f5716e 119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "28a8357d14350320e74a238e9dcf98ff5b38a7b7",
+  "prompts": {},
+  "sessions": {
+    "s_de02ff53f81636": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "af252b1c-2c6a-4f0c-b842-5fc35bbe3a17",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

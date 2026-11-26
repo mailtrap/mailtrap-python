@@ -1,0 +1,21 @@
+mailtrap/api/resources/sub_accounts.py
+  s_84c25ad63d8c76::t_65e44579c67f57 1-2,4,33-52
+tests/unit/api/organizations/test_sub_accounts.py
+  s_84c25ad63d8c76::t_98764681b11917 10,156-211
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "8507b7b0500cd5d0b5ee299c27362b1df2873a73",
+  "prompts": {},
+  "sessions": {
+    "s_84c25ad63d8c76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1fbe9c4a-85b3-45c0-922e-f12aed1c5674",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

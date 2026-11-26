@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.11",
+  "base_commit_sha": "17c6d1596bd38329e7e01999e11b0faa100a81ed",
+  "prompts": {
+    "99db4f8b81160cd8": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c38c844-441d-4c0f-9d5a-54e6beb08df4",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "messages": [],
+      "total_additions": 895,
+      "total_deletions": 95,
+      "accepted_lines": 719,
+      "overriden_lines": 0
+    }
+  }
+}

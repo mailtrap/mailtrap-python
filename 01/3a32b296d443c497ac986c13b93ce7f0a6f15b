@@ -1,0 +1,28 @@
+mailtrap/models/email_logs.py
+  s_576b7c7847dbe9::t_50662c9734eab0 137-140
+  s_576b7c7847dbe9::t_7ba8fc973a1014 168-169
+tests/unit/models/test_email_log_models.py
+  s_576b7c7847dbe9::t_e05b2816de44a0 44-72
+tests/unit/models/test_sending_domains.py
+  s_576b7c7847dbe9::t_66bf6606f3519f 29-33
+  s_576b7c7847dbe9::t_3ce88e7d2a09a8 2,6-28,34-41
+  s_576b7c7847dbe9::t_ebe74321adb787 42-43
+mailtrap/models/sending_domains.py
+  s_576b7c7847dbe9::t_d2e18c52294cb7 43-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "013a32b296d443c497ac986c13b93ce7f0a6f15b",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

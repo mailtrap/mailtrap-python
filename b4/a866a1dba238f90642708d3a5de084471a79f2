@@ -1,0 +1,25 @@
+pyproject.toml
+  422ad8e551e932a6 3
+CHANGELOG.md
+  422ad8e551e932a6 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "b4a866a1dba238f90642708d3a5de084471a79f2",
+  "prompts": {
+    "422ad8e551e932a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5b40f0ee-48f5-41d1-8e91-fe83b4c9ec76",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 1,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
