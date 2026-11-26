@@ -256,6 +256,9 @@ The same situation applies to both `client.batch_send()` and `client.sending_api
 ### Email Campaigns API:
 - Email Campaigns (list, create, get, update, delete, lifecycle actions, stats) – [`email_campaigns/email_campaigns.py`](examples/email_campaigns/email_campaigns.py)
 
+### Subscription Topics API:
+- Subscription Topics (list & get) – [`subscription_topics/subscription_topics.py`](examples/subscription_topics/subscription_topics.py)
+
 ### Webhooks API:
 - Webhooks management – [`webhooks/webhooks.py`](examples/webhooks/webhooks.py)
 - Verifying webhook signatures – [`webhooks/verify_signature.py`](examples/webhooks/verify_signature.py)

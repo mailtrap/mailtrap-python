@@ -2,12 +2,17 @@
 
 from typing import Any
 
+import pytest
+
 from mailtrap.models.email_logs import EmailLogMessage
 from mailtrap.models.email_logs import EmailLogsListFilters
 from mailtrap.models.email_logs import EventDetailsBounce
 from mailtrap.models.email_logs import EventDetailsClick
 from mailtrap.models.email_logs import EventDetailsDelivery
 from mailtrap.models.email_logs import EventDetailsOpen
+from mailtrap.models.email_logs import EventDetailsReject
+from mailtrap.models.email_logs import EventDetailsSpam
+from mailtrap.models.email_logs import EventDetailsTopicSubscription
 from mailtrap.models.email_logs import EventDetailsUnsubscribe
 from mailtrap.models.email_logs import MessageEvent
 from mailtrap.models.email_logs import filter_ci_equal
@@ -219,6 +224,162 @@ class TestEmailLogMessage:
         assert msg.events[0].event_type == "delivery"
         assert isinstance(msg.events[0].details, EventDetailsDelivery)
         assert msg.events[0].details.email_service_provider == "Google"
+
+    def test_from_api_parses_topic_events(self) -> None:
+        """Both topic events get EventDetailsTopicSubscription with the topic id."""
+        details = {"web_ip_address": "198.51.100.50", "subscription_topic_id": 17}
+        msg = EmailLogMessage.from_api(
+            {
+                **_message_dict(),
+                "events": [
+                    {
+                        "event_type": "topic_unsubscribe",
+                        "created_at": "2025-01-15T10:40:00Z",
+                        "details": details,
+                    },
+                    {
+                        "event_type": "topic_resubscribe",
+                        "created_at": "2025-01-15T10:45:00Z",
+                        "details": details,
+                    },
+                ],
+            }
+        )
+
+        assert [event.event_type for event in msg.events] == [
+            "topic_unsubscribe",
+            "topic_resubscribe",
+        ]
+        for event in msg.events:
+            assert event.details == EventDetailsTopicSubscription(**details)
+
+    def test_from_api_keeps_details_of_unknown_event_as_dict(self) -> None:
+        """An event type the SDK doesn't know keeps the API's details as they are."""
+        details = {"web_ip_address": "198.51.100.50", "new_field": [1, 2]}
+        msg = EmailLogMessage.from_api(
+            {
+                **_message_dict(),
+                "events": [
+                    {
+                        "event_type": "future_event",
+                        "created_at": "2025-01-15T10:40:00Z",
+                        "details": details,
+                    }
+                ],
+            }
+        )
+
+        assert msg.events[0].event_type == "future_event"
+        assert msg.events[0].details == details
+
+    @pytest.mark.parametrize(
+        "event_type,details,expected",
+        [
+            # A dict gets its class by event_type, not by which class fits its keys.
+            (
+                "unsubscribe",
+                {"web_ip_address": "198.51.100.50"},
+                EventDetailsUnsubscribe(web_ip_address="198.51.100.50"),
+            ),
+            (
+                "delivery",
+                {"sending_ip": "192.0.2.1"},
+                EventDetailsDelivery(sending_ip="192.0.2.1"),
+            ),
+            (
+                "soft_bounce",
+                {"bounce_category": "mailbox_full"},
+                EventDetailsBounce(bounce_category="mailbox_full"),
+            ),
+            (
+                "spam",
+                {"spam_feedback_type": "abuse"},
+                EventDetailsSpam(spam_feedback_type="abuse"),
+            ),
+            (
+                "suspension",
+                {"reject_reason": "account_suspended"},
+                EventDetailsReject(reject_reason="account_suspended"),
+            ),
+            (
+                "reject",
+                {"reject_reason": "unsubscribed"},
+                EventDetailsReject(reject_reason="unsubscribed"),
+            ),
+            (
+                "future_event",
+                {"web_ip_address": "198.51.100.50"},
+                {"web_ip_address": "198.51.100.50"},
+            ),
+            # An EventDetails* instance is kept as given.
+            (
+                "unsubscribe",
+                EventDetailsUnsubscribe(web_ip_address="198.51.100.50"),
+                EventDetailsUnsubscribe(web_ip_address="198.51.100.50"),
+            ),
+            (
+                "topic_unsubscribe",
+                EventDetailsTopicSubscription(
+                    web_ip_address="198.51.100.50", subscription_topic_id=17
+                ),
+                EventDetailsTopicSubscription(
+                    web_ip_address="198.51.100.50", subscription_topic_id=17
+                ),
+            ),
+        ],
+    )
+    def test_message_event_details_type(
+        self, event_type: str, details: Any, expected: Any
+    ) -> None:
+        event = MessageEvent(
+            event_type=event_type, created_at="2025-01-15T10:40:00Z", details=details
+        )
+
+        assert type(event.details) is type(expected)
+        assert event.details == expected
+
+    def test_message_round_trips_through_model_dump(self) -> None:
+        """Validating a dumped message gives back the same typed details."""
+        msg = EmailLogMessage.from_api(
+            {
+                **_message_dict(),
+                "events": [
+                    {
+                        "event_type": "topic_unsubscribe",
+                        "created_at": "2025-01-15T10:40:00Z",
+                        "details": {
+                            "web_ip_address": "198.51.100.50",
+                            "subscription_topic_id": 17,
+                        },
+                    },
+                    {
+                        "event_type": "future_event",
+                        "created_at": "2025-01-15T10:45:00Z",
+                        "details": {"new_field": 1},
+                    },
+                ],
+            }
+        )
+
+        restored = EmailLogMessage.model_validate(msg.model_dump(by_alias=True))
+
+        assert restored == msg
+        assert isinstance(restored.events[0].details, EventDetailsTopicSubscription)
+
+
+def _message_dict() -> dict[str, Any]:
+    return {
+        "message_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "status": "delivered",
+        "subject": "Welcome",
+        "from": "sender@example.com",
+        "to": "recipient@example.com",
+        "sent_at": "2025-01-15T10:30:00Z",
+        "sending_stream": "bulk",
+        "sending_domain_id": 3938,
+        "opens_count": 0,
+        "clicks_count": 0,
+    }
 
 
 class TestEmailLogsListFilters:

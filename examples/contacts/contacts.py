@@ -1,4 +1,5 @@
 import os
+from dataclasses import replace
 from typing import Optional
 from typing import Union
 
@@ -33,13 +34,17 @@ def update_contact(
     list_ids_included: Optional[list[int]] = None,
     list_ids_excluded: Optional[list[int]] = None,
     unsubscribed: Optional[bool] = None,
+    subscription_topics: Optional[list[mt.ContactSubscriptionTopic]] = None,
 ) -> Contact:
+    # Only the topic and domain pairs in `subscription_topics` change; the
+    # contact's other topic preferences keep their status.
     params = mt.UpdateContactParams(
         email=new_email,
         fields=fields,
         list_ids_included=list_ids_included,
         list_ids_excluded=list_ids_excluded,
         unsubscribed=unsubscribed,
+        subscription_topics=subscription_topics,
     )
     return contacts_api.update(contact_id_or_email, params)
 
@@ -73,6 +78,16 @@ if __name__ == "__main__":
 
     contact = get_contact(updated_contact.id)
     print(contact)
+
+    # The contact's status for every subscription topic on every sending
+    # domain; None when the account has no subscription topics.
+    if contact.subscription_topics:
+        preference = contact.subscription_topics[0]
+        unsubscribed_contact = update_contact(
+            contact.id,
+            subscription_topics=[replace(preference, status="unsubscribed")],
+        )
+        print(unsubscribed_contact.subscription_topics)
 
     deleted_contact = delete_contact(updated_contact.id)
     print(deleted_contact)

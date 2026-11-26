@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 import pytest
@@ -9,6 +10,7 @@ from mailtrap.exceptions import APIError
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.contacts import Contact
+from mailtrap.models.contacts import ContactSubscriptionTopic
 from mailtrap.models.contacts import CreateContactParams
 from mailtrap.models.contacts import UpdateContactParams
 from tests import conftest
@@ -16,6 +18,15 @@ from tests import conftest
 ACCOUNT_ID = "321"
 CONTACT_ID = "018dd5e3-f6d2-7c00-8f9b-e5c3f2d8a132"
 BASE_CONTACTS_URL = f"https://{GENERAL_HOST}/api/accounts/{ACCOUNT_ID}/contacts"
+TOPIC_ID = 17
+DOMAIN_ID = 4321
+TOPICS_UNAVAILABLE_RESPONSE = {
+    "errors": {"subscription_topics": ["are not available for this account"]}
+}
+TOPICS_NOT_SAVED_MESSAGE = (
+    "The contact was saved, but its subscription topic preferences were not. "
+    f"Send them again in an update of contact {CONTACT_ID}."
+)
 
 
 @pytest.fixture
@@ -125,6 +136,69 @@ class TestContactstApi:
         assert contact.fields["first_name"] == "John"
         assert contact.fields["last_name"] == "Smith"
         assert contact.list_ids == [1, 2, 3]
+        # The account has no subscription topics: the key is absent.
+        assert contact.subscription_topics is None
+
+    @pytest.mark.parametrize(
+        "subscription_topics,expected",
+        [
+            (
+                [
+                    {
+                        "subscription_topic_id": TOPIC_ID,
+                        "domain_id": DOMAIN_ID,
+                        "status": "unsubscribed",
+                    },
+                    {
+                        "subscription_topic_id": 18,
+                        "domain_id": DOMAIN_ID,
+                        "status": "subscribed",
+                    },
+                ],
+                [
+                    ContactSubscriptionTopic(
+                        subscription_topic_id=TOPIC_ID,
+                        domain_id=DOMAIN_ID,
+                        status="unsubscribed",
+                    ),
+                    ContactSubscriptionTopic(
+                        subscription_topic_id=18,
+                        domain_id=DOMAIN_ID,
+                        status="subscribed",
+                    ),
+                ],
+            ),
+            # Preferences without a sending domain.
+            (
+                [{"subscription_topic_id": TOPIC_ID, "status": "unsubscribed"}],
+                [
+                    ContactSubscriptionTopic(
+                        subscription_topic_id=TOPIC_ID, status="unsubscribed"
+                    )
+                ],
+            ),
+            # The preferences couldn't be read.
+            (None, None),
+        ],
+    )
+    @responses.activate
+    def test_get_contact_should_return_subscription_topics(
+        self,
+        contacts_api: ContactsApi,
+        sample_contact_dict: dict,
+        subscription_topics: Any,
+        expected: Any,
+    ) -> None:
+        sample_contact_dict["data"]["subscription_topics"] = subscription_topics
+        responses.get(
+            f"{BASE_CONTACTS_URL}/{CONTACT_ID}",
+            json=sample_contact_dict,
+            status=200,
+        )
+
+        contact = contacts_api.get_by_id(CONTACT_ID)
+
+        assert contact.subscription_topics == expected
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
@@ -158,6 +232,16 @@ class TestContactstApi:
                 422,
                 {"errors": {"email": ["Email is invalid"]}},
                 "Email is invalid",
+            ),
+            (
+                conftest.VALIDATION_ERRORS_STATUS_CODE,
+                TOPICS_UNAVAILABLE_RESPONSE,
+                "subscription_topics: are not available for this account",
+            ),
+            (
+                503,
+                {"errors": TOPICS_NOT_SAVED_MESSAGE},
+                TOPICS_NOT_SAVED_MESSAGE,
             ),
         ],
     )
@@ -214,6 +298,33 @@ class TestContactstApi:
         assert contact.fields["last_name"] == "Smith"
         assert contact.list_ids == [1, 2, 3]
 
+    @responses.activate
+    def test_create_contact_should_send_subscription_topics(
+        self, contacts_api: ContactsApi, sample_contact_dict: dict
+    ) -> None:
+        topic = {
+            "subscription_topic_id": TOPIC_ID,
+            "domain_id": DOMAIN_ID,
+            "status": "unsubscribed",
+        }
+        sample_contact_dict["data"]["subscription_topics"] = [topic]
+        responses.post(BASE_CONTACTS_URL, json=sample_contact_dict, status=201)
+
+        contact = contacts_api.create(
+            CreateContactParams(
+                email="john.smith@example.com",
+                subscription_topics=[ContactSubscriptionTopic(**topic)],
+            )
+        )
+
+        assert json.loads(responses.calls[0].request.body) == {
+            "contact": {
+                "email": "john.smith@example.com",
+                "subscription_topics": [topic],
+            }
+        }
+        assert contact.subscription_topics == [ContactSubscriptionTopic(**topic)]
+
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
         [
@@ -246,6 +357,16 @@ class TestContactstApi:
                 conftest.VALIDATION_ERRORS_STATUS_CODE,
                 {"errors": {"email": [["is invalid"]], "birthdate": [["is invalid"]]}},
                 "email: ['is invalid']; birthdate: ['is invalid']",
+            ),
+            (
+                conftest.VALIDATION_ERRORS_STATUS_CODE,
+                TOPICS_UNAVAILABLE_RESPONSE,
+                "subscription_topics: are not available for this account",
+            ),
+            (
+                503,
+                {"errors": TOPICS_NOT_SAVED_MESSAGE},
+                TOPICS_NOT_SAVED_MESSAGE,
             ),
         ],
     )
@@ -299,6 +420,30 @@ class TestContactstApi:
         assert contact.status == "subscribed"
         assert contact.fields["first_name"] == "John Updated"
         assert contact.fields["last_name"] == "Smith Updated"
+
+    @responses.activate
+    def test_update_contact_should_send_only_subscription_topics(
+        self, contacts_api: ContactsApi, sample_contact_dict: dict
+    ) -> None:
+        topic = {
+            "subscription_topic_id": TOPIC_ID,
+            "domain_id": DOMAIN_ID,
+            "status": "subscribed",
+        }
+        sample_contact_dict["data"]["subscription_topics"] = [topic]
+        responses.patch(
+            f"{BASE_CONTACTS_URL}/{CONTACT_ID}", json=sample_contact_dict, status=200
+        )
+
+        contact = contacts_api.update(
+            CONTACT_ID,
+            UpdateContactParams(subscription_topics=[ContactSubscriptionTopic(**topic)]),
+        )
+
+        assert json.loads(responses.calls[0].request.body) == {
+            "contact": {"subscription_topics": [topic]}
+        }
+        assert contact.subscription_topics == [ContactSubscriptionTopic(**topic)]
 
     @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",

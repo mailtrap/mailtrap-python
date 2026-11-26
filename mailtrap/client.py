@@ -23,6 +23,7 @@ from mailtrap.api.resources.stats import StatsApi
 from mailtrap.api.sandbox import SandboxApi
 from mailtrap.api.sending import SendingApi
 from mailtrap.api.sending_domains import SendingDomainsBaseApi
+from mailtrap.api.subscription_topics import SubscriptionTopicsBaseApi
 from mailtrap.api.suppressions import SuppressionsBaseApi
 from mailtrap.api.templates import EmailTemplatesApi
 from mailtrap.api.testing import TestingApi
@@ -199,6 +200,12 @@ class MailtrapClient:
     @property
     def marketing_stats_api(self) -> MarketingStatsBaseApi:
         return MarketingStatsBaseApi(
+            client=HttpClient(host=GENERAL_HOST, headers=self.headers),
+        )
+
+    @property
+    def subscription_topics_api(self) -> SubscriptionTopicsBaseApi:
+        return SubscriptionTopicsBaseApi(
             client=HttpClient(host=GENERAL_HOST, headers=self.headers),
         )
 

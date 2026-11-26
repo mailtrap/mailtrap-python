@@ -27,6 +27,7 @@ from tests import conftest
 
 CAMPAIGN_ID = 4567
 DOMAIN_ID = 4321
+TOPIC_ID = 17
 BASE_CAMPAIGNS_URL = f"https://{GENERAL_HOST}/api/email_campaigns"
 
 
@@ -79,6 +80,7 @@ def sample_campaign_dict() -> dict[str, Any]:
         "contact_segment_ids": [12],
         "delivery_mode": "rapid",
         "delivery_options": {"emails_per_hour": 1000},
+        "subscription_topic_id": None,
         "template": {
             "id": 789,
             "subject": "Spring is here — 30% off",
@@ -260,6 +262,21 @@ class TestEmailCampaignsApi:
         assert campaign.template.body_html is not None
         assert campaign.delivery_options is not None
         assert campaign.delivery_options.emails_per_hour == 1000
+        assert campaign.subscription_topic_id is None
+
+    @responses.activate
+    def test_get_by_id_should_parse_subscription_topic_id(
+        self, client: EmailCampaignsApi, sample_campaign_dict: dict
+    ) -> None:
+        responses.get(
+            f"{BASE_CAMPAIGNS_URL}/{CAMPAIGN_ID}",
+            json={"data": {**sample_campaign_dict, "subscription_topic_id": TOPIC_ID}},
+            status=200,
+        )
+
+        campaign = client.get_by_id(CAMPAIGN_ID)
+
+        assert campaign.subscription_topic_id == TOPIC_ID
 
     @responses.activate
     def test_get_by_id_should_parse_state_metadata_errors(
@@ -373,6 +390,56 @@ class TestEmailCampaignsApi:
                 "domain": "acme.com",
             },
             "contact_list_ids": [55, 56],
+        }
+
+    @responses.activate
+    def test_create_should_send_subscription_topic_id(
+        self, client: EmailCampaignsApi, sample_campaign_dict: dict
+    ) -> None:
+        responses.post(
+            BASE_CAMPAIGNS_URL,
+            json={"data": {**sample_campaign_dict, "subscription_topic_id": TOPIC_ID}},
+            status=201,
+        )
+
+        campaign = client.create(
+            CreateEmailCampaignParams(
+                name="Spring Sale",
+                domain_id=DOMAIN_ID,
+                from_local_part="news",
+                template_attributes=CreateEmailCampaignTemplateAttributes(
+                    subject="Spring!"
+                ),
+                subscription_topic_id=TOPIC_ID,
+            )
+        )
+
+        assert campaign.subscription_topic_id == TOPIC_ID
+        assert json.loads(responses.calls[0].request.body) == {
+            "name": "Spring Sale",
+            "domain_id": DOMAIN_ID,
+            "from_local_part": "news",
+            "template_attributes": {"subject": "Spring!"},
+            "subscription_topic_id": TOPIC_ID,
+        }
+
+    @responses.activate
+    def test_update_should_send_subscription_topic_id(
+        self, client: EmailCampaignsApi, sample_campaign_dict: dict
+    ) -> None:
+        responses.patch(
+            f"{BASE_CAMPAIGNS_URL}/{CAMPAIGN_ID}",
+            json={"data": {**sample_campaign_dict, "subscription_topic_id": TOPIC_ID}},
+            status=200,
+        )
+
+        campaign = client.update(
+            CAMPAIGN_ID, UpdateEmailCampaignParams(subscription_topic_id=TOPIC_ID)
+        )
+
+        assert campaign.subscription_topic_id == TOPIC_ID
+        assert json.loads(responses.calls[0].request.body) == {
+            "subscription_topic_id": TOPIC_ID
         }
 
     @responses.activate

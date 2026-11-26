@@ -129,6 +129,7 @@ class EmailCampaign:
     contact_segment_ids: list[int] = Field(default_factory=list)
     delivery_mode: Optional[str] = None
     delivery_options: Optional[EmailCampaignDeliveryOptions] = None
+    subscription_topic_id: Optional[int] = None
     template: Optional[EmailCampaignTemplate] = None
 
 
@@ -179,6 +180,8 @@ class CreateEmailCampaignParams(RequestParams):
     """
     Attributes for creating an email campaign (sent as a flat JSON body).
     The campaign is always created in the ``draft`` state.
+    ``subscription_topic_id`` is the subscription topic the campaign is sent
+    under; it must cover the campaign's domain.
     """
 
     name: str
@@ -191,13 +194,15 @@ class CreateEmailCampaignParams(RequestParams):
     delivery_options: Optional[EmailCampaignDeliveryOptions] = None
     contact_list_ids: Optional[list[int]] = None
     contact_segment_ids: Optional[list[int]] = None
+    subscription_topic_id: Optional[int] = None
 
 
 @dataclass
 class UpdateEmailCampaignParams(RequestParams):
     """
     Attributes for updating a draft email campaign (sent as a flat JSON body).
-    All fields are optional; only provided fields are changed.
+    All fields are optional; only provided fields are changed. A campaign's
+    ``subscription_topic_id`` can be changed but not removed.
     """
 
     name: Optional[str] = None
@@ -210,6 +215,7 @@ class UpdateEmailCampaignParams(RequestParams):
     delivery_options: Optional[EmailCampaignDeliveryOptions] = None
     contact_list_ids: Optional[list[int]] = None
     contact_segment_ids: Optional[list[int]] = None
+    subscription_topic_id: Optional[int] = None
 
 
 @dataclass

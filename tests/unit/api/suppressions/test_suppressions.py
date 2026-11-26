@@ -116,6 +116,62 @@ class TestSuppressionsApi:
         assert isinstance(suppressions[0].created_at, datetime)
 
     @pytest.mark.parametrize(
+        "kwargs,expected_params",
+        [
+            ({}, {}),
+            # The API opts in only on the exact string "true".
+            (
+                {"include_topic_unsubscriptions": True},
+                {"include_topic_unsubscriptions": "true"},
+            ),
+            (
+                {"email": "recipient@example.com", "include_topic_unsubscriptions": True},
+                {
+                    "email": "recipient@example.com",
+                    "include_topic_unsubscriptions": "true",
+                },
+            ),
+        ],
+    )
+    @responses.activate
+    def test_get_suppressions_should_send_query_params(
+        self,
+        suppressions_api: SuppressionsApi,
+        kwargs: dict[str, Any],
+        expected_params: dict[str, str],
+    ) -> None:
+        responses.get(BASE_SUPPRESSIONS_URL, json=[])
+
+        suppressions_api.get_list(**kwargs)
+
+        assert responses.calls[0].request.params == expected_params
+
+    @responses.activate
+    def test_get_suppressions_should_parse_topic_unsubscriptions(
+        self, suppressions_api: SuppressionsApi, sample_suppression_dict: dict
+    ) -> None:
+        topic_unsubscription = {
+            "id": "supp_654321",
+            "type": "topic unsubscription",
+            "created_at": "2024-12-27T09:40:44.161Z",
+            "email": "recipient@example.com",
+            "sending_stream": "bulk",
+            "domain_name": "sender.com",
+            "subscription_topic_id": 17,
+        }
+        responses.get(
+            BASE_SUPPRESSIONS_URL,
+            json=[sample_suppression_dict, topic_unsubscription],
+        )
+
+        suppressions = suppressions_api.get_list(include_topic_unsubscriptions=True)
+
+        assert suppressions[0].subscription_topic_id is None
+        assert suppressions[1].type == "topic unsubscription"
+        assert suppressions[1].domain_name == "sender.com"
+        assert suppressions[1].subscription_topic_id == 17
+
+    @pytest.mark.parametrize(
         "status_code,response_json,expected_error_message",
         [
             (

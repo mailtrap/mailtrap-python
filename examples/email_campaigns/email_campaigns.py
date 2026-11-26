@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
+from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.common import DeletedObject
@@ -29,10 +30,34 @@ def get_email_campaign(email_campaign_id: int) -> EmailCampaign:
     return email_campaigns_api.get_by_id(email_campaign_id=email_campaign_id)
 
 
+def find_subscription_topic_id(domain_id: int) -> Optional[int]:
+    # A topic covers the campaign's domain when its `domain_id` is that domain
+    # or None (every domain). The list is paginated, so follow `next_token`
+    # (with the same `per_page`) until a match turns up. It answers 403 when
+    # the account has no subscription topics.
+    topics_api = client.subscription_topics_api.subscription_topics
+    token: Optional[int] = None
+    while True:
+        try:
+            page = topics_api.get_list(
+                mt.SubscriptionTopicListParams(per_page=100, token=token)
+            )
+        except mt.APIError as error:
+            if error.status == 403:
+                return None
+            raise
+        for topic in page.data:
+            if topic.domain_id in (None, domain_id):
+                return topic.id
+        if page.pagination is None or page.pagination.next_token is None:
+            return None
+        token = page.pagination.next_token
+
+
 def create_email_campaign() -> EmailCampaign:
     # A campaign is created in the `draft` state and must reference a verified
     # sending domain via `domain_id` (as returned by the Sending Domains
-    # endpoints).
+    # endpoints). `subscription_topic_id` is left out of the request when None.
     return email_campaigns_api.create(
         mt.CreateEmailCampaignParams(
             name="Spring Sale",
@@ -47,6 +72,7 @@ def create_email_campaign() -> EmailCampaign:
             template_attributes=mt.CreateEmailCampaignTemplateAttributes(
                 subject="Spring is here — 30% off"
             ),
+            subscription_topic_id=find_subscription_topic_id(DOMAIN_ID),
         )
     )
 

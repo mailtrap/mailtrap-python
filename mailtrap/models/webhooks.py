@@ -41,6 +41,13 @@ class WebhookListResponse:
 
 @dataclass
 class CreateWebhookParams(RequestParams):
+    """
+    ``event_types`` can include ``subscription_preferences_update``, sent when a
+    contact changes their subscription topic preferences. It is available only
+    on a ``campaigns`` webhook or an ``email_sending`` one for the ``bulk``
+    stream.
+    """
+
     url: str
     webhook_type: str
     active: Optional[bool] = None
@@ -53,6 +60,11 @@ class CreateWebhookParams(RequestParams):
 
 @dataclass
 class UpdateWebhookParams(RequestParams):
+    """
+    ``event_types`` can include ``subscription_preferences_update`` on a
+    ``campaigns`` webhook or an ``email_sending`` one for the ``bulk`` stream.
+    """
+
     url: Optional[str] = None
     active: Optional[bool] = None
     payload_format: Optional[str] = None

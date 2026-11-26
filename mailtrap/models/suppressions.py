@@ -15,6 +15,8 @@ class Suppression:
     email: str
     sending_stream: str
     domain_name: Optional[str] = None
+    # Set on a "topic unsubscription", the topic the contact unsubscribed from.
+    subscription_topic_id: Optional[int] = None
     message_bounce_category: Optional[str] = None
     message_category: Optional[str] = None
     message_client_ip: Optional[str] = None
@@ -37,4 +39,4 @@ class CreateSuppressionParams(RequestParams):
     email: str
     domain_id: int
     sending_stream: str
-    type: Optional[str] = None
+    type: Optional[str] = None  # not "topic unsubscription", which can't be created

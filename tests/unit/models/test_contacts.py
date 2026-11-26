@@ -3,6 +3,7 @@ import pytest
 from mailtrap.models.contacts import ContactEventParams
 from mailtrap.models.contacts import ContactExportFilter
 from mailtrap.models.contacts import ContactListParams
+from mailtrap.models.contacts import ContactSubscriptionTopic
 from mailtrap.models.contacts import CreateContactExportParams
 from mailtrap.models.contacts import CreateContactFieldParams
 from mailtrap.models.contacts import CreateContactParams
@@ -98,6 +99,23 @@ class TestUpdateContactParams:
             ValueError, match="At least one field must be provided for update action"
         ):
             _ = UpdateContactParams()
+
+    def test_update_contact_params_with_only_subscription_topics_should_not_raise(
+        self,
+    ) -> None:
+        params = UpdateContactParams(
+            subscription_topics=[
+                ContactSubscriptionTopic(
+                    subscription_topic_id=17, domain_id=4321, status="unsubscribed"
+                )
+            ]
+        )
+
+        assert params.api_data == {
+            "subscription_topics": [
+                {"subscription_topic_id": 17, "domain_id": 4321, "status": "unsubscribed"}
+            ]
+        }
 
     def test_update_contact_params_api_data_should_exclude_none_values(
         self,
