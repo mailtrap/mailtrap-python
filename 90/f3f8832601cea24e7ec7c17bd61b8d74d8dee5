@@ -1,0 +1,19 @@
+.pre-commit-config.yaml
+  s_f1d65990b6abdc::t_33f0102c1c4088 3,11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "90f3f8832601cea24e7ec7c17bd61b8d74d8dee5",
+  "prompts": {},
+  "sessions": {
+    "s_f1d65990b6abdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "177befd1-5306-46ea-973b-54e0baa6e029",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}
