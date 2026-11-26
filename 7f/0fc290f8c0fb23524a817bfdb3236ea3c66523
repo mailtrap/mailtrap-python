@@ -1,0 +1,27 @@
+.github/workflows/main.yml
+  s_f1d65990b6abdc::t_11b17b2e2faa96 25-26,34-37
+.pre-commit-config.yaml
+  s_f1d65990b6abdc::t_9d90a16a38c0f1 16
+README.md
+  s_f1d65990b6abdc::t_efc7a20ba5a693 20,338
+pyproject.toml
+  s_f1d65990b6abdc::t_75f7ca42d52f56 16-17,19
+tox.ini
+  s_f1d65990b6abdc::t_94967504b779bc 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7f0fc290f8c0fb23524a817bfdb3236ea3c66523",
+  "prompts": {},
+  "sessions": {
+    "s_f1d65990b6abdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "177befd1-5306-46ea-973b-54e0baa6e029",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "IzikAJ <izikaj@gmail.com>"
+    }
+  }
+}
