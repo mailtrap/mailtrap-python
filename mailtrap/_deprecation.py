@@ -1,8 +1,7 @@
 import functools
 import warnings
+from collections.abc import Callable
 from contextvars import ContextVar
-from typing import Callable
-from typing import Optional
 from typing import ParamSpec
 from typing import TypeVar
 
@@ -77,8 +76,8 @@ def renamed_kwargs(**old_to_new: str) -> Callable[[Callable[P, R]], Callable[P, 
 
 
 def resolve_renamed_arg(
-    owner: str, old: str, old_value: Optional[T], new: str, new_value: Optional[T]
-) -> Optional[T]:
+    owner: str, old: str, old_value: T | None, new: str, new_value: T | None
+) -> T | None:
     """
     Return the value of a renamed constructor argument whose old name stays in the
     signature, so code passing the old keyword still type-checks.

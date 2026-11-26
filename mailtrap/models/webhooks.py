@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
@@ -13,9 +11,9 @@ class Webhook:
     active: bool
     webhook_type: str
     payload_format: str
-    sending_stream: Optional[str] = None
-    domain_id: Optional[int] = None
-    inbound_inbox_id: Optional[int] = None
+    sending_stream: str | None = None
+    domain_id: int | None = None
+    inbound_inbox_id: int | None = None
     event_types: list[str] = Field(default_factory=list)
 
 
@@ -43,18 +41,18 @@ class WebhookListResponse:
 class CreateWebhookParams(RequestParams):
     url: str
     webhook_type: str
-    active: Optional[bool] = None
-    payload_format: Optional[str] = None
-    sending_stream: Optional[str] = None
-    event_types: Optional[list[str]] = None
-    domain_id: Optional[int] = None
-    inbound_inbox_id: Optional[int] = None
+    active: bool | None = None
+    payload_format: str | None = None
+    sending_stream: str | None = None
+    event_types: list[str] | None = None
+    domain_id: int | None = None
+    inbound_inbox_id: int | None = None
 
 
 @dataclass
 class UpdateWebhookParams(RequestParams):
-    url: Optional[str] = None
-    active: Optional[bool] = None
-    payload_format: Optional[str] = None
-    event_types: Optional[list[str]] = None
-    inbound_inbox_id: Optional[int] = None
+    url: str | None = None
+    active: bool | None = None
+    payload_format: str | None = None
+    event_types: list[str] | None = None
+    inbound_inbox_id: int | None = None

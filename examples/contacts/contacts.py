@@ -1,6 +1,4 @@
 import os
-from typing import Optional
-from typing import Union
 
 import mailtrap as mt
 from mailtrap.models.common import DeletedObject
@@ -15,8 +13,8 @@ contacts_api = client.contacts_api.contacts
 
 def create_contact(
     email: str,
-    fields: Optional[dict[str, Union[str, int, float, bool]]] = None,
-    list_ids: Optional[list[int]] = None,
+    fields: dict[str, str | int | float | bool] | None = None,
+    list_ids: list[int] | None = None,
 ) -> Contact:
     params = mt.CreateContactParams(
         email=email,
@@ -28,11 +26,11 @@ def create_contact(
 
 def update_contact(
     contact_id_or_email: str,
-    new_email: Optional[str] = None,
-    fields: Optional[dict[str, Union[str, int, float, bool]]] = None,
-    list_ids_included: Optional[list[int]] = None,
-    list_ids_excluded: Optional[list[int]] = None,
-    unsubscribed: Optional[bool] = None,
+    new_email: str | None = None,
+    fields: dict[str, str | int | float | bool] | None = None,
+    list_ids_included: list[int] | None = None,
+    list_ids_excluded: list[int] | None = None,
+    unsubscribed: bool | None = None,
 ) -> Contact:
     params = mt.UpdateContactParams(
         email=new_email,

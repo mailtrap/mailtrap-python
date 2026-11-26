@@ -1,5 +1,4 @@
 from typing import Any
-from typing import Optional
 from typing import cast
 
 from mailtrap._deprecation import renamed_kwargs
@@ -47,9 +46,9 @@ class MessagesApi:
     def get_list(
         self,
         sandbox_id: int,
-        search: Optional[str] = None,
-        last_id: Optional[int] = None,
-        page: Optional[int] = None,
+        search: str | None = None,
+        last_id: int | None = None,
+        page: int | None = None,
     ) -> list[EmailMessage]:
         """
         Get messages from the sandbox.
@@ -161,7 +160,7 @@ class MessagesApi:
         )
         return cast(dict[str, Any], response["headers"])
 
-    def _api_path(self, sandbox_id: int, message_id: Optional[int] = None) -> str:
+    def _api_path(self, sandbox_id: int, message_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/inboxes/{sandbox_id}/messages"
         if message_id:
             return f"{path}/{message_id}"

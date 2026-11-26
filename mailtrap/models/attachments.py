@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic.dataclasses import dataclass
 
@@ -18,5 +17,5 @@ class Attachment:
     updated_at: datetime
     attachment_human_size: str
     download_path: str
-    content_id: Optional[str] = None
-    transfer_encoding: Optional[str] = None
+    content_id: str | None = None
+    transfer_encoding: str | None = None

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.contacts import ContactEvent
 from mailtrap.models.contacts import ContactEventParams
@@ -22,5 +20,5 @@ class ContactEventsApi:
         )
         return ContactEvent(**response)
 
-    def _api_path(self, contact_identifier: Optional[str] = None) -> str:
+    def _api_path(self, contact_identifier: str | None = None) -> str:
         return f"/api/accounts/{self._account_id}/contacts/{contact_identifier}/events"

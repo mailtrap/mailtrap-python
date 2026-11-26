@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.tracking_opt_outs import CreateTrackingOptOutParams
 from mailtrap.models.tracking_opt_outs import TrackingOptOut
@@ -13,7 +11,7 @@ class TrackingOptOutsApi:
         self._client = client
 
     def get_list(
-        self, params: Optional[TrackingOptOutsListParams] = None
+        self, params: TrackingOptOutsListParams | None = None
     ) -> TrackingOptOutsListResponse:
         """
         List email addresses that have opted out of open and click tracking.
@@ -40,7 +38,7 @@ class TrackingOptOutsApi:
         return TrackingOptOut(**response)
 
     @staticmethod
-    def _api_path(tracking_opt_out_id: Optional[str] = None) -> str:
+    def _api_path(tracking_opt_out_id: str | None = None) -> str:
         path = "/api/tracking_opt_outs"
         if tracking_opt_out_id is not None:
             return f"{path}/{tracking_opt_out_id}"

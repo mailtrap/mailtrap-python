@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.webhooks import CreateWebhookParams
@@ -59,7 +57,7 @@ class WebhooksApi:
         self._client.delete(self._api_path(webhook_id))
         return DeletedObject(id=webhook_id)
 
-    def _api_path(self, webhook_id: Optional[int] = None) -> str:
+    def _api_path(self, webhook_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/webhooks"
         if webhook_id is not None:
             return f"{path}/{webhook_id}"

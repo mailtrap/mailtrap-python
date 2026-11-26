@@ -1,5 +1,4 @@
 import json
-from typing import Union
 
 from pydantic import Field
 from pydantic.dataclasses import dataclass
@@ -12,7 +11,7 @@ from mailtrap.models.common import UnsetType
 
 @dataclass
 class NestedParams(RequestParams):
-    value: Union[str, None, UnsetType] = UNSET
+    value: str | None | UnsetType = UNSET
 
 
 @dataclass
@@ -23,7 +22,7 @@ class ParentParams(RequestParams):
 
 @dataclass
 class TupleParams(RequestParams):
-    values: tuple[Union[str, None, UnsetType], ...] = ()
+    values: tuple[str | None | UnsetType, ...] = ()
     items: tuple[NestedParams, ...] = ()
 
 

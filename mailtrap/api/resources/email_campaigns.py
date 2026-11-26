@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.email_campaigns import CreateEmailCampaignParams
@@ -19,7 +17,7 @@ class EmailCampaignsApi:
         self._client = client
 
     def get_list(
-        self, params: Optional[EmailCampaignListParams] = None
+        self, params: EmailCampaignListParams | None = None
     ) -> EmailCampaignListResponse:
         """
         List email campaigns for the account, newest first. ``params`` filters
@@ -108,7 +106,7 @@ class EmailCampaignsApi:
     def get_stats(
         self,
         email_campaign_id: int,
-        params: Optional[EmailCampaignStatsParams] = None,
+        params: EmailCampaignStatsParams | None = None,
     ) -> EmailCampaignStats:
         """
         Get aggregated performance statistics for a single campaign. If the
@@ -126,7 +124,7 @@ class EmailCampaignsApi:
         response = self._client.post(f"{self._api_path(email_campaign_id)}/{action}")
         return EmailCampaignResponse(**response).data
 
-    def _api_path(self, email_campaign_id: Optional[int] = None) -> str:
+    def _api_path(self, email_campaign_id: int | None = None) -> str:
         path = "/api/email_campaigns"
         if email_campaign_id is not None:
             return f"{path}/{email_campaign_id}"

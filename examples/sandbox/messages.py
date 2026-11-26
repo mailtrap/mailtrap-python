@@ -1,6 +1,5 @@
 import os
 from typing import Any
-from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.messages import AnalysisReport
@@ -34,9 +33,9 @@ def delete_message(sandbox_id: int, message_id: int) -> EmailMessage:
 
 def list_messages(
     sandbox_id: int,
-    search: Optional[str] = None,
-    last_id: Optional[int] = None,
-    page: Optional[int] = None,
+    search: str | None = None,
+    last_id: int | None = None,
+    page: int | None = None,
 ) -> list[EmailMessage]:
     return messages_api.get_list(
         sandbox_id=sandbox_id, search=search, last_id=last_id, page=page

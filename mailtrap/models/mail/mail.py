@@ -1,5 +1,4 @@
 from typing import Any
-from typing import Optional
 
 from pydantic import Field
 from pydantic.dataclasses import dataclass
@@ -13,26 +12,26 @@ from mailtrap.models.mail.attachment import Attachment
 class BaseMail(RequestParams):
     to: list[Address]
     sender: Address = Field(..., serialization_alias="from")
-    cc: Optional[list[Address]] = None
-    bcc: Optional[list[Address]] = None
-    attachments: Optional[list[Attachment]] = None
-    headers: Optional[dict[str, str]] = None
-    custom_variables: Optional[dict[str, Any]] = None
-    reply_to: Optional[Address] = None
+    cc: list[Address] | None = None
+    bcc: list[Address] | None = None
+    attachments: list[Attachment] | None = None
+    headers: dict[str, str] | None = None
+    custom_variables: dict[str, Any] | None = None
+    reply_to: Address | None = None
 
 
 @dataclass
 class Mail(BaseMail):
-    subject: str = Field(...)  # type:ignore
-    text: Optional[str] = None
-    html: Optional[str] = None
-    category: Optional[str] = None
+    subject: str = Field(...)  # type: ignore
+    text: str | None = None
+    html: str | None = None
+    category: str | None = None
 
 
 @dataclass
 class MailFromTemplate(BaseMail):
-    template_uuid: str = Field(...)  # type:ignore
-    template_variables: Optional[dict[str, Any]] = None
+    template_uuid: str = Field(...)  # type: ignore
+    template_variables: dict[str, Any] | None = None
 
 
 @dataclass

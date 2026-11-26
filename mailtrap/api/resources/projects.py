@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.projects import Project
@@ -48,7 +46,7 @@ class ProjectsApi:
         response = self._client.delete(self._api_path(project_id))
         return DeletedObject(**response)
 
-    def _api_path(self, project_id: Optional[int] = None) -> str:
+    def _api_path(self, project_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/projects"
         if project_id:
             return f"{path}/{project_id}"

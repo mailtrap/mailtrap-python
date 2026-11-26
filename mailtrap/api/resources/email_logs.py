@@ -1,7 +1,5 @@
 """Email Logs API resource - list and get email sending logs."""
 
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.email_logs import EmailLogMessage
 from mailtrap.models.email_logs import EmailLogsListFilters
@@ -15,8 +13,8 @@ class EmailLogsApi:
 
     def get_list(
         self,
-        filters: Optional[EmailLogsListFilters] = None,
-        search_after: Optional[str] = None,
+        filters: EmailLogsListFilters | None = None,
+        search_after: str | None = None,
     ) -> EmailLogsListResponse:
         """
         List email logs (paginated). Results are ordered by sent_at descending.
@@ -50,7 +48,7 @@ class EmailLogsApi:
             )
         return EmailLogMessage.from_api(response)
 
-    def _api_path(self, sending_message_id: Optional[str] = None) -> str:
+    def _api_path(self, sending_message_id: str | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/email_logs"
         if sending_message_id is not None:
             path = f"{path}/{sending_message_id}"

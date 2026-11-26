@@ -2,8 +2,6 @@
 
 from typing import Any
 from typing import Literal
-from typing import Optional
-from typing import Union
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
@@ -15,45 +13,45 @@ from pydantic.dataclasses import dataclass
 
 @dataclass
 class EventDetailsDelivery:
-    sending_ip: Optional[str] = None
-    recipient_mx: Optional[str] = None
-    email_service_provider: Optional[str] = None
+    sending_ip: str | None = None
+    recipient_mx: str | None = None
+    email_service_provider: str | None = None
 
 
 @dataclass
 class EventDetailsOpen:
-    web_ip_address: Optional[str] = None
+    web_ip_address: str | None = None
 
 
 @dataclass
 class EventDetailsClick:
-    click_url: Optional[str] = None
-    web_ip_address: Optional[str] = None
+    click_url: str | None = None
+    web_ip_address: str | None = None
 
 
 @dataclass
 class EventDetailsBounce:
-    sending_ip: Optional[str] = None
-    recipient_mx: Optional[str] = None
-    email_service_provider: Optional[str] = None
-    email_service_provider_status: Optional[str] = None
-    email_service_provider_response: Optional[str] = None
-    bounce_category: Optional[str] = None
+    sending_ip: str | None = None
+    recipient_mx: str | None = None
+    email_service_provider: str | None = None
+    email_service_provider_status: str | None = None
+    email_service_provider_response: str | None = None
+    bounce_category: str | None = None
 
 
 @dataclass
 class EventDetailsSpam:
-    spam_feedback_type: Optional[str] = None
+    spam_feedback_type: str | None = None
 
 
 @dataclass
 class EventDetailsUnsubscribe:
-    web_ip_address: Optional[str] = None
+    web_ip_address: str | None = None
 
 
 @dataclass
 class EventDetailsReject:
-    reject_reason: Optional[str] = None
+    reject_reason: str | None = None
 
 
 @dataclass
@@ -62,35 +60,31 @@ class MessageEvent:
 
     event_type: str
     created_at: str
-    details: Optional[
-        Union[
-            EventDetailsDelivery,
-            EventDetailsOpen,
-            EventDetailsClick,
-            EventDetailsBounce,
-            EventDetailsSpam,
-            EventDetailsUnsubscribe,
-            EventDetailsReject,
-            dict[str, Any],
-        ]
-    ] = None
+    details: None | (
+        EventDetailsDelivery
+        | EventDetailsOpen
+        | EventDetailsClick
+        | EventDetailsBounce
+        | EventDetailsSpam
+        | EventDetailsUnsubscribe
+        | EventDetailsReject
+        | dict[str, Any]
+    ) = None
 
 
 def _parse_event_details(
     event_type: str,
-    data: Optional[dict[str, Any]],
-) -> Optional[
-    Union[
-        EventDetailsDelivery,
-        EventDetailsOpen,
-        EventDetailsClick,
-        EventDetailsBounce,
-        EventDetailsSpam,
-        EventDetailsUnsubscribe,
-        EventDetailsReject,
-        dict[str, Any],
-    ]
-]:
+    data: dict[str, Any] | None,
+) -> None | (
+    EventDetailsDelivery
+    | EventDetailsOpen
+    | EventDetailsClick
+    | EventDetailsBounce
+    | EventDetailsSpam
+    | EventDetailsUnsubscribe
+    | EventDetailsReject
+    | dict[str, Any]
+):
     """Build the correct EventDetails* from event_type and raw details dict."""
     if data is None:
         return None
@@ -133,24 +127,24 @@ class EmailLogMessage(BaseModel):
 
     message_id: str
     status: Literal["delivered", "not_delivered", "enqueued", "opted_out"]
-    subject: Optional[str] = None
-    rfc_message_id: Optional[str] = None
-    in_reply_to: Optional[str] = None
+    subject: str | None = None
+    rfc_message_id: str | None = None
+    in_reply_to: str | None = None
     references: list[str] = Field(default_factory=list)
-    thread_id: Optional[str] = None
+    thread_id: str | None = None
     from_: str = Field(alias="from")
     to: str
     sent_at: str
-    client_ip: Optional[str] = None
-    category: Optional[str] = None
+    client_ip: str | None = None
+    category: str | None = None
     custom_variables: dict[str, Any] = Field(default_factory=dict)
     sending_stream: Literal["transactional", "bulk"]
     sending_domain_id: int
-    template_id: Optional[int] = None
+    template_id: int | None = None
     template_variables: dict[str, Any] = Field(default_factory=dict)
     opens_count: int
     clicks_count: int
-    raw_message_url: Optional[str] = None
+    raw_message_url: str | None = None
     events: list[MessageEvent] = Field(default_factory=list)
 
     @classmethod
@@ -176,7 +170,7 @@ class EmailLogsListResponse:
 
     messages: list[EmailLogMessage]
     total_count: int
-    next_page_cursor: Optional[str]
+    next_page_cursor: str | None
 
 
 # --- Filters for list (operator + value) ---
@@ -204,7 +198,7 @@ SendingStreamValue = Literal["transactional", "bulk"]
 
 def _filter_spec(
     operator: str,
-    value: Optional[Union[str, int, list[Any]]] = None,
+    value: str | int | list[Any] | None = None,
 ) -> dict[str, Any]:
     """Build a filter spec dict for API (operator + optional value)."""
     out: dict[str, Any] = {"operator": operator}
@@ -216,11 +210,11 @@ def _filter_spec(
 # Convenience filter builders (optional; users can also pass raw dicts)
 
 
-def filter_ci_equal(value: Union[str, list[str]]) -> dict[str, Any]:
+def filter_ci_equal(value: str | list[str]) -> dict[str, Any]:
     return _filter_spec("ci_equal", value)
 
 
-def filter_ci_not_equal(value: Union[str, list[str]]) -> dict[str, Any]:
+def filter_ci_not_equal(value: str | list[str]) -> dict[str, Any]:
     return _filter_spec("ci_not_equal", value)
 
 
@@ -232,24 +226,24 @@ def filter_ci_not_contain(value: str) -> dict[str, Any]:
     return _filter_spec("ci_not_contain", value)
 
 
-def filter_status_equal(value: Union[StatusValue, list[StatusValue]]) -> dict[str, Any]:
+def filter_status_equal(value: StatusValue | list[StatusValue]) -> dict[str, Any]:
     return _filter_spec("equal", value)
 
 
 def filter_status_not_equal(
-    value: Union[StatusValue, list[StatusValue]],
+    value: StatusValue | list[StatusValue],
 ) -> dict[str, Any]:
     return _filter_spec("not_equal", value)
 
 
 def filter_events_include(
-    value: Union[EventsFilterValue, list[EventsFilterValue]],
+    value: EventsFilterValue | list[EventsFilterValue],
 ) -> dict[str, Any]:
     return _filter_spec("include_event", value)
 
 
 def filter_events_not_include(
-    value: Union[EventsFilterValue, list[EventsFilterValue]],
+    value: EventsFilterValue | list[EventsFilterValue],
 ) -> dict[str, Any]:
     return _filter_spec("not_include_event", value)
 
@@ -261,31 +255,31 @@ def filter_numeric(
     return _filter_spec(operator, value)
 
 
-def filter_sending_domain_id_equal(value: Union[int, list[int]]) -> dict[str, Any]:
+def filter_sending_domain_id_equal(value: int | list[int]) -> dict[str, Any]:
     return _filter_spec("equal", value)
 
 
-def filter_sending_domain_id_not_equal(value: Union[int, list[int]]) -> dict[str, Any]:
+def filter_sending_domain_id_not_equal(value: int | list[int]) -> dict[str, Any]:
     return _filter_spec("not_equal", value)
 
 
 def filter_sending_stream_equal(
-    value: Union[SendingStreamValue, list[SendingStreamValue]],
+    value: SendingStreamValue | list[SendingStreamValue],
 ) -> dict[str, Any]:
     return _filter_spec("equal", value)
 
 
 def filter_sending_stream_not_equal(
-    value: Union[SendingStreamValue, list[SendingStreamValue]],
+    value: SendingStreamValue | list[SendingStreamValue],
 ) -> dict[str, Any]:
     return _filter_spec("not_equal", value)
 
 
-def filter_string_equal(value: Union[str, list[str]]) -> dict[str, Any]:
+def filter_string_equal(value: str | list[str]) -> dict[str, Any]:
     return _filter_spec("equal", value)
 
 
-def filter_string_not_equal(value: Union[str, list[str]]) -> dict[str, Any]:
+def filter_string_not_equal(value: str | list[str]) -> dict[str, Any]:
     return _filter_spec("not_equal", value)
 
 
@@ -311,23 +305,23 @@ class EmailLogsListFilters:
     def __init__(
         self,
         *,
-        sent_after: Optional[str] = None,
-        sent_before: Optional[str] = None,
-        to: Optional[dict[str, Any]] = None,
-        from_: Optional[dict[str, Any]] = None,
-        subject: Optional[dict[str, Any]] = None,
-        status: Optional[dict[str, Any]] = None,
-        events: Optional[dict[str, Any]] = None,
-        clicks_count: Optional[dict[str, Any]] = None,
-        opens_count: Optional[dict[str, Any]] = None,
-        client_ip: Optional[dict[str, Any]] = None,
-        sending_ip: Optional[dict[str, Any]] = None,
-        email_service_provider_response: Optional[dict[str, Any]] = None,
-        email_service_provider: Optional[dict[str, Any]] = None,
-        recipient_mx: Optional[dict[str, Any]] = None,
-        category: Optional[dict[str, Any]] = None,
-        sending_domain_id: Optional[dict[str, Any]] = None,
-        sending_stream: Optional[dict[str, Any]] = None,
+        sent_after: str | None = None,
+        sent_before: str | None = None,
+        to: dict[str, Any] | None = None,
+        from_: dict[str, Any] | None = None,
+        subject: dict[str, Any] | None = None,
+        status: dict[str, Any] | None = None,
+        events: dict[str, Any] | None = None,
+        clicks_count: dict[str, Any] | None = None,
+        opens_count: dict[str, Any] | None = None,
+        client_ip: dict[str, Any] | None = None,
+        sending_ip: dict[str, Any] | None = None,
+        email_service_provider_response: dict[str, Any] | None = None,
+        email_service_provider: dict[str, Any] | None = None,
+        recipient_mx: dict[str, Any] | None = None,
+        category: dict[str, Any] | None = None,
+        sending_domain_id: dict[str, Any] | None = None,
+        sending_stream: dict[str, Any] | None = None,
     ) -> None:
         self.sent_after = sent_after
         self.sent_before = sent_before

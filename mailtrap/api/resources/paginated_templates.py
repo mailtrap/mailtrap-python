@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.paginated_templates import CreateTemplateParams
@@ -20,9 +18,7 @@ class PaginatedTemplatesApi:
         self._account_id = account_id
         self._client = client
 
-    def get_list(
-        self, params: Optional[TemplateListParams] = None
-    ) -> TemplateListResponse:
+    def get_list(self, params: TemplateListParams | None = None) -> TemplateListResponse:
         """
         List email templates in the account, one page at a time. Unlike the
         ``email_templates_api`` list, it does not return every template: pass
@@ -55,7 +51,7 @@ class PaginatedTemplatesApi:
         self._client.delete(self._api_path(template_id))
         return DeletedObject(template_id)
 
-    def _api_path(self, template_id: Optional[int] = None) -> str:
+    def _api_path(self, template_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/templates"
         if template_id is not None:
             return f"{path}/{template_id}"

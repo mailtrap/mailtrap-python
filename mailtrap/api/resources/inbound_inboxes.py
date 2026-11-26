@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.inbound import CreateInboundInboxParams
@@ -40,7 +38,7 @@ class InboundInboxesApi:
         self._client.delete(self._api_path(folder_id, inbox_id))
         return DeletedObject(inbox_id)
 
-    def _api_path(self, folder_id: int, inbox_id: Optional[int] = None) -> str:
+    def _api_path(self, folder_id: int, inbox_id: int | None = None) -> str:
         path = f"/api/inbound/folders/{folder_id}/inboxes"
         if inbox_id:
             return f"{path}/{inbox_id}"

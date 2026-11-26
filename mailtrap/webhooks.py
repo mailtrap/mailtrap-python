@@ -6,14 +6,13 @@ for the algorithm reference.
 
 import hashlib
 import hmac
-from typing import Union
 
 # Hex-encoded HMAC-SHA256 signature length (SHA-256 produces 32 bytes / 64 hex chars).
 SIGNATURE_HEX_LENGTH = 64
 
 
 def verify_signature(
-    payload: Union[str, bytes],
+    payload: str | bytes,
     signature: str,
     signing_secret: str,
 ) -> bool:

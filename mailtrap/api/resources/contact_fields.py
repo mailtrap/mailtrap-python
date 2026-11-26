@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.contacts import ContactField
@@ -54,7 +52,7 @@ class ContactFieldsApi:
         self._client.delete(self._api_path(field_id))
         return DeletedObject(field_id)
 
-    def _api_path(self, field_id: Optional[int] = None) -> str:
+    def _api_path(self, field_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/contacts/fields"
         if field_id is not None:
             return f"{path}/{field_id}"

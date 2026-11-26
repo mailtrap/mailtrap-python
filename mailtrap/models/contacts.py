@@ -1,7 +1,5 @@
 from datetime import datetime
 from typing import Any
-from typing import Optional
-from typing import Union
 
 from pydantic.dataclasses import dataclass
 
@@ -17,8 +15,8 @@ class CreateContactFieldParams(RequestParams):
 
 @dataclass
 class UpdateContactFieldParams(RequestParams):
-    name: Optional[str] = None
-    merge_tag: Optional[str] = None
+    name: str | None = None
+    merge_tag: str | None = None
 
     def __post_init__(self) -> None:
         if all(value is None for value in [self.name, self.merge_tag]):
@@ -41,7 +39,7 @@ class ContactListParams(RequestParams):
 @dataclass
 class ContactListsFilterParams(RequestParams):
     # Filter contact lists by name (case-insensitive prefix match).
-    search: Optional[str] = None
+    search: str | None = None
 
 
 @dataclass
@@ -53,21 +51,17 @@ class ContactList:
 @dataclass
 class CreateContactParams(RequestParams):
     email: str
-    fields: Optional[dict[str, Union[str, int, float, bool]]] = (
-        None  # field_merge_tag: value
-    )
-    list_ids: Optional[list[int]] = None
+    fields: dict[str, str | int | float | bool] | None = None  # field_merge_tag: value
+    list_ids: list[int] | None = None
 
 
 @dataclass
 class UpdateContactParams(RequestParams):
-    email: Optional[str] = None
-    fields: Optional[dict[str, Union[str, int, float, bool]]] = (
-        None  # field_merge_tag: value
-    )
-    list_ids_included: Optional[list[int]] = None
-    list_ids_excluded: Optional[list[int]] = None
-    unsubscribed: Optional[bool] = None
+    email: str | None = None
+    fields: dict[str, str | int | float | bool] | None = None  # field_merge_tag: value
+    list_ids_included: list[int] | None = None
+    list_ids_excluded: list[int] | None = None
+    unsubscribed: bool | None = None
 
     def __post_init__(self) -> None:
         if all(
@@ -87,7 +81,7 @@ class UpdateContactParams(RequestParams):
 class Contact:
     id: str
     email: str
-    fields: dict[str, Union[str, int, float, bool]]  # field_merge_tag: value
+    fields: dict[str, str | int | float | bool]  # field_merge_tag: value
     list_ids: list[int]
     status: str
     created_at: int
@@ -103,19 +97,17 @@ class ContactResponse:
 class ContactImport:
     id: int
     status: str
-    created_contacts_count: Optional[int] = None
-    updated_contacts_count: Optional[int] = None
-    contacts_over_limit_count: Optional[int] = None
+    created_contacts_count: int | None = None
+    updated_contacts_count: int | None = None
+    contacts_over_limit_count: int | None = None
 
 
 @dataclass
 class ImportContactParams(RequestParams):
     email: str
-    fields: Optional[dict[str, Union[str, int, float, bool]]] = (
-        None  # field_merge_tag: value
-    )
-    list_ids_included: Optional[list[int]] = None
-    list_ids_excluded: Optional[list[int]] = None
+    fields: dict[str, str | int | float | bool] | None = None  # field_merge_tag: value
+    list_ids_included: list[int] | None = None
+    list_ids_excluded: list[int] | None = None
 
 
 @dataclass
@@ -136,13 +128,13 @@ class ContactExportDetail:
     status: str
     created_at: datetime
     updated_at: datetime
-    url: Optional[str] = None
+    url: str | None = None
 
 
 @dataclass
 class ContactEventParams(RequestParams):
     name: str
-    params: Optional[dict[str, Any]] = None
+    params: dict[str, Any] | None = None
 
 
 @dataclass
@@ -150,4 +142,4 @@ class ContactEvent:
     contact_id: str
     contact_email: str
     name: str
-    params: Optional[dict[str, Any]] = None
+    params: dict[str, Any] | None = None

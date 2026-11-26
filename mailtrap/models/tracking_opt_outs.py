@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import Field
 from pydantic.dataclasses import dataclass
@@ -12,7 +11,7 @@ class TrackingOptOut:
     id: str
     email: str
     created_at: datetime
-    domain_name: Optional[str] = None
+    domain_name: str | None = None
 
 
 @dataclass
@@ -26,15 +25,15 @@ class TrackingOptOutsListResponse:
     or `None` when there are no more pages."""
 
     data: list[TrackingOptOut] = Field(default_factory=list)
-    last_id: Optional[str] = None
+    last_id: str | None = None
 
 
 @dataclass
 class TrackingOptOutsListParams(RequestParams):
-    email: Optional[str] = None
-    start_time: Optional[str] = None
-    end_time: Optional[str] = None
-    last_id: Optional[str] = None
+    email: str | None = None
+    start_time: str | None = None
+    end_time: str | None = None
+    last_id: str | None = None
 
 
 @dataclass

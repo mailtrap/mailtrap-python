@@ -1,7 +1,5 @@
 """Models for the account-scoped, paginated Templates API (``/api/templates``)."""
 
-from typing import Optional
-
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
@@ -14,14 +12,14 @@ class Template:
     """A single email template."""
 
     id: int
-    uuid: Optional[str] = None
-    name: Optional[str] = None
-    category: Optional[str] = None
-    subject: Optional[str] = None
-    body_html: Optional[str] = None
-    body_text: Optional[str] = None
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
+    uuid: str | None = None
+    name: str | None = None
+    category: str | None = None
+    subject: str | None = None
+    body_html: str | None = None
+    body_text: str | None = None
+    created_at: str | None = None
+    updated_at: str | None = None
 
 
 @dataclass
@@ -36,7 +34,7 @@ class TemplateListResponse:
     """Paginated response from listing templates."""
 
     data: list[Template] = Field(default_factory=list)
-    pagination: Optional[Pagination] = None
+    pagination: Pagination | None = None
 
 
 @dataclass
@@ -46,8 +44,8 @@ class TemplateListParams(RequestParams):
     ``per_page`` is capped at 100.
     """
 
-    per_page: Optional[int] = None
-    token: Optional[int] = None
+    per_page: int | None = None
+    token: int | None = None
 
 
 @dataclass
@@ -57,8 +55,8 @@ class CreateTemplateParams(RequestParams):
     name: str
     subject: str
     category: str
-    body_html: Optional[str] = None
-    body_text: Optional[str] = None
+    body_html: str | None = None
+    body_text: str | None = None
 
 
 @dataclass
@@ -68,11 +66,11 @@ class UpdateTemplateParams(RequestParams):
     are optional, but at least one must be provided.
     """
 
-    name: Optional[str] = None
-    subject: Optional[str] = None
-    category: Optional[str] = None
-    body_html: Optional[str] = None
-    body_text: Optional[str] = None
+    name: str | None = None
+    subject: str | None = None
+    category: str | None = None
+    body_html: str | None = None
+    body_text: str | None = None
 
     def __post_init__(self) -> None:
         if all(

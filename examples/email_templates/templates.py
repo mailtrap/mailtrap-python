@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.common import DeletedObject
@@ -20,8 +19,8 @@ def create_template(
     name: str,
     subject: str,
     category: str,
-    body_text: Optional[str] = None,
-    body_html: Optional[str] = None,
+    body_text: str | None = None,
+    body_html: str | None = None,
 ) -> EmailTemplate:
     params = mt.CreateEmailTemplateParams(
         name=name,
@@ -39,11 +38,11 @@ def get_template(template_id: int) -> EmailTemplate:
 
 def update_template(
     template_id: int,
-    name: Optional[str] = None,
-    subject: Optional[str] = None,
-    category: Optional[str] = None,
-    body_text: Optional[str] = None,
-    body_html: Optional[str] = None,
+    name: str | None = None,
+    subject: str | None = None,
+    category: str | None = None,
+    body_text: str | None = None,
+    body_html: str | None = None,
 ) -> EmailTemplate:
     params = mt.UpdateEmailTemplateParams(
         name=name,

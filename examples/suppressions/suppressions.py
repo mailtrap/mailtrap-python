@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 
 import mailtrap as mt
 from mailtrap.models.suppressions import Suppression
@@ -11,7 +10,7 @@ client = mt.MailtrapClient(token=API_KEY, account_id=ACCOUNT_ID)
 suppressions_api = client.suppressions_api.suppressions
 
 
-def list_suppressions(email: Optional[str] = None) -> list[Suppression]:
+def list_suppressions(email: str | None = None) -> list[Suppression]:
     return suppressions_api.get_list(email)
 
 

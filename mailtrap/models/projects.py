@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic.dataclasses import dataclass
 
 from mailtrap.models.common import RequestParams
@@ -19,7 +17,7 @@ class Project:
     name: str
     inboxes: list[Sandbox]
     permissions: Permissions
-    share_links: Optional[ShareLinks] = None
+    share_links: ShareLinks | None = None
 
 
 @dataclass

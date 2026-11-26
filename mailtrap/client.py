@@ -1,6 +1,5 @@
 import importlib.metadata
 import warnings
-from typing import Optional
 from typing import Union
 from typing import cast
 
@@ -58,15 +57,15 @@ class MailtrapClient:
     def __init__(
         self,
         token: str,
-        api_host: Optional[str] = None,
+        api_host: str | None = None,
         api_port: int = DEFAULT_PORT,
         bulk: bool = False,
         sandbox: bool = False,
-        account_id: Optional[str] = None,
-        inbox_id: Optional[str] = None,
-        organization_id: Optional[str] = None,
-        user_agent: Optional[str] = None,
-        sandbox_id: Optional[str] = None,
+        account_id: str | None = None,
+        inbox_id: str | None = None,
+        organization_id: str | None = None,
+        user_agent: str | None = None,
+        sandbox_id: str | None = None,
     ) -> None:
         """
         .. deprecated::
@@ -273,7 +272,7 @@ class MailtrapClient:
         return url
 
     @property
-    def inbox_id(self) -> Optional[str]:
+    def inbox_id(self) -> str | None:
         """
         .. deprecated::
             Use :attr:`sandbox_id` instead.
@@ -282,7 +281,7 @@ class MailtrapClient:
         return self.sandbox_id
 
     @inbox_id.setter
-    def inbox_id(self, value: Optional[str]) -> None:
+    def inbox_id(self, value: str | None) -> None:
         warn_deprecated("MailtrapClient.inbox_id", "MailtrapClient.sandbox_id")
         self.sandbox_id = value
 

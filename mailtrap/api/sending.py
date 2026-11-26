@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap._deprecation import resolve_renamed_arg
 from mailtrap.http import HttpClient
 from mailtrap.models.mail import BaseMail
@@ -12,8 +10,8 @@ class SendingApi:
     def __init__(
         self,
         client: HttpClient,
-        inbox_id: Optional[str] = None,
-        sandbox_id: Optional[str] = None,
+        inbox_id: str | None = None,
+        sandbox_id: str | None = None,
     ) -> None:
         """
         .. deprecated::

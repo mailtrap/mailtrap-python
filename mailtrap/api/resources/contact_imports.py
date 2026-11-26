@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.contacts import ContactImport
 from mailtrap.models.contacts import ImportContactParams
@@ -28,7 +26,7 @@ class ContactImportsApi:
         response = self._client.get(self._api_path(import_id))
         return ContactImport(**response)
 
-    def _api_path(self, import_id: Optional[int] = None) -> str:
+    def _api_path(self, import_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/contacts/imports"
         if import_id is not None:
             return f"{path}/{import_id}"

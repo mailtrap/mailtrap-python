@@ -1,7 +1,6 @@
 from json import JSONDecodeError
 from typing import Any
 from typing import NoReturn
-from typing import Optional
 
 from requests import Response
 from requests import Session
@@ -15,7 +14,7 @@ class HttpClient:
     def __init__(
         self,
         host: str,
-        headers: Optional[dict[str, str]] = None,
+        headers: dict[str, str] | None = None,
         timeout: int = DEFAULT_REQUEST_TIMEOUT,
     ):
         self._host = host
@@ -23,21 +22,21 @@ class HttpClient:
         self._session.headers.update(headers or {})
         self._timeout = timeout
 
-    def get(self, path: str, params: Optional[dict[str, Any]] = None) -> Any:
+    def get(self, path: str, params: dict[str, Any] | None = None) -> Any:
         response = self._session.get(
             self._url(path), params=params, timeout=self._timeout
         )
         return self._process_response(response)
 
-    def post(self, path: str, json: Optional[dict[str, Any]] = None) -> Any:
+    def post(self, path: str, json: dict[str, Any] | None = None) -> Any:
         response = self._session.post(self._url(path), json=json, timeout=self._timeout)
         return self._process_response(response)
 
-    def put(self, path: str, json: Optional[dict[str, Any]] = None) -> Any:
+    def put(self, path: str, json: dict[str, Any] | None = None) -> Any:
         response = self._session.put(self._url(path), json=json, timeout=self._timeout)
         return self._process_response(response)
 
-    def patch(self, path: str, json: Optional[dict[str, Any]] = None) -> Any:
+    def patch(self, path: str, json: dict[str, Any] | None = None) -> Any:
         response = self._session.patch(self._url(path), json=json, timeout=self._timeout)
         return self._process_response(response)
 

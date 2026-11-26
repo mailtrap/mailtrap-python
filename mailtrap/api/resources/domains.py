@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap._deprecation import renamed_kwargs
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
@@ -79,7 +77,7 @@ class DomainsApi:
             message="Instructions email has been sent successfully"
         )
 
-    def _api_path(self, domain_id: Optional[int] = None) -> str:
+    def _api_path(self, domain_id: int | None = None) -> str:
         path = f"/api/accounts/{self._account_id}/sending_domains"
         if domain_id is not None:
             path = f"{path}/{domain_id}"

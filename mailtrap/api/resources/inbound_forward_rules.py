@@ -1,5 +1,3 @@
-from typing import Optional
-
 from mailtrap.http import HttpClient
 from mailtrap.models.common import DeletedObject
 from mailtrap.models.inbound import CreateInboundForwardRuleParams
@@ -47,7 +45,7 @@ class InboundForwardRulesApi:
         self._client.delete(self._api_path(inbox_id, forward_rule_id))
         return DeletedObject(forward_rule_id)
 
-    def _api_path(self, inbox_id: int, forward_rule_id: Optional[int] = None) -> str:
+    def _api_path(self, inbox_id: int, forward_rule_id: int | None = None) -> str:
         path = f"/api/inbound/inboxes/{inbox_id}/forward_rules"
         if forward_rule_id:
             return f"{path}/{forward_rule_id}"
