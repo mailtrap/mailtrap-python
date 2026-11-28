@@ -610,6 +610,26 @@ class TestMessagesApi:
         assert result == text_content
 
     @pytest.mark.parametrize(
+        "text_content",
+        ["123456", "true", "null", '{"code": 123456}', '"quoted"'],
+    )
+    @responses.activate
+    def test_get_text_message_should_not_parse_json_looking_text(
+        self, client: MessagesApi, text_content: str
+    ) -> None:
+        url = f"{BASE_MESSAGES_URL}/{MESSAGE_ID}/body.txt"
+        responses.get(
+            url,
+            body=text_content,
+            status=200,
+            content_type="text/plain",
+        )
+
+        result = client.get_text_message(INBOX_ID, MESSAGE_ID)
+
+        assert result == text_content
+
+    @pytest.mark.parametrize(
         "status_code,response_body,expected_error_message,content_type",
         [
             (

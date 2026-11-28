@@ -55,6 +55,10 @@ class HttpClient:
         if not response.content.strip():
             return None
 
+        content_type = response.headers.get("Content-Type", "")
+        if content_type and "json" not in content_type.lower():
+            return response.text
+
         try:
             return response.json()
         except (JSONDecodeError, ValueError):
